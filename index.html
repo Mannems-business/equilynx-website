@@ -8,9 +8,43 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;600;700&family=Raleway:wght@100;200;300;400;700&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/png" href="EQUILYNX_plainbanner.png" />
+  <link rel="apple-touch-icon" href="EQUILYNX_plainbanner.png" />
+  <meta name="description" content="Equilynx Private Limited — Where Quantum Meets Innovation. Technology consulting, AI, cybersecurity and digital transformation services based in Andhra Pradesh, India." />
+  <meta name="keywords" content="Equilynx, technology consulting, AI, cybersecurity, digital transformation, software development, Andhra Pradesh, India" />
+  <meta name="author" content="Equilynx Private Limited" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="Equilynx | Where Quantum Meets Innovation" />
+  <meta property="og:description" content="A private limited technology company bridging quantum innovation with real-world business solutions." />
+  <meta property="og:image" content="EQUILYNX_plainbanner.png" />
+  <meta property="og:url" content="https://equilynx.netlify.app" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Equilynx | Where Quantum Meets Innovation" />
+  <meta name="twitter:description" content="Technology consulting, AI and digital transformation services from Andhra Pradesh, India." />
+  <meta name="twitter:image" content="EQUILYNX_plainbanner.png" />
 </head>
 
 <body>
+
+  <!-- ── PAGE LOADER ── -->
+  <div class="page-loader" id="pageLoader">
+    <div class="loader-content">
+      <div class="loader-logo">EQUILYNX</div>
+      <div class="loader-bar"><div class="loader-fill"></div></div>
+    </div>
+  </div>
+
+  <!-- ── COOKIE BANNER ── -->
+  <div class="cookie-banner" id="cookieBanner">
+    <div class="cookie-content">
+      <p>🍪 We use cookies to enhance your experience on our website. By continuing to browse, you agree to our use of cookies.</p>
+      <div class="cookie-btns">
+        <button class="cookie-accept" onclick="acceptCookies()">Accept All</button>
+        <button class="cookie-decline" onclick="declineCookies()">Decline</button>
+      </div>
+    </div>
+  </div>
 
   <!-- ── NAVBAR ── -->
   <nav class="navbar" id="navbar">
@@ -23,6 +57,7 @@
       <li><a href="#services" onclick="closeMenu()">Services</a></li>
       <li><a href="#why-us" onclick="closeMenu()">Why Us</a></li>
       <li><a href="#leadership" onclick="closeMenu()">Leadership</a></li>
+      <li><a href="#testimonials" onclick="closeMenu()">Testimonials</a></li>
       <li><a href="#contact" onclick="closeMenu()">Contact</a></li>
     </ul>
   </nav>
@@ -175,7 +210,7 @@
       <div class="team-grid">
         <div class="team-card">
           <div class="team-avatar">
-            <i class="fas fa-user-tie"></i>
+            <img src="charan.jpg" alt="Mannem Venkata Sai Charan" />
           </div>
           <h3>Mannem Venkata Sai Charan</h3>
           <span class="team-role">Managing Director & Co-Founder</span>
@@ -188,7 +223,7 @@
         </div>
         <div class="team-card">
           <div class="team-avatar">
-            <i class="fas fa-user-tie"></i>
+            <img src="mohanarao.jpg" alt="Mohana Rao Mannem" />
           </div>
           <h3>Mohana Rao Mannem</h3>
           <span class="team-role">Whole-time Director & Co-Founder</span>
@@ -203,8 +238,51 @@
     </div>
   </section>
 
+  <!-- ── TESTIMONIALS ── -->
+  <section class="section dark-section" id="testimonials">
+    <div class="container">
+      <div class="section-tag">WHAT CLIENTS SAY</div>
+      <h2 class="section-title">Testimonials</h2>
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
+          <p>"Equilynx transformed our business operations with their innovative technology solutions. Highly professional and results-driven team."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar"><i class="fas fa-user"></i></div>
+            <div>
+              <strong>Client Name</strong>
+              <span>CEO, Company Name</span>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
+          <p>"Outstanding service and deep expertise in digital transformation. Equilynx delivered beyond our expectations on every front."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar"><i class="fas fa-user"></i></div>
+            <div>
+              <strong>Client Name</strong>
+              <span>Director, Company Name</span>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
+          <p>"Working with Equilynx was a game changer. Their quantum-inspired approach to problem solving is truly unique in the industry."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar"><i class="fas fa-user"></i></div>
+            <div>
+              <strong>Client Name</strong>
+              <span>Founder, Company Name</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ── CONTACT ── -->
-  <section class="section dark-section" id="contact">
+  <section class="section" id="contact">
     <div class="container">
       <div class="section-tag">REACH US</div>
       <h2 class="section-title">Contact Us</h2>
@@ -240,6 +318,18 @@
               <a href="https://wa.me/917337418969" target="_blank">Chat with us</a>
             </div>
           </div>
+          <!-- MAP -->
+          <div class="map-container">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d30614.322527732493!2d80.9950595!3d16.435472349999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a361ca9703a5305%3A0xb92bbf81640f13be!2sGudivada%2C%20Andhra%20Pradesh%2C%20India!5e0!3m2!1sen!2sfr!4v1771532366668!5m2!1sen!2sfr"
+              width="100%"
+              height="200"
+              style="border:0;"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+          </div>
         </div>
 
         <!-- Contact Form -->
@@ -254,7 +344,7 @@
             <select name="country_code" id="countryCode" onchange="updatePhoneLimit()">
               <option value="+91" data-max="10">🇮🇳 +91</option>
               <option value="+1" data-max="10">🇺🇸 +1</option>
-              <option value="+1" data-max="10">🇨🇦 +1 </option>
+              <option value="+1" data-max="10">🇨🇦 +1 CA</option>
               <option value="+44" data-max="10">🇬🇧 +44</option>
               <option value="+61" data-max="9">🇦🇺 +61</option>
               <option value="+971" data-max="9">🇦🇪 +971</option>
@@ -293,6 +383,7 @@
       <a href="#about">About</a>
       <a href="#services">Services</a>
       <a href="#why-us">Why Us</a>
+      <a href="#testimonials">Testimonials</a>
       <a href="#contact">Contact</a>
       <a href="https://www.linkedin.com/company/equilynx/?viewAsMember=true" target="_blank">LINKEDIN</a>
     </div>

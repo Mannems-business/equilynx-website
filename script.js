@@ -67,3 +67,29 @@ function updatePhoneLimit() {
   phoneInput.placeholder = `${max}-digit Phone Number`;
   phoneInput.value = '';
 }
+
+// Cookie consent
+function acceptCookies() {
+  localStorage.setItem('cookieConsent', 'accepted');
+  document.getElementById('cookieBanner').style.display = 'none';
+}
+
+function declineCookies() {
+  localStorage.setItem('cookieConsent', 'declined');
+  document.getElementById('cookieBanner').style.display = 'none';
+}
+
+// Check if already responded
+window.addEventListener('load', () => {
+  const consent = localStorage.getItem('cookieConsent');
+  if (consent) {
+    document.getElementById('cookieBanner').style.display = 'none';
+  }
+});
+
+// Page loader
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('pageLoader').classList.add('hidden');
+  }, 1500);
+});
