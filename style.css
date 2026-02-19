@@ -113,9 +113,9 @@ body {
   inset: 0;
   background: linear-gradient(
     to bottom,
-    rgba(2,11,24,0.5) 0%,
-    rgba(2,11,24,0.3) 40%,
-    rgba(2,11,24,0.8) 100%
+    rgba(2,11,24,0.3) 0%,
+    rgba(2,11,24,0.2) 40%,
+    rgba(2,11,24,0.7) 100%
   );
 }
 
@@ -123,15 +123,6 @@ body {
   position: relative;
   z-index: 10;
   padding: 20px;
-}
-
-.hero-tagline {
-  font-family: 'Raleway', sans-serif;
-  font-size: clamp(0.65rem, 2vw, 0.95rem);
-  letter-spacing: 6px;
-  color: var(--accent);
-  margin-bottom: 15px;
-  font-weight: 300;
 }
 
 .hero-title {
@@ -165,6 +156,13 @@ body {
   color: var(--grey);
   letter-spacing: 3px;
   margin-bottom: 40px;
+}
+
+.hero-btns {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 /* ── BUTTONS ── */
@@ -207,7 +205,6 @@ body {
   color: var(--navy);
 }
 
-/* Scroll indicator */
 .scroll-down {
   position: absolute;
   bottom: 30px;
@@ -402,201 +399,6 @@ body {
   line-height: 1.7;
 }
 
-/* ── CONTACT ── */
-.contact-grid {
-  display: grid;
-  grid-template-columns: 1fr 1.4fr;
-  gap: 60px;
-  align-items: start;
-}
-
-.contact-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 18px;
-  margin-bottom: 30px;
-}
-
-.contact-item i {
-  color: var(--accent);
-  font-size: 1.2rem;
-  margin-top: 3px;
-  width: 20px;
-}
-
-.contact-item strong {
-  display: block;
-  font-size: 0.75rem;
-  letter-spacing: 2px;
-  color: var(--accent);
-  margin-bottom: 4px;
-}
-
-.contact-item a,
-.contact-item p {
-  color: var(--grey);
-  text-decoration: none;
-  font-size: 0.9rem;
-  line-height: 1.6;
-  transition: color 0.2s;
-}
-
-.contact-item a:hover { color: var(--white); }
-
-.contact-form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.contact-form input,
-.contact-form textarea {
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(79,195,247,0.2);
-  border-radius: 4px;
-  padding: 14px 18px;
-  color: var(--white);
-  font-size: 0.9rem;
-  font-family: var(--font);
-  outline: none;
-  transition: border 0.3s;
-}
-
-.contact-form input::placeholder,
-.contact-form textarea::placeholder {
-  color: rgba(160,180,200,0.5);
-}
-
-.contact-form input:focus,
-.contact-form textarea:focus {
-  border-color: var(--accent);
-  background: rgba(79,195,247,0.05);
-}
-
-/* ── FOOTER ── */
-.footer {
-  background: #010810;
-  text-align: center;
-  padding: 50px 20px 30px;
-  border-top: 1px solid rgba(79,195,247,0.1);
-}
-
-.footer-logo {
-  font-family: 'Raleway', sans-serif;
-  font-size: 1.8rem;
-  font-weight: 700;
-  letter-spacing: 6px;
-  margin-bottom: 5px;
-}
-
-.footer-tagline {
-  font-size: 0.7rem;
-  letter-spacing: 4px;
-  color: var(--grey);
-  margin-bottom: 30px;
-}
-
-.footer-links {
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  flex-wrap: wrap;
-  margin-bottom: 30px;
-}
-
-.footer-links a {
-  color: var(--grey);
-  text-decoration: none;
-  font-size: 0.8rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  transition: color 0.3s;
-}
-
-.footer-links a:hover { color: var(--accent); }
-
-.footer-bottom p {
-  color: rgba(160,180,200,0.4);
-  font-size: 0.75rem;
-  margin-bottom: 4px;
-}
-
-/* ── WHATSAPP FLOAT ── */
-.whatsapp-float {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  width: 55px;
-  height: 55px;
-  background: #25D366;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 1.6rem;
-  text-decoration: none;
-  z-index: 999;
-  box-shadow: 0 4px 20px rgba(37,211,102,0.4);
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.whatsapp-float:hover {
-  transform: scale(1.1);
-  box-shadow: 0 6px 25px rgba(37,211,102,0.6);
-}
-
-/* ── MOBILE RESPONSIVE ── */
-@media (max-width: 900px) {
-  .about-grid        { grid-template-columns: 1fr; gap: 40px; }
-  .services-grid     { grid-template-columns: repeat(2, 1fr); }
-  .contact-grid      { grid-template-columns: 1fr; gap: 40px; }
-}
-
-@media (max-width: 768px) {
-  /* Navbar mobile */
-  .navbar { padding: 0 20px; }
-
-  .hamburger { display: block; }
-
-  .nav-links {
-    display: none;
-    position: absolute;
-    top: 65px;
-    left: 0; right: 0;
-    background: rgba(2,11,24,0.98);
-    flex-direction: column;
-    gap: 0;
-    padding: 10px 0;
-    border-bottom: 1px solid rgba(79,195,247,0.15);
-  }
-
-  .nav-links.open { display: flex; }
-
-  .nav-links li a {
-    display: block;
-    padding: 14px 30px;
-    border-bottom: 1px solid rgba(79,195,247,0.05);
-  }
-
-  .hero-title  { letter-spacing: 5px; }
-  .services-grid { grid-template-columns: 1fr; }
-  .about-cards   { grid-template-columns: 1fr; }
-  .why-grid      { grid-template-columns: 1fr; }
-
-  .section { padding: 70px 20px; }
-  .whatsapp-float { bottom: 20px; right: 20px; width: 48px; height: 48px; font-size: 1.4rem; }
-}
-
-@media (max-width: 480px) {
-  .navbar { padding: 0 15px; }
-  .nav-logo { font-size: 1.2rem; letter-spacing: 2px; }
-  .hero-tagline { letter-spacing: 3px; }
-  .hero-btns { flex-direction: column; align-items: center; }
-  .btn-primary, .btn-ghost { width: 100%; max-width: 250px; text-align: center; }
-  .footer-links { gap: 15px; }
-}
-
 /* ── TEAM ── */
 .team-grid {
   display: grid;
@@ -695,7 +497,225 @@ body {
   letter-spacing: 1px;
 }
 
-/* ── MOBILE for team ── */
-@media (max-width: 600px) {
-  .team-grid { grid-template-columns: 1fr; }
+/* ── CONTACT ── */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 60px;
+  align-items: start;
+}
+
+.contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  margin-bottom: 30px;
+}
+
+.contact-item i {
+  color: var(--accent);
+  font-size: 1.2rem;
+  margin-top: 3px;
+  width: 20px;
+}
+
+.contact-item strong {
+  display: block;
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+
+.contact-item a,
+.contact-item p {
+  color: var(--grey);
+  text-decoration: none;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  transition: color 0.2s;
+}
+
+.contact-item a:hover { color: var(--white); }
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.contact-form input,
+.contact-form textarea {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(79,195,247,0.2);
+  border-radius: 4px;
+  padding: 14px 18px;
+  color: var(--white);
+  font-size: 0.9rem;
+  font-family: var(--font);
+  outline: none;
+  transition: border 0.3s;
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+  color: rgba(160,180,200,0.5);
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-color: var(--accent);
+  background: rgba(79,195,247,0.05);
+}
+
+/* ── PHONE FIELD ── */
+.phone-group {
+  display: flex;
+  gap: 10px;
+}
+
+.phone-group select {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(79,195,247,0.2);
+  border-radius: 4px;
+  padding: 14px 10px;
+  color: var(--white);
+  font-size: 0.9rem;
+  font-family: var(--font);
+  outline: none;
+  cursor: pointer;
+  width: 130px;
+  transition: border 0.3s;
+}
+
+.phone-group select:focus {
+  border-color: var(--accent);
+}
+
+.phone-group select option {
+  background: #041428;
+  color: var(--white);
+}
+
+.phone-group input {
+  flex: 1;
+}
+
+/* ── FOOTER ── */
+.footer {
+  background: #010810;
+  text-align: center;
+  padding: 50px 20px 30px;
+  border-top: 1px solid rgba(79,195,247,0.1);
+}
+
+.footer-logo {
+  font-family: 'Raleway', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: 6px;
+  margin-bottom: 5px;
+}
+
+.footer-tagline {
+  font-size: 0.7rem;
+  letter-spacing: 4px;
+  color: var(--grey);
+  margin-bottom: 30px;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+
+.footer-links a {
+  color: var(--grey);
+  text-decoration: none;
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: color 0.3s;
+}
+
+.footer-links a:hover { color: var(--accent); }
+
+.footer-bottom p {
+  color: rgba(160,180,200,0.4);
+  font-size: 0.75rem;
+  margin-bottom: 4px;
+}
+
+/* ── WHATSAPP FLOAT ── */
+.whatsapp-float {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 55px;
+  height: 55px;
+  background: #25D366;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.6rem;
+  text-decoration: none;
+  z-index: 999;
+  box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.whatsapp-float:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 25px rgba(37,211,102,0.6);
+}
+
+/* ── MOBILE RESPONSIVE ── */
+@media (max-width: 900px) {
+  .about-grid        { grid-template-columns: 1fr; gap: 40px; }
+  .services-grid     { grid-template-columns: repeat(2, 1fr); }
+  .contact-grid      { grid-template-columns: 1fr; gap: 40px; }
+}
+
+@media (max-width: 768px) {
+  .navbar { padding: 0 20px; }
+  .hamburger { display: block; }
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 65px;
+    left: 0; right: 0;
+    background: rgba(2,11,24,0.98);
+    flex-direction: column;
+    gap: 0;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(79,195,247,0.15);
+  }
+  .nav-links.open { display: flex; }
+  .nav-links li a {
+    display: block;
+    padding: 14px 30px;
+    border-bottom: 1px solid rgba(79,195,247,0.05);
+  }
+  .hero-title  { letter-spacing: 5px; }
+  .services-grid { grid-template-columns: 1fr; }
+  .about-cards   { grid-template-columns: 1fr; }
+  .why-grid      { grid-template-columns: 1fr; }
+  .team-grid     { grid-template-columns: 1fr; }
+  .section { padding: 70px 20px; }
+  .whatsapp-float { bottom: 20px; right: 20px; width: 48px; height: 48px; font-size: 1.4rem; }
+}
+
+@media (max-width: 480px) {
+  .navbar { padding: 0 15px; }
+  .hero-tagline { letter-spacing: 3px; }
+  .hero-btns { flex-direction: column; align-items: center; }
+  .btn-primary, .btn-ghost { width: 100%; max-width: 250px; text-align: center; }
+  .footer-links { gap: 15px; }
+  .phone-group { flex-direction: column; }
+  .phone-group select { width: 100%; }
 }

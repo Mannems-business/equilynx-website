@@ -45,3 +45,25 @@ document.querySelectorAll('.stat-card, .service-card, .why-item, .contact-item')
   el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
   observer.observe(el);
 });
+
+// Phone validation per country
+function getMaxDigits() {
+  const select = document.getElementById('countryCode');
+  return parseInt(select.selectedOptions[0].dataset.max);
+}
+
+function enforcePhoneLimit(input) {
+  input.value = input.value.replace(/[^0-9]/g, '');
+  const max = getMaxDigits();
+  if (input.value.length > max) {
+    input.value = input.value.slice(0, max);
+  }
+}
+
+function updatePhoneLimit() {
+  const phoneInput = document.getElementById('phoneInput');
+  const max = getMaxDigits();
+  phoneInput.maxlength = max;
+  phoneInput.placeholder = `${max}-digit Phone Number`;
+  phoneInput.value = '';
+}
