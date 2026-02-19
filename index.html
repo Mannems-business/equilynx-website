@@ -250,13 +250,30 @@
         </div>
 
         <!-- Contact Form -->
-        <div class="contact-form">
-          <input type="text" placeholder="Your Full Name" />
-          <input type="email" placeholder="Your Email Address" />
-          <input type="tel" placeholder="Your Phone Number" />
-          <textarea rows="5" placeholder="Your Message"></textarea>
-          <button class="btn-primary" style="width:100%; border:none; cursor:pointer;">Send Message</button>
-        </div>
+        <form 
+          name="contact" 
+          method="POST" 
+          data-netlify="true" 
+          netlify-honeypot="bot-field"
+          class="contact-form"
+          action="/thank-you"
+        >
+          <!-- Hidden input for Netlify -->
+          <input type="hidden" name="form-name" value="contact" />
+
+          <!-- Anti-spam field (invisible to users) -->
+          <p style="display:none">
+            <label>Don’t fill this out if you're human: <input name="bot-field" /></label>
+          </p>
+
+          <!-- Form fields -->
+          <input type="text" name="name" placeholder="Your Full Name" required />
+          <input type="email" name="email" placeholder="Your Email Address" required />
+          <input type="tel" name="phone" placeholder="Your Phone Number" />
+          <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+
+          <button type="submit" class="btn-primary" style="width:100%; border:none; cursor:pointer;">Send Message</button>
+        </form>
 
       </div>
     </div>
