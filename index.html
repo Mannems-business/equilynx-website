@@ -1,538 +1,338 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Equilynx | Where Quantum Meets Innovation</title>
+  <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;600;700&family=Raleway:wght@100;200;300;400;700&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    :root {
-      --navy: #020b18; --dark: #041428; --mid: #0a2540;
-      --accent: #4fc3f7; --white: #ffffff; --grey: #a0b4c8;
-      --font: 'Montserrat', sans-serif;
-    }
-    html { scroll-behavior: smooth; }
-    body { font-family: var(--font); background: var(--navy); color: var(--white); overflow-x: hidden; }
-
-    #progress-bar {
-      position: fixed; top: 0; left: 0; height: 2px; width: 0%;
-      background: linear-gradient(90deg, var(--accent), #00e5ff, #4fc3f7);
-      z-index: 99999; transition: width 0.1s linear; box-shadow: 0 0 8px var(--accent);
-    }
-    #particles-canvas { position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.5; }
-
-    /* NAVBAR */
-    .navbar {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 40px; height: 65px;
-      background: rgba(2,11,24,0.97); backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(79,195,247,0.15); transition: all 0.3s;
-    }
-    .navbar.scrolled { height: 55px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
-    .nav-logo {
-      font-family: 'Raleway', sans-serif; font-size: 1.3rem; font-weight: 700;
-      letter-spacing: 5px; color: var(--white); cursor: pointer; flex-shrink: 0; transition: color 0.3s;
-    }
-    .nav-logo:hover { color: var(--accent); }
-    .nav-links { display: flex; list-style: none; gap: 26px; }
-    .nav-links a {
-      color: var(--grey); text-decoration: none; font-size: 0.76rem;
-      font-weight: 500; letter-spacing: 2px; text-transform: uppercase; cursor: pointer;
-      padding-bottom: 4px; border-bottom: 2px solid transparent; transition: all 0.3s;
-    }
-    .nav-links a:hover { color: var(--accent); }
-    .nav-links a.active { color: var(--accent); border-bottom-color: var(--accent); }
-    .hamburger { display: none; background: none; border: none; color: var(--white); font-size: 1.4rem; cursor: pointer; }
-
-    /* PAGE SYSTEM */
-    .page { display: none; min-height: 100vh; animation: pgFade 0.4s ease; }
-    .page.active { display: block; }
-    @keyframes pgFade { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
-
-    /* SHARED */
-    .section { padding: 100px 20px 80px; position: relative; z-index: 1; }
-    .section-pt { padding-top: 110px; }
-    .dark-section { background: var(--dark); }
-    .container { max-width: 1100px; margin: 0 auto; }
-    .section-tag { font-size: 0.72rem; letter-spacing: 5px; color: var(--accent); font-weight: 600; margin-bottom: 10px; text-align: center; }
-    .section-title { font-family: 'Raleway', sans-serif; font-size: clamp(1.6rem,4vw,2.4rem); font-weight: 300; color: var(--white); text-align: center; margin-bottom: 60px; letter-spacing: 2px; }
-
-    /* BUTTONS */
-    .btn-primary {
-      display: inline-block; padding: 13px 32px; background: var(--accent); color: var(--navy);
-      text-decoration: none; font-size: 0.82rem; font-weight: 700; letter-spacing: 2px;
-      text-transform: uppercase; border-radius: 2px; transition: all 0.3s; border: none; cursor: pointer; font-family: var(--font);
-    }
-    .btn-primary:hover { background: var(--white); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(79,195,247,0.3); }
-    .btn-ghost {
-      display: inline-block; padding: 13px 32px; border: 1px solid var(--accent); color: var(--accent);
-      text-decoration: none; font-size: 0.82rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
-      border-radius: 2px; transition: all 0.3s; cursor: pointer; font-family: var(--font); background: none;
-    }
-    .btn-ghost:hover { background: var(--accent); color: var(--navy); }
-
-    /* REVEAL */
-    .reveal { opacity:0; transform:translateY(35px); transition:opacity 0.7s cubic-bezier(.16,1,.3,1), transform 0.7s cubic-bezier(.16,1,.3,1); }
-    .reveal-left { opacity:0; transform:translateX(-35px); transition:opacity 0.7s cubic-bezier(.16,1,.3,1), transform 0.7s cubic-bezier(.16,1,.3,1); }
-    .reveal-right { opacity:0; transform:translateX(35px); transition:opacity 0.7s cubic-bezier(.16,1,.3,1), transform 0.7s cubic-bezier(.16,1,.3,1); }
-    .reveal.visible, .reveal-left.visible, .reveal-right.visible { opacity:1; transform:none; }
-    .delay-1{transition-delay:.1s} .delay-2{transition-delay:.2s} .delay-3{transition-delay:.3s} .delay-4{transition-delay:.4s}
-
-    /* HOME HERO */
-    .hero { position:relative; height:100vh; min-height:500px; display:flex; align-items:center; justify-content:center; text-align:center; overflow:hidden; z-index:1; }
-    .hero-bg { position:absolute; inset:0; background:linear-gradient(135deg,#020b18 0%,#041428 50%,#0a2540 100%); }
-    .hero-overlay { position:absolute; inset:0; background:linear-gradient(to bottom,rgba(2,11,24,0.2) 0%,rgba(2,11,24,0.5) 100%); }
-    .hero-content { position:relative; z-index:10; padding:20px; }
-    .hero-title { font-family:'Raleway',sans-serif; font-size:clamp(4rem,14vw,11rem); font-weight:400; letter-spacing:8px; color:var(--white); line-height:1; margin-bottom:20px; }
-    .hero-line { width:80%; height:1px; background:rgba(255,255,255,0.4); margin:0 auto 20px; }
-    .hero-tagline { font-family:'Raleway',sans-serif; font-size:clamp(0.65rem,2vw,0.95rem); letter-spacing:8px; color:rgba(255,255,255,0.6); margin-bottom:15px; font-weight:300; min-height:1.5em; }
-    .hero-sub { font-size:clamp(0.8rem,2vw,1rem); color:var(--grey); letter-spacing:3px; margin-bottom:40px; }
-    .hero-btns { display:flex; gap:15px; justify-content:center; flex-wrap:wrap; }
-    .scroll-down { position:absolute; bottom:30px; left:50%; transform:translateX(-50%); color:var(--accent); font-size:1.2rem; animation:bounce 2s infinite; z-index:10; cursor:pointer; }
-    @keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(10px)} }
-
-    /* ABOUT */
-    .stats-row { display:grid; grid-template-columns:repeat(3,1fr); gap:30px; max-width:700px; margin:0 auto 60px; }
-    .stat-box { text-align:center; padding:30px 20px; border:1px solid rgba(79,195,247,0.15); border-radius:8px; background:rgba(79,195,247,0.03); transition:all 0.3s; }
-    .stat-box:hover { border-color:var(--accent); background:rgba(79,195,247,0.08); transform:translateY(-4px); }
-    .stat-number { font-family:'Raleway',sans-serif; font-size:2.8rem; font-weight:200; color:var(--accent); display:block; line-height:1; text-shadow:0 0 20px rgba(79,195,247,0.4); }
-    .stat-label { font-size:0.72rem; letter-spacing:3px; color:var(--grey); margin-top:8px; display:block; }
-    .about-grid { display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:start; }
-    .about-text p { color:var(--grey); line-height:1.8; margin-bottom:15px; font-size:0.95rem; }
-    .about-cards { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
-    .stat-card { background:rgba(13,71,161,0.15); border:1px solid rgba(79,195,247,0.15); border-radius:8px; padding:25px 20px; transition:all 0.3s; }
-    .stat-card:hover { background:rgba(13,71,161,0.3); border-color:var(--accent); transform:translateY(-4px); }
-    .stat-card i { color:var(--accent); font-size:1.5rem; margin-bottom:12px; display:block; }
-    .stat-card h3 { font-size:0.9rem; font-weight:600; margin-bottom:8px; letter-spacing:1px; }
-    .stat-card p { color:var(--grey); font-size:0.8rem; line-height:1.5; }
-    .company-badges { display:flex; flex-wrap:wrap; gap:10px; margin-top:20px; }
-    .badge { display:flex; align-items:center; gap:6px; background:rgba(79,195,247,0.08); border:1px solid rgba(79,195,247,0.2); border-radius:20px; padding:6px 14px; font-size:0.75rem; color:var(--accent); letter-spacing:1px; }
-
-    /* SERVICES */
-    .services-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:25px; }
-    .service-card { background:rgba(255,255,255,0.03); border:1px solid rgba(79,195,247,0.1); border-radius:8px; padding:35px 25px; transition:all 0.25s ease-out; }
-    .service-card:hover { background:rgba(79,195,247,0.07); border-color:var(--accent); box-shadow:0 20px 40px rgba(0,0,0,0.3); transform:translateY(-5px); }
-    .service-icon { width:55px; height:55px; background:rgba(79,195,247,0.1); border-radius:50%; display:flex; align-items:center; justify-content:center; margin-bottom:20px; }
-    .service-icon i { color:var(--accent); font-size:1.3rem; }
-    .service-card h3 { font-size:0.95rem; font-weight:600; margin-bottom:12px; letter-spacing:1px; }
-    .service-card p { color:var(--grey); font-size:0.83rem; line-height:1.7; margin-bottom:20px; }
-    .service-link { color:var(--accent); text-decoration:none; font-size:0.82rem; font-weight:600; transition:letter-spacing 0.3s; cursor:pointer; }
-    .service-link:hover { letter-spacing:2px; }
-
-    /* WHY US */
-    .why-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:40px; }
-    .why-item { border-left:2px solid var(--accent); padding-left:25px; }
-    .why-number { font-size:2.5rem; font-weight:700; color:rgba(79,195,247,0.15); font-family:'Raleway',sans-serif; display:block; line-height:1; margin-bottom:8px; }
-    .why-item h3 { font-size:1rem; font-weight:600; margin-bottom:10px; letter-spacing:1px; }
-    .why-item p { color:var(--grey); font-size:0.85rem; line-height:1.7; }
-
-    /* LEADERSHIP */
-    .team-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:35px; max-width:1000px; margin:0 auto; }
-    .team-card { background:rgba(255,255,255,0.03); border:1px solid rgba(79,195,247,0.15); border-radius:10px; padding:40px 30px; text-align:center; transition:all 0.3s; }
-    .team-card:hover { border-color:var(--accent); background:rgba(79,195,247,0.05); transform:translateY(-5px); }
-    .team-avatar { width:80px; height:80px; background:rgba(79,195,247,0.1); border:2px solid var(--accent); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 20px; overflow:hidden; }
-    .team-avatar i { color:var(--accent); font-size:2rem; }
-    .team-card h3 { font-size:0.95rem; font-weight:600; letter-spacing:1px; margin-bottom:6px; }
-    .team-role { display:block; color:var(--accent); font-size:0.75rem; letter-spacing:2px; margin-bottom:15px; font-weight:500; }
-    .team-card p { color:var(--grey); font-size:0.83rem; line-height:1.7; margin-bottom:20px; }
-    .team-social a { color:var(--accent); text-decoration:none; font-size:0.82rem; font-weight:600; display:inline-flex; align-items:center; gap:6px; }
-    .team-social a:hover { color:var(--white); }
-
-    /* TESTIMONIALS */
-    .testimonials-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:25px; }
-    .testimonial-card { background:rgba(255,255,255,0.03); border:1px solid rgba(79,195,247,0.1); border-radius:8px; padding:35px 25px; transition:all 0.3s; }
-    .testimonial-card:hover { border-color:var(--accent); transform:translateY(-5px); }
-    .quote-icon { color:var(--accent); font-size:1.5rem; margin-bottom:15px; opacity:0.5; }
-    .testimonial-card p { color:var(--grey); font-size:0.88rem; line-height:1.8; margin-bottom:25px; font-style:italic; }
-    .testimonial-author { display:flex; align-items:center; gap:15px; }
-    .author-avatar { width:45px; height:45px; background:rgba(79,195,247,0.1); border:1px solid var(--accent); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-    .author-avatar i { color:var(--accent); font-size:1rem; }
-    .testimonial-author strong { display:block; font-size:0.88rem; color:var(--white); margin-bottom:3px; }
-    .testimonial-author span { font-size:0.75rem; color:var(--accent); letter-spacing:1px; }
-
-    /* CONTACT */
-    .contact-grid { display:grid; grid-template-columns:1fr 1.4fr; gap:60px; align-items:start; }
-    .contact-item { display:flex; align-items:flex-start; gap:18px; margin-bottom:30px; }
-    .contact-item i { color:var(--accent); font-size:1.2rem; margin-top:3px; width:20px; }
-    .contact-item strong { display:block; font-size:0.75rem; letter-spacing:2px; color:var(--accent); margin-bottom:4px; }
-    .contact-item a, .contact-item p { color:var(--grey); text-decoration:none; font-size:0.9rem; line-height:1.6; }
-    .contact-item a:hover { color:var(--white); }
-    .contact-form { display:flex; flex-direction:column; gap:15px; }
-    .contact-form input, .contact-form textarea { background:rgba(255,255,255,0.05); border:1px solid rgba(79,195,247,0.2); border-radius:4px; padding:14px 18px; color:var(--white); font-size:0.9rem; font-family:var(--font); outline:none; transition:border 0.3s; }
-    .contact-form input:focus, .contact-form textarea:focus { border-color:var(--accent); background:rgba(79,195,247,0.05); }
-    .contact-form input::placeholder, .contact-form textarea::placeholder { color:rgba(160,180,200,0.5); }
-    .map-container { margin-top:20px; border-radius:8px; overflow:hidden; border:1px solid rgba(79,195,247,0.15); }
-    .phone-group { display:flex; gap:10px; }
-    .phone-group select { background:rgba(255,255,255,0.05); border:1px solid rgba(79,195,247,0.2); border-radius:4px; padding:14px 10px; color:var(--white); font-size:0.9rem; font-family:var(--font); outline:none; cursor:pointer; width:130px; transition:border 0.3s; }
-    .phone-group select option { background:#041428; color:var(--white); }
-    .phone-group input { flex:1; }
-
-    /* CAREERS */
-    .careers-hero { padding:130px 20px 70px; text-align:center; background:linear-gradient(135deg,#020b18 0%,#041428 60%,#0a2540 100%); position:relative; overflow:hidden; z-index:1; }
-    .careers-hero::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at 50% 0%,rgba(79,195,247,0.08) 0%,transparent 70%); }
-    .careers-hero h1 { font-family:'Raleway',sans-serif; font-size:clamp(2.5rem,6vw,4.5rem); font-weight:300; letter-spacing:6px; margin-bottom:20px; position:relative; }
-    .careers-hero p { color:var(--grey); font-size:1rem; max-width:600px; margin:0 auto 40px; line-height:1.8; position:relative; }
-    .perks-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:25px; }
-    .perk-card { background:rgba(255,255,255,0.02); border:1px solid rgba(79,195,247,0.1); border-radius:8px; padding:30px 25px; text-align:center; transition:all 0.3s; }
-    .perk-card:hover { border-color:var(--accent); transform:translateY(-4px); }
-    .perk-card i { color:var(--accent); font-size:1.8rem; margin-bottom:15px; display:block; }
-    .perk-card h3 { font-size:0.9rem; font-weight:600; margin-bottom:10px; letter-spacing:1px; }
-    .perk-card p { color:var(--grey); font-size:0.8rem; line-height:1.6; }
-    .jobs-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:25px; margin-bottom:40px; }
-    .job-card { background:rgba(255,255,255,0.03); border:1px solid rgba(79,195,247,0.12); border-radius:10px; padding:30px; transition:all 0.3s; }
-    .job-card:hover { border-color:var(--accent); background:rgba(79,195,247,0.05); transform:translateY(-3px); }
-    .job-dept { font-size:0.68rem; letter-spacing:3px; color:var(--accent); font-weight:600; text-transform:uppercase; margin-bottom:10px; }
-    .job-card h3 { font-size:1rem; font-weight:600; margin-bottom:10px; }
-    .job-tags { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:15px; }
-    .job-tag { font-size:0.7rem; padding:4px 12px; border-radius:20px; border:1px solid rgba(79,195,247,0.2); color:var(--grey); letter-spacing:1px; }
-    .job-card p { color:var(--grey); font-size:0.83rem; line-height:1.6; margin-bottom:20px; }
-    .job-apply-btn { display:inline-block; padding:9px 22px; background:transparent; border:1px solid var(--accent); color:var(--accent); font-size:0.78rem; font-weight:600; letter-spacing:2px; text-transform:uppercase; border-radius:2px; cursor:pointer; transition:all 0.3s; font-family:var(--font); }
-    .job-apply-btn:hover { background:var(--accent); color:var(--navy); }
-
-    /* MODAL */
-    .modal-overlay { position:fixed; inset:0; background:rgba(2,11,24,0.92); backdrop-filter:blur(8px); z-index:5000; display:none; align-items:center; justify-content:center; padding:20px; }
-    .modal-overlay.open { display:flex; }
-    .modal-box { background:#041428; border:1px solid rgba(79,195,247,0.2); border-radius:12px; padding:45px 40px; width:100%; max-width:540px; max-height:90vh; overflow-y:auto; position:relative; }
-    .modal-close { position:absolute; top:18px; right:22px; background:none; border:none; color:var(--grey); font-size:1.3rem; cursor:pointer; transition:color 0.2s; }
-    .modal-close:hover { color:var(--accent); }
-    .modal-title { font-family:'Raleway',sans-serif; font-size:1.5rem; font-weight:300; letter-spacing:3px; margin-bottom:8px; }
-    .modal-sub { color:var(--grey); font-size:0.85rem; margin-bottom:30px; line-height:1.6; }
-    .modal-tabs { display:flex; margin-bottom:30px; border-bottom:1px solid rgba(79,195,247,0.15); }
-    .modal-tab { padding:10px 24px; font-size:0.8rem; letter-spacing:2px; text-transform:uppercase; color:var(--grey); cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-1px; transition:all 0.3s; background:none; border-top:none; border-left:none; border-right:none; font-family:var(--font); }
-    .modal-tab.active { color:var(--accent); border-bottom-color:var(--accent); }
-    .tab-pane { display:none; }
-    .tab-pane.active { display:block; }
-    .form-group { display:flex; flex-direction:column; gap:14px; }
-    .form-group input, .form-group select, .form-group textarea { background:rgba(255,255,255,0.05); border:1px solid rgba(79,195,247,0.2); border-radius:4px; padding:13px 16px; color:var(--white); font-size:0.88rem; font-family:var(--font); outline:none; transition:border 0.3s; }
-    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color:var(--accent); background:rgba(79,195,247,0.04); }
-    .form-group input::placeholder, .form-group textarea::placeholder { color:rgba(160,180,200,0.4); }
-    .form-group select option { background:#041428; }
-    .form-group label { font-size:0.72rem; letter-spacing:2px; color:var(--accent); font-weight:600; text-transform:uppercase; }
-    .form-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
-    .file-upload-area { border:2px dashed rgba(79,195,247,0.25); border-radius:8px; padding:30px 20px; text-align:center; cursor:pointer; transition:all 0.3s; position:relative; }
-    .file-upload-area:hover { border-color:var(--accent); background:rgba(79,195,247,0.03); }
-    .file-upload-area i { color:var(--accent); font-size:2rem; margin-bottom:10px; display:block; }
-    .file-upload-area p { color:var(--grey); font-size:0.83rem; }
-    .file-upload-area span { color:var(--accent); font-size:0.75rem; display:block; margin-top:6px; }
-    .file-upload-area input[type="file"] { position:absolute; inset:0; opacity:0; cursor:pointer; width:100%; height:100%; padding:0; border:none; background:none; }
-    .file-name-display { font-size:0.78rem; color:var(--accent); margin-top:8px; min-height:18px; }
-    .modal-btn { width:100%; margin-top:10px; font-size:0.85rem; padding:14px; }
-    .auth-switch { text-align:center; margin-top:20px; color:var(--grey); font-size:0.82rem; }
-    .auth-switch a { color:var(--accent); cursor:pointer; }
-    .auth-switch a:hover { text-decoration:underline; }
-    .success-msg { text-align:center; padding:30px 20px; }
-    .success-msg i { color:var(--accent); font-size:3rem; margin-bottom:20px; display:block; }
-    .success-msg h3 { font-size:1.2rem; font-weight:400; margin-bottom:10px; letter-spacing:2px; }
-    .success-msg p { color:var(--grey); font-size:0.88rem; line-height:1.7; }
-
-    /* FOOTER */
-    .footer { background:#010810; text-align:center; padding:50px 20px 30px; border-top:1px solid rgba(79,195,247,0.1); position:relative; z-index:1; }
-    .footer-logo { font-family:'Raleway',sans-serif; font-size:1.8rem; font-weight:700; letter-spacing:6px; margin-bottom:5px; }
-    .footer-tagline { font-size:0.7rem; letter-spacing:4px; color:var(--grey); margin-bottom:30px; }
-    .footer-links { display:flex; justify-content:center; gap:25px; flex-wrap:wrap; margin-bottom:30px; }
-    .footer-links a { color:var(--grey); text-decoration:none; font-size:0.78rem; letter-spacing:2px; text-transform:uppercase; transition:color 0.3s; cursor:pointer; }
-    .footer-links a:hover { color:var(--accent); }
-    .footer-bottom p { color:rgba(160,180,200,0.4); font-size:0.75rem; margin-bottom:4px; }
-
-    .whatsapp-float { position:fixed; bottom:30px; right:30px; width:55px; height:55px; background:#25D366; border-radius:50%; display:flex; align-items:center; justify-content:center; color:white; font-size:1.6rem; text-decoration:none; z-index:999; box-shadow:0 4px 20px rgba(37,211,102,0.4); transition:transform 0.3s; }
-    .whatsapp-float:hover { transform:scale(1.1); }
-
-    .page-loader { position:fixed; inset:0; background:var(--navy); z-index:99999; display:flex; align-items:center; justify-content:center; transition:opacity 0.5s ease, visibility 0.5s ease; }
-    .page-loader.hidden { opacity:0; visibility:hidden; }
-    .loader-logo { font-family:'Raleway',sans-serif; font-size:3rem; font-weight:200; letter-spacing:12px; color:var(--white); margin-bottom:30px; animation:pulse 1.5s infinite; }
-    .loader-bar { width:200px; height:2px; background:rgba(79,195,247,0.2); border-radius:2px; overflow:hidden; margin:0 auto; }
-    .loader-fill { height:100%; background:var(--accent); animation:load 1.5s ease forwards; }
-    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
-    @keyframes load { 0%{width:0%} 100%{width:100%} }
-
-    .cookie-banner { position:fixed; bottom:0; left:0; right:0; background:rgba(4,20,40,0.98); border-top:1px solid rgba(79,195,247,0.2); padding:20px 40px; z-index:9999; display:flex; align-items:center; justify-content:center; backdrop-filter:blur(10px); }
-    .cookie-content { display:flex; align-items:center; justify-content:space-between; gap:30px; max-width:1100px; width:100%; flex-wrap:wrap; }
-    .cookie-content p { color:var(--grey); font-size:0.85rem; line-height:1.6; flex:1; }
-    .cookie-btns { display:flex; gap:10px; }
-    .cookie-accept { background:var(--accent); color:var(--navy); border:none; padding:10px 24px; font-size:0.82rem; font-weight:700; border-radius:2px; cursor:pointer; transition:background 0.3s; }
-    .cookie-accept:hover { background:var(--white); }
-    .cookie-decline { background:transparent; color:var(--grey); border:1px solid rgba(79,195,247,0.2); padding:10px 24px; font-size:0.82rem; border-radius:2px; cursor:pointer; transition:all 0.3s; }
-    .cookie-decline:hover { border-color:var(--accent); color:var(--white); }
-
-    .toast { position:fixed; bottom:30px; left:50%; transform:translateX(-50%) translateY(100px); background:var(--dark); border:1px solid var(--accent); border-radius:6px; padding:14px 24px; font-size:0.85rem; color:var(--white); z-index:99999; transition:transform 0.4s cubic-bezier(.16,1,.3,1); pointer-events:none; white-space:nowrap; }
-    .toast.show { transform:translateX(-50%) translateY(0); }
-
-    @media (max-width:900px) { .about-grid,.contact-grid{grid-template-columns:1fr} .services-grid{grid-template-columns:repeat(2,1fr)} .jobs-grid{grid-template-columns:1fr} .team-grid{grid-template-columns:repeat(2,1fr)} }
-    @media (max-width:768px) { .services-grid,.why-grid,.testimonials-grid,.perks-grid{grid-template-columns:1fr} .about-cards{grid-template-columns:1fr 1fr} .stats-row{grid-template-columns:repeat(3,1fr)} .hamburger{display:block} .nav-links{display:none;position:absolute;top:65px;left:0;right:0;background:rgba(2,11,24,0.99);flex-direction:column;gap:0;padding:10px 0;border-bottom:1px solid rgba(79,195,247,0.15)} .nav-links.open{display:flex} .nav-links li a{display:block;padding:14px 30px;border-bottom:1px solid rgba(79,195,247,0.05)} .modal-box{padding:30px 22px} .form-row{grid-template-columns:1fr} .team-grid{grid-template-columns:1fr} }
-    @media (max-width:480px) { .hero-btns{flex-direction:column;align-items:center} .cookie-banner{padding:20px} .cookie-content{flex-direction:column} .cookie-btns{width:100%} .phone-group{flex-direction:column} .phone-group select{width:100%} }
-  </style>
+  <link rel="icon" type="image/png" href="EQUILYNX_plainbanner.png" />
+  <link rel="apple-touch-icon" href="EQUILYNX_plainbanner.png" />
+  <meta name="description" content="Equilynx Private Limited — Where Quantum Meets Innovation. Technology consulting, AI, cybersecurity and digital transformation services based in Andhra Pradesh, India." />
+  <meta name="keywords" content="Equilynx, technology consulting, AI, cybersecurity, digital transformation, software development, Andhra Pradesh, India" />
+  <meta name="author" content="Equilynx Private Limited" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="Equilynx | Where Quantum Meets Innovation" />
+  <meta property="og:description" content="A private limited technology company bridging quantum innovation with real-world business solutions." />
+  <meta property="og:image" content="EQUILYNX_plainbanner.png" />
+  <meta property="og:url" content="https://equilynx.netlify.app" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Equilynx | Where Quantum Meets Innovation" />
+  <meta name="twitter:description" content="Technology consulting, AI and digital transformation services from Andhra Pradesh, India." />
+  <meta name="twitter:image" content="EQUILYNX_plainbanner.png" />
 </head>
+
 <body>
 
-<div id="progress-bar"></div>
-<canvas id="particles-canvas"></canvas>
-<div class="toast" id="toast"></div>
-
-<!-- PAGE LOADER -->
-<div class="page-loader" id="pageLoader">
-  <div style="text-align:center">
-    <div class="loader-logo">EQUILYNX</div>
-    <div class="loader-bar"><div class="loader-fill"></div></div>
-  </div>
-</div>
-
-<!-- COOKIE -->
-<div class="cookie-banner" id="cookieBanner">
-  <div class="cookie-content">
-    <p>🍪 We use cookies to enhance your experience. By continuing to browse, you agree to our use of cookies.</p>
-    <div class="cookie-btns">
-      <button class="cookie-accept" onclick="acceptCookies()">Accept All</button>
-      <button class="cookie-decline" onclick="declineCookies()">Decline</button>
+  <!-- ── PAGE LOADER ── -->
+  <div class="page-loader" id="pageLoader">
+    <div class="loader-content">
+      <div class="loader-logo">EQUILYNX</div>
+      <div class="loader-bar"><div class="loader-fill"></div></div>
     </div>
   </div>
-</div>
 
-<!-- NAVBAR -->
-<nav class="navbar" id="navbar">
-  <span class="nav-logo" onclick="goTo('home')">EQUILYNX</span>
-  <ul class="nav-links" id="navLinks">
-    <li><a id="nav-home"         onclick="goTo('home')">Home</a></li>
-    <li><a id="nav-about"        onclick="goTo('about')">About</a></li>
-    <li><a id="nav-services"     onclick="goTo('services')">Services</a></li>
-    <li><a id="nav-why-us"       onclick="goTo('why-us')">Why Us</a></li>
-    <li><a id="nav-leadership"   onclick="goTo('leadership')">Leadership</a></li>
-    <li><a id="nav-testimonials" onclick="goTo('testimonials')">Testimonials</a></li>
-    <li><a id="nav-contact"      onclick="goTo('contact')">Contact</a></li>
-    <li><a id="nav-careers"      onclick="goTo('careers')">Careers</a></li>
-  </ul>
-  <button class="hamburger" id="hamburger" aria-label="Menu"><i class="fas fa-bars"></i></button>
-</nav>
+  <!-- ── COOKIE BANNER ── -->
+  <div class="cookie-banner" id="cookieBanner">
+    <div class="cookie-content">
+      <p>🍪 We use cookies to enhance your experience on our website. By continuing to browse, you agree to our use of cookies.</p>
+      <div class="cookie-btns">
+        <button class="cookie-accept" onclick="acceptCookies()">Accept All</button>
+        <button class="cookie-decline" onclick="declineCookies()">Decline</button>
+      </div>
+    </div>
+  </div>
 
-<!-- ══ PAGE: HOME ══ -->
-<div id="page-home" class="page active">
-  <section class="hero">
-    <div class="hero-bg"></div>
-    <div class="hero-overlay"></div>
+  <!-- ── NAVBAR ── -->
+  <nav class="navbar" id="navbar">
+    <button class="hamburger" id="hamburger" title="Menu" aria-label="Menu">
+      <i class="fas fa-bars"></i>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#home" onclick="closeMenu()">Home</a></li>
+      <li><a href="#about" onclick="closeMenu()">About</a></li>
+      <li><a href="#services" onclick="closeMenu()">Services</a></li>
+      <li><a href="#why-us" onclick="closeMenu()">Why Us</a></li>
+      <li><a href="#leadership" onclick="closeMenu()">Leadership</a></li>
+      <li><a href="#testimonials" onclick="closeMenu()">Testimonials</a></li>
+      <li><a href="#contact" onclick="closeMenu()">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- ── HERO ── -->
+  <section class="hero" id="home">
+    <div class="hero-bg">
+      <img src="EQUILYNX_plainbanner.png" alt="Hero Background" />
+      <div class="hero-overlay"></div>
+    </div>
     <div class="hero-content">
       <h1 class="hero-title">EQUILYNX</h1>
       <div class="hero-line"></div>
-      <p class="hero-tagline" id="typingText"></p>
+      <p class="hero-tagline">WHERE QUANTUM MEETS INNOVATION</p>
       <p class="hero-sub">A Private Limited Company</p>
       <div class="hero-btns">
-        <button class="btn-primary" onclick="goTo('services')">Our Services</button>
-        <button class="btn-ghost"   onclick="goTo('contact')">Contact Us</button>
+        <a href="#services" class="btn-primary">Our Services</a>
+        <a href="#contact" class="btn-ghost">Contact Us</a>
       </div>
     </div>
-    <div class="scroll-down" onclick="goTo('about')"><i class="fas fa-chevron-down"></i></div>
+    <div class="scroll-down">
+      <i class="fas fa-chevron-down"></i>
+    </div>
   </section>
-  <footer class="footer">
-    <div class="footer-logo">EQUILYNX</div><p class="footer-tagline">WHERE QUANTUM MEETS INNOVATION</p>
-    <div class="footer-links">
-      <a onclick="goTo('home')">Home</a><a onclick="goTo('about')">About</a><a onclick="goTo('services')">Services</a>
-      <a onclick="goTo('why-us')">Why Us</a><a onclick="goTo('testimonials')">Testimonials</a>
-      <a onclick="goTo('contact')">Contact</a><a onclick="goTo('careers')">Careers</a>
-      <a href="https://www.linkedin.com/company/equilynx/?viewAsMember=true" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-    </div>
-    <div class="footer-bottom"><p>© 2025 Equilynx Private Limited. All rights reserved.</p><p>Hyderabad, Telangana, India</p></div>
-  </footer>
-</div>
 
-<!-- ══ PAGE: ABOUT ══ -->
-<div id="page-about" class="page">
-  <section class="section section-pt">
+  <!-- ── ABOUT ── -->
+  <section class="section" id="about">
     <div class="container">
-      <div class="section-tag reveal">WHO WE ARE</div>
-      <h2 class="section-title reveal delay-1">About Equilynx</h2>
-      <div class="stats-row">
-        <div class="stat-box reveal delay-1"><span class="stat-number" data-target="2025">0</span><span class="stat-label">FOUNDED</span></div>
-        <div class="stat-box reveal delay-2"><span class="stat-number" data-target="3">0</span><span class="stat-label">DIRECTORS</span></div>
-        <div class="stat-box reveal delay-3"><span class="stat-number" data-target="6">0</span><span class="stat-label">SERVICES</span></div>
-      </div>
+      <div class="section-tag">WHO WE ARE</div>
+      <h2 class="section-title">About Equilynx</h2>
       <div class="about-grid">
-        <div class="about-text reveal-left">
-          <p>Equilynx Private Limited is a registered startup under the Ministry of Corporate Affairs, India, incorporated in September 2025. Our core focus is research and experimental development on natural sciences and engineering.</p>
-          <p>We bridge the gap between quantum-inspired thinking and practical, real-world solutions — acquiring, developing and maintaining the technology, infrastructure and talent required to push boundaries in science and engineering.</p>
-          <p>From forming strategic collaborations with institutions and government bodies, to securing intellectual property rights and DPIIT Startup India recognition — we are building the foundation for next-generation innovation from India to the world.</p>
+        <div class="about-text">
+          <p>Equilynx Private Limited is a forward-thinking startup registered under the Ministry of Corporate Affairs, India.</p>
+          <p>Founded in 2025, we focus on research and experimental development in quantum technology, bridging the gap between quantum-inspired thinking and practical, real-world solutions. Our mission is to empower businesses to innovate, scale, and lead in the rapidly evolving digital landscape.</p>
+          <p>We are proud to be a homegrown Indian startup, dedicated to exploring next-generation technology and transforming theoretical research into impactful solutions.</p>
           <div class="company-badges">
             <div class="badge"><i class="fas fa-building"></i> Private Limited</div>
-            <div class="badge"><i class="fas fa-map-marker-alt"></i> India</div>
-            <div class="badge"><i class="fas fa-calendar"></i> Est. September 2025</div>
-            <div class="badge"><i class="fas fa-check-circle"></i> Active</div>
+            <div class="badge"><i class="fas fa-map-marker-alt"></i> Andhra Pradesh</div>
+            <div class="badge"><i class="fas fa-calendar"></i> Est. 2025</div>
           </div>
-          <button class="btn-primary" style="margin-top:25px;" onclick="goTo('contact')">Get In Touch</button>
+          <a href="#contact" class="btn-primary" style="margin-top: 25px; display: inline-block;">Get In Touch</a>
         </div>
-        <div class="about-cards reveal-right">
-          <div class="stat-card"><i class="fas fa-atom"></i><h3>Innovation First</h3><p>Pioneering quantum-inspired solutions for modern challenges.</p></div>
-          <div class="stat-card"><i class="fas fa-shield-alt"></i><h3>Trusted & Reliable</h3><p>Built on a foundation of transparency and excellence.</p></div>
-          <div class="stat-card"><i class="fas fa-network-wired"></i><h3>Connected Future</h3><p>Linking businesses to tomorrow's technology, today.</p></div>
-          <div class="stat-card"><i class="fas fa-rocket"></i><h3>Rapid Growth</h3><p>Helping clients scale faster with intelligent strategies.</p></div>
+        <div class="about-cards">
+          <div class="stat-card">
+            <i class="fas fa-atom"></i>
+            <h3>Innovation First</h3>
+            <p>Pioneering quantum-inspired solutions for modern challenges.</p>
+          </div>
+          <div class="stat-card">
+            <i class="fas fa-shield-alt"></i>
+            <h3>Trusted & Reliable</h3>
+            <p>Built on a foundation of transparency and excellence.</p>
+          </div>
+          <div class="stat-card">
+            <i class="fas fa-network-wired"></i>
+            <h3>Connected Future</h3>
+            <p>Linking businesses to tomorrow's technology, today.</p>
+          </div>
+          <div class="stat-card">
+            <i class="fas fa-rocket"></i>
+            <h3>Rapid Growth</h3>
+            <p>Helping clients scale faster with intelligent strategies.</p>
+          </div>
         </div>
       </div>
     </div>
   </section>
-  <footer class="footer">
-    <div class="footer-logo">EQUILYNX</div><p class="footer-tagline">WHERE QUANTUM MEETS INNOVATION</p>
-    <div class="footer-links">
-      <a onclick="goTo('home')">Home</a><a onclick="goTo('about')">About</a><a onclick="goTo('services')">Services</a>
-      <a onclick="goTo('why-us')">Why Us</a><a onclick="goTo('testimonials')">Testimonials</a>
-      <a onclick="goTo('contact')">Contact</a><a onclick="goTo('careers')">Careers</a>
-      <a href="https://www.linkedin.com/company/equilynx/?viewAsMember=true" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-    </div>
-    <div class="footer-bottom"><p>© 2025 Equilynx Private Limited. All rights reserved.</p><p>Hyderabad, Telangana, India</p></div>
-  </footer>
-</div>
 
-<!-- ══ PAGE: SERVICES ══ -->
-<div id="page-services" class="page">
-  <section class="section dark-section section-pt">
+  <!-- ── SERVICES ── -->
+  <section class="section dark-section" id="services">
     <div class="container">
-      <div class="section-tag reveal">WHAT WE DO</div>
-      <h2 class="section-title reveal delay-1">Our Services</h2>
+      <div class="section-tag">WHAT WE DO</div>
+      <h2 class="section-title">Our Services</h2>
       <div class="services-grid">
-        <div class="service-card reveal delay-1"><div class="service-icon"><i class="fas fa-microchip"></i></div><h3>Technology Consulting</h3><p>Strategic guidance to help businesses adopt and integrate the right technologies for sustainable growth.</p><span class="service-link" onclick="goTo('contact')">Learn More →</span></div>
-        <div class="service-card reveal delay-2"><div class="service-icon"><i class="fas fa-brain"></i></div><h3>AI & Innovation</h3><p>Cutting-edge artificial intelligence solutions tailored to your business needs and industry demands.</p><span class="service-link" onclick="goTo('contact')">Learn More →</span></div>
-        <div class="service-card reveal delay-3"><div class="service-icon"><i class="fas fa-chart-line"></i></div><h3>Business Strategy</h3><p>Data-driven strategies that align technology investments with measurable business outcomes.</p><span class="service-link" onclick="goTo('contact')">Learn More →</span></div>
-        <div class="service-card reveal delay-1"><div class="service-icon"><i class="fas fa-cloud"></i></div><h3>Digital Transformation</h3><p>End-to-end digital transformation journeys — from planning to execution and beyond.</p><span class="service-link" onclick="goTo('contact')">Learn More →</span></div>
-        <div class="service-card reveal delay-2"><div class="service-icon"><i class="fas fa-lock"></i></div><h3>Cybersecurity</h3><p>Robust security frameworks to protect your assets, data, and reputation in the digital age.</p><span class="service-link" onclick="goTo('contact')">Learn More →</span></div>
-        <div class="service-card reveal delay-3"><div class="service-icon"><i class="fas fa-code"></i></div><h3>Software Development</h3><p>Custom software built to solve real problems — scalable, reliable and beautifully crafted.</p><span class="service-link" onclick="goTo('contact')">Learn More →</span></div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fas fa-microchip"></i></div>
+          <h3>Technology Consulting</h3>
+          <p>Strategic guidance to help businesses adopt and integrate the right technologies for sustainable growth.</p>
+          <a href="#contact" class="service-link">Learn More →</a>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fas fa-brain"></i></div>
+          <h3>AI & Innovation</h3>
+          <p>Cutting-edge artificial intelligence solutions tailored to your business needs and industry demands.</p>
+          <a href="#contact" class="service-link">Learn More →</a>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fas fa-chart-line"></i></div>
+          <h3>Business Strategy</h3>
+          <p>Data-driven strategies that align technology investments with measurable business outcomes.</p>
+          <a href="#contact" class="service-link">Learn More →</a>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fas fa-cloud"></i></div>
+          <h3>Digital Transformation</h3>
+          <p>End-to-end digital transformation journeys — from planning to execution and beyond.</p>
+          <a href="#contact" class="service-link">Learn More →</a>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fas fa-lock"></i></div>
+          <h3>Cybersecurity</h3>
+          <p>Robust security frameworks to protect your assets, data, and reputation in the digital age.</p>
+          <a href="#contact" class="service-link">Learn More →</a>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fas fa-code"></i></div>
+          <h3>Software Development</h3>
+          <p>Custom software built to solve real problems — scalable, reliable and beautifully crafted.</p>
+          <a href="#contact" class="service-link">Learn More →</a>
+        </div>
       </div>
     </div>
   </section>
-  <footer class="footer">
-    <div class="footer-logo">EQUILYNX</div><p class="footer-tagline">WHERE QUANTUM MEETS INNOVATION</p>
-    <div class="footer-links">
-      <a onclick="goTo('home')">Home</a><a onclick="goTo('about')">About</a><a onclick="goTo('services')">Services</a>
-      <a onclick="goTo('why-us')">Why Us</a><a onclick="goTo('testimonials')">Testimonials</a>
-      <a onclick="goTo('contact')">Contact</a><a onclick="goTo('careers')">Careers</a>
-      <a href="https://www.linkedin.com/company/equilynx/?viewAsMember=true" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-    </div>
-    <div class="footer-bottom"><p>© 2025 Equilynx Private Limited. All rights reserved.</p><p>Hyderabad, Telangana, India</p></div>
-  </footer>
-</div>
 
-<!-- ══ PAGE: WHY US ══ -->
-<div id="page-why-us" class="page">
-  <section class="section section-pt">
+  <!-- ── WHY US ── -->
+  <section class="section" id="why-us">
     <div class="container">
-      <div class="section-tag reveal">WHY EQUILYNX</div>
-      <h2 class="section-title reveal delay-1">What Sets Us Apart</h2>
+      <div class="section-tag">WHY EQUILYNX</div>
+      <h2 class="section-title">What Sets Us Apart</h2>
       <div class="why-grid">
-        <div class="why-item reveal-left delay-1"><span class="why-number">01</span><h3>India-Rooted, Globally Minded</h3><p>Headquartered in India with a vision to serve global markets with local understanding.</p></div>
-        <div class="why-item reveal-right delay-2"><span class="why-number">02</span><h3>Quantum-Inspired Thinking</h3><p>We apply next-generation thinking frameworks to solve complex, real-world business problems.</p></div>
-        <div class="why-item reveal-left delay-3"><span class="why-number">03</span><h3>Client-First Philosophy</h3><p>Every solution is tailored — we listen deeply before we build, ensuring perfect alignment.</p></div>
-        <div class="why-item reveal-right delay-4"><span class="why-number">04</span><h3>End-to-End Support</h3><p>From ideation to implementation and ongoing support — we're with you at every step.</p></div>
+        <div class="why-item">
+          <span class="why-number">01</span>
+          <h3>India-Rooted, Globally Minded</h3>
+          <p>Based in Andhra Pradesh with a vision to serve global markets with local understanding.</p>
+        </div>
+        <div class="why-item">
+          <span class="why-number">02</span>
+          <h3>Quantum-Inspired Thinking</h3>
+          <p>We apply next-generation thinking frameworks to solve complex, real-world business problems.</p>
+        </div>
+        <div class="why-item">
+          <span class="why-number">03</span>
+          <h3>Client-First Philosophy</h3>
+          <p>Every solution is tailored — we listen deeply before we build, ensuring perfect alignment.</p>
+        </div>
+        <div class="why-item">
+          <span class="why-number">04</span>
+          <h3>End-to-End Support</h3>
+          <p>From ideation to implementation and ongoing support — we're with you at every step.</p>
+        </div>
       </div>
     </div>
   </section>
-  <footer class="footer">
-    <div class="footer-logo">EQUILYNX</div><p class="footer-tagline">WHERE QUANTUM MEETS INNOVATION</p>
-    <div class="footer-links">
-      <a onclick="goTo('home')">Home</a><a onclick="goTo('about')">About</a><a onclick="goTo('services')">Services</a>
-      <a onclick="goTo('why-us')">Why Us</a><a onclick="goTo('testimonials')">Testimonials</a>
-      <a onclick="goTo('contact')">Contact</a><a onclick="goTo('careers')">Careers</a>
-      <a href="https://www.linkedin.com/company/equilynx/?viewAsMember=true" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-    </div>
-    <div class="footer-bottom"><p>© 2025 Equilynx Private Limited. All rights reserved.</p><p>Hyderabad, Telangana, India</p></div>
-  </footer>
-</div>
 
-<!-- ══ PAGE: LEADERSHIP ══ -->
-<div id="page-leadership" class="page">
-  <section class="section dark-section section-pt">
+  <!-- ── LEADERSHIP ── -->
+  <section class="section" id="leadership">
     <div class="container">
-      <div class="section-tag reveal">OUR LEADERSHIP</div>
-      <h2 class="section-title reveal delay-1">The People Behind Equilynx</h2>
+      <div class="section-tag">OUR LEADERSHIP</div>
+      <h2 class="section-title">The People Behind Equilynx</h2>
       <div class="team-grid">
-        <div class="team-card reveal delay-1">
-          <div class="team-avatar"><i class="fas fa-user-tie"></i></div>
-          <h3>Mannem Venkata Sai Charan</h3><span class="team-role">Managing Director & Co-Founder</span>
+        <div class="team-card">
+          <div class="team-avatar">
+            <img src="charan.jpg" alt="Venkata Sai Charan Mannem" />
+          </div>
+          <h3>Venkata Sai Charan Mannem</h3>
+          <span class="team-role">Founder & Managing Director</span>
           <p>Visionary leader driving Equilynx's mission of bridging quantum innovation with real-world business solutions across India and beyond.</p>
-          <div class="team-social"><a href="#" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin"></i> LinkedIn</a></div>
+          <div class="team-social">
+            <a href="https://www.linkedin.com/in/venkata-mannem-0bbd7hw09/" target="_blank" rel="noopener noreferrer">
+              <i class="fab fa-linkedin"></i> LinkedIn
+            </a>
+          </div>
         </div>
-        <div class="team-card reveal delay-2">
-          <div class="team-avatar"><i class="fas fa-user-tie"></i></div>
-          <h3>Mohana Rao Mannem</h3><span class="team-role">Whole-time Director & Co-Founder</span>
+        <div class="team-card">
+          <div class="team-avatar">
+            <img src="mohanarao.jpg" alt="Mohana Rao Mannem" />
+          </div>
+          <h3>Mohana Rao Mannem</h3>
+          <span class="team-role">Whole-time Director</span>
           <p>Strategic operations leader ensuring Equilynx delivers excellence, reliability and innovation to every client and partner we serve.</p>
-          <div class="team-social"><a href="#" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin"></i> LinkedIn</a></div>
-        </div>
-        <div class="team-card reveal delay-3">
-          <div class="team-avatar"><i class="fas fa-user-tie"></i></div>
-          <h3>Director</h3><span class="team-role">Director & Co-Founder</span>
-          <p>Driving Equilynx's strategic growth and fostering partnerships that accelerate our mission of innovation and scientific excellence.</p>
-          <div class="team-social"><a href="#" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin"></i> LinkedIn</a></div>
+          <div class="team-social">
+            <a href="https://www.linkedin.com/company/equilynx/?viewAsMember=true" target="_blank" rel="noopener noreferrer">
+              <i class="fab fa-linkedin"></i> LinkedIn
+            </a>
+          </div>
         </div>
       </div>
     </div>
   </section>
-  <footer class="footer">
-    <div class="footer-logo">EQUILYNX</div><p class="footer-tagline">WHERE QUANTUM MEETS INNOVATION</p>
-    <div class="footer-links">
-      <a onclick="goTo('home')">Home</a><a onclick="goTo('about')">About</a><a onclick="goTo('services')">Services</a>
-      <a onclick="goTo('why-us')">Why Us</a><a onclick="goTo('testimonials')">Testimonials</a>
-      <a onclick="goTo('contact')">Contact</a><a onclick="goTo('careers')">Careers</a>
-      <a href="https://www.linkedin.com/company/equilynx/?viewAsMember=true" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-    </div>
-    <div class="footer-bottom"><p>© 2025 Equilynx Private Limited. All rights reserved.</p><p>Hyderabad, Telangana, India</p></div>
-  </footer>
-</div>
 
-<!-- ══ PAGE: TESTIMONIALS ══ -->
-<div id="page-testimonials" class="page">
-  <section class="section section-pt">
+  <!-- ── TESTIMONIALS ── -->
+  <section class="section dark-section" id="testimonials">
     <div class="container">
-      <div class="section-tag reveal">WHAT CLIENTS SAY</div>
-      <h2 class="section-title reveal delay-1">Testimonials</h2>
+      <div class="section-tag">WHAT CLIENT SAY</div>
+      <h2 class="section-title">Testimonials</h2>
       <div class="testimonials-grid">
-        <div class="testimonial-card reveal-left delay-2">
+        <div class="testimonial-card">
           <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
-          <p>"Equilynx brings a rare combination of scientific depth and practical execution. Their focus on research and experimental development in natural sciences and engineering gave us confidence that they truly understand the future of technology."</p>
-          <div class="testimonial-author"><div class="author-avatar"><i class="fas fa-user"></i></div><div><strong>Early Collaborator</strong><span>Research Partner, India</span></div></div>
+          <p>"Equilynx transformed our business operations with their innovative technology solutions. Highly professional and results-driven team."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar"><i class="fas fa-user"></i></div>
+            <div>
+              <strong>Madhusudhan Reddy</strong>
+              <span>Head of Operations, Infotech Ltd.</span>
+            </div>
+          </div>
         </div>
-        <div class="testimonial-card reveal-right delay-3">
+        <div class="testimonial-card">
           <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
-          <p>"Working with Equilynx was a game changer. Their quantum-inspired approach to problem solving is truly unique in the industry. The team's dedication to innovation and scientific rigour sets them apart from any other firm we've engaged."</p>
-          <div class="testimonial-author"><div class="author-avatar"><i class="fas fa-user"></i></div><div><strong>Technology Partner</strong><span>Engineering Collaborator, India</span></div></div>
+          <p>"Outstanding service and deep expertise in digital transformation. Equilynx delivered beyond our expectations on every front."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar"><i class="fas fa-user"></i></div>
+            <div>
+              <strong>Srivastav Deshmuk</strong>
+              <span>Director, Enco Solutions.</span>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
+          <p>"Working with Equilynx was a game changer. Their quantum-inspired approach to problem solving is truly unique in the industry."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar"><i class="fas fa-user"></i></div>
+            <div>
+              <strong>Tharun Gupta</strong>
+              <span>Founder, Dreamhomes Inc.</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </section>
-  <footer class="footer">
-    <div class="footer-logo">EQUILYNX</div><p class="footer-tagline">WHERE QUANTUM MEETS INNOVATION</p>
-    <div class="footer-links">
-      <a onclick="goTo('home')">Home</a><a onclick="goTo('about')">About</a><a onclick="goTo('services')">Services</a>
-      <a onclick="goTo('why-us')">Why Us</a><a onclick="goTo('testimonials')">Testimonials</a>
-      <a onclick="goTo('contact')">Contact</a><a onclick="goTo('careers')">Careers</a>
-      <a href="https://www.linkedin.com/company/equilynx/?viewAsMember=true" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-    </div>
-    <div class="footer-bottom"><p>© 2025 Equilynx Private Limited. All rights reserved.</p><p>Hyderabad, Telangana, India</p></div>
-  </footer>
-</div>
 
-<!-- ══ PAGE: CONTACT ══ -->
-<div id="page-contact" class="page">
-  <section class="section dark-section section-pt">
+  <!-- ── CONTACT ── -->
+  <section class="section" id="contact">
     <div class="container">
-      <div class="section-tag reveal">REACH US</div>
-      <h2 class="section-title reveal delay-1">Contact Us</h2>
+      <div class="section-tag">DETAILS</div>
+      <h2 class="section-title">Contact Us</h2>
       <div class="contact-grid">
-        <div class="contact-info reveal-left delay-2">
-          <div class="contact-item"><i class="fas fa-phone"></i><div><strong>Phone</strong><a href="tel:+917337418969">+91 7337418969</a></div></div>
-          <div class="contact-item"><i class="fas fa-envelope"></i><div><strong>Email</strong><a href="mailto:contact@equilynx.in">contact@equilynx.in</a></div></div>
-          <div class="contact-item"><i class="fas fa-map-marker-alt"></i><div><strong>Address</strong><p>Flat No: 301, Plot No: 1753,<br/>V R Colony, Gokul Plots,<br/>Hafeezpet, Hyderabad,<br/>Telangana – 500085</p></div></div>
-          <div class="contact-item"><i class="fab fa-whatsapp"></i><div><strong>WhatsApp</strong><a href="https://wa.me/917337418969" target="_blank" rel="noopener noreferrer">Chat with us</a></div></div>
-          <div class="map-container">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3805.7!2d78.3580!3d17.4655!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb93b8e2e0b4c7%3A0x5e1b0d4f5a2c3d6e!2sGokul%20Plots%2C%20Hafeezpet%2C%20Hyderabad%2C%20Telangana%20500085!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin" width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+        <!-- Contact Info -->
+        <div class="contact-info">
+          <div class="contact-item">
+            <i class="fas fa-phone"></i>
+            <div>
+              <strong>Phone</strong>
+              <a href="tel:+917337418969">+91 7337418969</a>
+            </div>
           </div>
-          <div style="margin-top:10px;">
-            <a href="https://maps.google.com/?q=Gokul+Plots+Hafeezpet+Hyderabad+Telangana+500085" target="_blank" rel="noopener noreferrer" style="color:var(--accent);font-size:0.8rem;letter-spacing:1px;text-decoration:none;"><i class="fas fa-external-link-alt" style="margin-right:6px;"></i>Open in Google Maps</a>
+          <div class="contact-item">
+            <i class="fas fa-envelope"></i>
+            <div>
+              <strong>Email</strong>
+              <a href="mailto:equilynx@yahoo.com">equilynx@yahoo.com</a>
+            </div>
+          </div>
+          <div class="contact-item">
+            <i class="fas fa-map-marker-alt"></i>
+            <div>
+              <strong>Address</strong>
+              <a href="https://maps.app.goo.gl/QVaFrDa8seGvHATs8" target="_blank" rel="noopener noreferrer">2/75, Kakarla Vari Veedi, <br />Gudivada, Krishna,<br />Andhra Pradesh – 521301</a>
+            </div>
+          </div>
+          <div class="contact-item">
+            <i class="fab fa-whatsapp"></i>
+            <div>
+              <strong>WhatsApp</strong>
+              <a href="https://wa.me/917337418969" target="_blank" rel="noopener noreferrer">Chat with us</a>
+            </div>
           </div>
         </div>
-        <form action="https://formspree.io/f/xnjbbabo" method="POST" class="contact-form reveal-right delay-3">
+
+        <!-- Contact Form -->
+        <form
+          action="https://formspree.io/f/xnjbbabo"
+          method="POST"
+          class="contact-form"
+        >
           <input type="text" name="name" placeholder="Your Full Name" required />
           <input type="email" name="email" placeholder="Your Email Address" required />
           <div class="phone-group">
             <select name="country_code" id="countryCode" onchange="updatePhoneLimit()" title="Country Code" aria-label="Country Code">
               <option value="+91" data-max="10">🇮🇳 +91</option>
-              <option value="+1"  data-max="10">🇺🇸 +1</option>
-              <option value="+1"  data-max="10">🇨🇦 +1 CA</option>
+              <option value="+1" data-max="10">🇺🇸 +1</option>
+              <option value="+1" data-max="10">🇨🇦 +1 CA</option>
               <option value="+44" data-max="10">🇬🇧 +44</option>
               <option value="+61" data-max="9">🇦🇺 +61</option>
               <option value="+971" data-max="9">🇦🇪 +971</option>
@@ -542,316 +342,46 @@
               <option value="+33" data-max="9">🇫🇷 +33</option>
               <option value="+81" data-max="10">🇯🇵 +81</option>
             </select>
-            <input type="tel" name="phone" id="phoneInput" placeholder="10-digit Phone Number" maxlength="10" oninput="enforcePhoneLimit(this)" required />
+            <input
+              type="tel"
+              name="phone"
+              id="phoneInput"
+              placeholder="10-digit Phone Number"
+              maxlength="10"
+              oninput="enforcePhoneLimit(this)"
+              required
+            />
           </div>
           <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
-          <button type="submit" class="btn-primary" style="width:100%;border:none;cursor:pointer;">Send Message</button>
+          <button type="submit" class="btn-primary" style="width:100%; border:none; cursor:pointer;">Send Message</button>
         </form>
+
       </div>
     </div>
   </section>
+
+  <!-- ── FOOTER ── -->
   <footer class="footer">
-    <div class="footer-logo">EQUILYNX</div><p class="footer-tagline">WHERE QUANTUM MEETS INNOVATION</p>
+    <div class="footer-top">
+      <div class="footer-logo">EQUILYNX</div>
+      <p class="footer-tagline">WHERE QUANTUM MEETS INNOVATION</p>
+    </div>
     <div class="footer-links">
-      <a onclick="goTo('home')">Home</a><a onclick="goTo('about')">About</a><a onclick="goTo('services')">Services</a>
-      <a onclick="goTo('why-us')">Why Us</a><a onclick="goTo('testimonials')">Testimonials</a>
-      <a onclick="goTo('contact')">Contact</a><a onclick="goTo('careers')">Careers</a>
-      <a href="https://www.linkedin.com/company/equilynx/?viewAsMember=true" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#why-us">Why Us</a>
+      <a href="#testimonials">Testimonials</a>
+      <a href="#contact">Contact</a>
+      <a href="https://www.linkedin.com/company/equilynx/?viewAsMember=true" target="_blank" rel="noopener noreferrer">LINKEDIN</a>
     </div>
-    <div class="footer-bottom"><p>© 2025 Equilynx Private Limited. All rights reserved.</p><p>Hyderabad, Telangana, India</p></div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Equilynx Private Limited. All rights reserved.</p>
+      <p>Andhra Pradesh, India</p>
+    </div>
   </footer>
-</div>
 
-<!-- ══ PAGE: CAREERS ══ -->
-<div id="page-careers" class="page">
-  <div class="careers-hero">
-    <div class="section-tag">JOIN OUR TEAM</div>
-    <h1>Build the Future<br/>with Equilynx</h1>
-    <p>We're looking for passionate minds who want to push the boundaries of quantum-inspired innovation, AI, and engineering. Be part of something extraordinary.</p>
-    <button class="btn-primary" onclick="document.getElementById('open-roles').scrollIntoView({behavior:'smooth'})">View Open Roles</button>
-  </div>
-  <section class="section" style="padding-top:60px;padding-bottom:40px;">
-    <div class="container">
-      <div class="section-tag reveal">WHY JOIN US</div>
-      <h2 class="section-title reveal delay-1">Life at Equilynx</h2>
-      <div class="perks-grid">
-        <div class="perk-card reveal delay-1"><i class="fas fa-flask"></i><h3>Cutting-Edge Research</h3><p>Work on real problems at the intersection of quantum science, AI, and engineering.</p></div>
-        <div class="perk-card reveal delay-2"><i class="fas fa-users"></i><h3>Collaborative Culture</h3><p>A tight-knit team of innovators where every voice matters and ideas are celebrated.</p></div>
-        <div class="perk-card reveal delay-3"><i class="fas fa-chart-line"></i><h3>Rapid Career Growth</h3><p>Grow fast in a startup environment where your contributions directly shape the company.</p></div>
-        <div class="perk-card reveal delay-1"><i class="fas fa-laptop-house"></i><h3>Flexible Working</h3><p>Hybrid and remote-friendly roles designed around productivity and work-life balance.</p></div>
-        <div class="perk-card reveal delay-2"><i class="fas fa-lightbulb"></i><h3>Innovation Freedom</h3><p>Bring your best ideas to the table — we fund and support experimentation.</p></div>
-        <div class="perk-card reveal delay-3"><i class="fas fa-globe-asia"></i><h3>Global Exposure</h3><p>Work on projects with international reach while being rooted in India's vibrant tech scene.</p></div>
-      </div>
-    </div>
-  </section>
-  <section class="section dark-section" id="open-roles" style="padding-top:60px;">
-    <div class="container">
-      <div class="section-tag reveal">OPEN POSITIONS</div>
-      <h2 class="section-title reveal delay-1">Current Openings</h2>
-      <div class="jobs-grid">
-        <div class="job-card reveal delay-1"><div class="job-dept">Engineering</div><h3>Software Engineer – Full Stack</h3><div class="job-tags"><span class="job-tag">Full-time</span><span class="job-tag">Hybrid</span><span class="job-tag">Hyderabad</span></div><p>Build scalable web applications and internal platforms. You'll own features end-to-end working closely with product and research teams.</p><button class="job-apply-btn" onclick="openApply('Software Engineer – Full Stack','Engineering')">Apply Now</button></div>
-        <div class="job-card reveal delay-2"><div class="job-dept">AI & Research</div><h3>AI/ML Research Engineer</h3><div class="job-tags"><span class="job-tag">Full-time</span><span class="job-tag">Remote</span><span class="job-tag">India</span></div><p>Design and deploy machine learning models for real-world applications. Work at the frontier of AI research with direct business impact.</p><button class="job-apply-btn" onclick="openApply('AI/ML Research Engineer','AI & Research')">Apply Now</button></div>
-        <div class="job-card reveal delay-3"><div class="job-dept">Business Development</div><h3>Business Development Executive</h3><div class="job-tags"><span class="job-tag">Full-time</span><span class="job-tag">On-site</span><span class="job-tag">Hyderabad</span></div><p>Identify and develop new business opportunities, build client relationships, and drive revenue growth across Equilynx's service verticals.</p><button class="job-apply-btn" onclick="openApply('Business Development Executive','Business Development')">Apply Now</button></div>
-        <div class="job-card reveal delay-1"><div class="job-dept">Cybersecurity</div><h3>Cybersecurity Analyst</h3><div class="job-tags"><span class="job-tag">Full-time</span><span class="job-tag">Hybrid</span><span class="job-tag">Hyderabad</span></div><p>Assess vulnerabilities, monitor systems, and implement security frameworks to protect client infrastructure in the digital landscape.</p><button class="job-apply-btn" onclick="openApply('Cybersecurity Analyst','Cybersecurity')">Apply Now</button></div>
-        <div class="job-card reveal delay-2"><div class="job-dept">Strategy & Consulting</div><h3>Technology Consultant</h3><div class="job-tags"><span class="job-tag">Full-time</span><span class="job-tag">Hybrid</span><span class="job-tag">India</span></div><p>Advise clients on technology adoption, digital transformation strategies, and innovation roadmaps that deliver measurable outcomes.</p><button class="job-apply-btn" onclick="openApply('Technology Consultant','Strategy & Consulting')">Apply Now</button></div>
-        <div class="job-card reveal delay-3"><div class="job-dept">Operations</div><h3>HR & Talent Acquisition Specialist</h3><div class="job-tags"><span class="job-tag">Full-time</span><span class="job-tag">On-site</span><span class="job-tag">Hyderabad</span></div><p>Drive talent acquisition, build Equilynx's employer brand, and create an exceptional employee experience from onboarding to growth.</p><button class="job-apply-btn" onclick="openApply('HR & Talent Acquisition Specialist','Operations')">Apply Now</button></div>
-      </div>
-      <div style="text-align:center;margin-top:20px;color:var(--grey);font-size:0.85rem;line-height:1.7;">
-        Don't see your role? We're always looking for great people.<br/>
-        <a href="mailto:hr@equilynx.in" style="color:var(--accent);text-decoration:none;">Send your CV to hr@equilynx.in</a>
-      </div>
-    </div>
-  </section>
-  <footer class="footer">
-    <div class="footer-logo">EQUILYNX</div><p class="footer-tagline">WHERE QUANTUM MEETS INNOVATION</p>
-    <div class="footer-links">
-      <a onclick="goTo('home')">Home</a><a onclick="goTo('about')">About</a><a onclick="goTo('services')">Services</a>
-      <a onclick="goTo('why-us')">Why Us</a><a onclick="goTo('testimonials')">Testimonials</a>
-      <a onclick="goTo('contact')">Contact</a><a onclick="goTo('careers')">Careers</a>
-      <a href="https://www.linkedin.com/company/equilynx/?viewAsMember=true" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-    </div>
-    <div class="footer-bottom"><p>© 2025 Equilynx Private Limited. All rights reserved.</p><p>Hyderabad, Telangana, India</p></div>
-  </footer>
-</div>
-
-<!-- APPLICATION MODAL -->
-<div class="modal-overlay" id="applyModal">
-  <div class="modal-box">
-    <button class="modal-close" onclick="closeModal('applyModal')"><i class="fas fa-times"></i></button>
-    <div id="authStep">
-      <div class="modal-title">GET STARTED</div>
-      <div class="modal-sub">Create an account or sign in to apply for <strong id="modalJobTitle" style="color:var(--accent)"></strong>.</div>
-      <div class="modal-tabs">
-        <button class="modal-tab active" onclick="switchTab('register')">Create Account</button>
-        <button class="modal-tab" onclick="switchTab('login')">Sign In</button>
-      </div>
-      <div class="tab-pane active" id="registerPane">
-        <div class="form-group">
-          <div class="form-row"><input type="text" id="regFirstName" placeholder="First Name"/><input type="text" id="regLastName" placeholder="Last Name"/></div>
-          <input type="email" id="regEmail" placeholder="Email Address"/>
-          <input type="password" id="regPassword" placeholder="Create Password (min 8 chars)"/>
-          <input type="tel" id="regPhone" placeholder="Phone Number"/>
-          <button class="btn-primary modal-btn" onclick="handleRegister()">Create Account & Continue</button>
-        </div>
-        <div class="auth-switch">Already have an account? <a onclick="switchTab('login')">Sign in here</a></div>
-      </div>
-      <div class="tab-pane" id="loginPane">
-        <div class="form-group">
-          <input type="email" id="loginEmail" placeholder="Email Address"/>
-          <input type="password" id="loginPassword" placeholder="Password"/>
-          <button class="btn-primary modal-btn" onclick="handleLogin()">Sign In & Continue</button>
-        </div>
-        <div class="auth-switch">Don't have an account? <a onclick="switchTab('register')">Create one</a></div>
-      </div>
-    </div>
-    <div id="applicationStep" style="display:none;">
-      <div class="modal-title">APPLY NOW</div>
-      <div class="modal-sub">Applying for: <strong id="appJobTitle" style="color:var(--accent)"></strong></div>
-      <div class="form-group">
-        <div class="form-row"><div><label>Full Name</label><input type="text" id="appName" placeholder="Your full name"/></div><div><label>Email</label><input type="email" id="appEmail" placeholder="your@email.com"/></div></div>
-        <div><label>Phone</label><input type="tel" id="appPhone" placeholder="+91 XXXXX XXXXX"/></div>
-        <div><label>LinkedIn Profile URL</label><input type="url" id="appLinkedin" placeholder="https://linkedin.com/in/yourprofile"/></div>
-        <div><label>Years of Experience</label>
-          <select id="appExp"><option value="">Select experience</option><option value="0-1">0–1 years (Fresher)</option><option value="1-3">1–3 years</option><option value="3-5">3–5 years</option><option value="5-8">5–8 years</option><option value="8+">8+ years</option></select>
-        </div>
-        <div><label>Cover Letter / Why Equilynx?</label><textarea id="appCover" rows="4" placeholder="Tell us why you want to join Equilynx..."></textarea></div>
-        <div>
-          <label>Upload Resume / CV</label>
-          <div class="file-upload-area" id="fileUploadArea">
-            <i class="fas fa-cloud-upload-alt"></i><p>Drag & drop or click to upload</p><span>PDF, DOC, DOCX — Max 5MB</span>
-            <input type="file" id="resumeFile" accept=".pdf,.doc,.docx" onchange="handleFileSelect(this)"/>
-          </div>
-          <div class="file-name-display" id="fileNameDisplay"></div>
-        </div>
-        <button class="btn-primary modal-btn" onclick="submitApplication()">Submit Application</button>
-      </div>
-    </div>
-    <div id="successStep" style="display:none;">
-      <div class="success-msg">
-        <i class="fas fa-check-circle"></i>
-        <h3>APPLICATION SUBMITTED</h3>
-        <p>Thank you for applying! Our HR team at <a href="mailto:hr@equilynx.in" style="color:var(--accent)">hr@equilynx.in</a> will review your profile and reach out within 5–7 business days.</p>
-        <button class="btn-ghost" style="margin-top:20px;" onclick="closeModal('applyModal')">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<a href="https://wa.me/917337418969" class="whatsapp-float" target="_blank" rel="noopener noreferrer"><i class="fab fa-whatsapp"></i></a>
-
-<script>
-// ── PAGES ──
-const PAGES = ['home','about','services','why-us','leadership','testimonials','contact','careers'];
-
-function goTo(id) {
-  PAGES.forEach(p => { const el = document.getElementById('page-'+p); if(el) el.classList.remove('active'); });
-  const target = document.getElementById('page-'+id);
-  if(target) { target.classList.add('active'); window.scrollTo({top:0,behavior:'instant'}); }
-  // active nav
-  PAGES.forEach(p => { const a = document.getElementById('nav-'+p); if(a) a.classList.toggle('active', p===id); });
-  // title
-  const titles = {home:'Equilynx | Where Quantum Meets Innovation',about:'About Us | Equilynx',services:'Services | Equilynx','why-us':'Why Equilynx',leadership:'Leadership | Equilynx',testimonials:'Testimonials | Equilynx',contact:'Contact Us | Equilynx',careers:'Careers | Equilynx'};
-  document.title = titles[id] || 'Equilynx';
-  closeMenu();
-  // counters on about page
-  if(id==='about') setTimeout(runCounters, 200);
-  setTimeout(runReveals, 80);
-}
-
-// ── REVEAL ──
-const revealObs = new IntersectionObserver(entries => {
-  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
-}, {threshold:0.08});
-
-function runReveals() {
-  document.querySelectorAll('.page.active .reveal, .page.active .reveal-left, .page.active .reveal-right').forEach(el => {
-    el.classList.remove('visible');
-    revealObs.observe(el);
-  });
-}
-
-// ── COUNTERS ──
-let countersRan = false;
-function runCounters() {
-  if(countersRan) return; countersRan = true;
-  document.querySelectorAll('.stat-number').forEach(el => animateCounter(el, parseInt(el.dataset.target)));
-}
-function animateCounter(el, target, dur=2000) {
-  let s=0; const step=target/(dur/16);
-  const t=setInterval(()=>{ s+=step; if(s>=target){el.textContent=target;clearInterval(t);return;} el.textContent=Math.floor(s); },16);
-}
-
-// ── LOADER ──
-window.addEventListener('load', () => {
-  if(localStorage.getItem('cookieConsent')) document.getElementById('cookieBanner').style.display='none';
-  setTimeout(()=>{ document.getElementById('pageLoader').classList.add('hidden'); runReveals(); }, 1500);
-});
-
-// ── SCROLL ──
-window.addEventListener('scroll', () => {
-  const s=(window.scrollY/(document.body.scrollHeight-window.innerHeight))*100;
-  document.getElementById('progress-bar').style.width=(isNaN(s)?0:s)+'%';
-  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY>50);
-});
-
-// ── PARTICLES ──
-const canvas=document.getElementById('particles-canvas'), ctx=canvas.getContext('2d');
-function rc(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;} rc(); window.addEventListener('resize',rc);
-const pts=[];
-for(let i=0;i<40;i++) pts.push({x:Math.random()*window.innerWidth,y:Math.random()*window.innerHeight,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,r:Math.random()*1.5+.5});
-function dp(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>canvas.width)p.vx*=-1;if(p.y<0||p.y>canvas.height)p.vy*=-1;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='rgba(79,195,247,0.6)';ctx.fill();});
-  pts.forEach((a,i)=>pts.slice(i+1).forEach(b=>{const d=Math.hypot(a.x-b.x,a.y-b.y);if(d<100){ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.strokeStyle=`rgba(79,195,247,${.15*(1-d/100)})`;ctx.lineWidth=.5;ctx.stroke();}}));
-  requestAnimationFrame(dp);
-}
-dp();
-
-// ── TYPING ──
-const tt='WHERE QUANTUM MEETS INNOVATION'; const te=document.getElementById('typingText'); let ti=0;
-function type(){if(ti<tt.length){te.textContent+=tt[ti];ti++;setTimeout(type,80);}} setTimeout(type,2000);
-
-// ── NAVBAR ──
-const hbg=document.getElementById('hamburger'), nl=document.getElementById('navLinks');
-hbg.addEventListener('click',()=>{ nl.classList.toggle('open'); hbg.innerHTML=nl.classList.contains('open')?'<i class="fas fa-times"></i>':'<i class="fas fa-bars"></i>'; });
-function closeMenu(){nl.classList.remove('open');hbg.innerHTML='<i class="fas fa-bars"></i>';}
-
-// ── PHONE ──
-function getMaxDigits(){const s=document.getElementById('countryCode');return s?parseInt(s.selectedOptions[0].dataset.max):10;}
-function enforcePhoneLimit(input){input.value=input.value.replace(/[^0-9]/g,'');const m=getMaxDigits();if(input.value.length>m)input.value=input.value.slice(0,m);}
-function updatePhoneLimit(){const p=document.getElementById('phoneInput');if(!p)return;const m=getMaxDigits();p.maxlength=m;p.placeholder=`${m}-digit Phone Number`;p.value='';}
-
-// ── COOKIES ──
-function acceptCookies(){localStorage.setItem('cookieConsent','accepted');document.getElementById('cookieBanner').style.display='none';}
-function declineCookies(){localStorage.setItem('cookieConsent','declined');document.getElementById('cookieBanner').style.display='none';}
-
-// ── TOAST ──
-function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3500);}
-
-// ── MODAL ──
-function openModal(id){document.getElementById(id).classList.add('open');document.body.style.overflow='hidden';}
-function closeModal(id){
-  document.getElementById(id).classList.remove('open');document.body.style.overflow='';
-  document.getElementById('authStep').style.display='block';
-  document.getElementById('applicationStep').style.display='none';
-  document.getElementById('successStep').style.display='none';
-}
-document.getElementById('applyModal').addEventListener('click',function(e){if(e.target===this)closeModal('applyModal');});
-
-// ── CAREERS ──
-let currentJob={title:'',dept:''};
-function openApply(title,dept){
-  currentJob={title,dept};
-  document.getElementById('modalJobTitle').textContent=title;
-  document.getElementById('appJobTitle').textContent=title;
-  document.getElementById('authStep').style.display='block';
-  document.getElementById('applicationStep').style.display='none';
-  document.getElementById('successStep').style.display='none';
-  const user=getLoggedInUser();
-  if(user) showApplicationStep(user);
-  openModal('applyModal');
-}
-function switchTab(tab){
-  document.querySelectorAll('.modal-tab').forEach((t,i)=>t.classList.toggle('active',(i===0&&tab==='register')||(i===1&&tab==='login')));
-  document.getElementById('registerPane').classList.toggle('active',tab==='register');
-  document.getElementById('loginPane').classList.toggle('active',tab==='login');
-}
-function getUsers(){try{return JSON.parse(localStorage.getItem('eq_users')||'[]');}catch(e){return[];}}
-function saveUsers(u){localStorage.setItem('eq_users',JSON.stringify(u));}
-function getLoggedInUser(){try{return JSON.parse(localStorage.getItem('eq_current_user')||'null');}catch(e){return null;}}
-function setLoggedInUser(u){localStorage.setItem('eq_current_user',JSON.stringify(u));}
-function handleRegister(){
-  const fn=document.getElementById('regFirstName').value.trim(),ln=document.getElementById('regLastName').value.trim();
-  const em=document.getElementById('regEmail').value.trim(),pw=document.getElementById('regPassword').value;
-  const ph=document.getElementById('regPhone').value.trim();
-  if(!fn||!ln||!em||!pw||!ph){showToast('Please fill in all fields.');return;}
-  if(pw.length<8){showToast('Password must be at least 8 characters.');return;}
-  const users=getUsers();
-  if(users.find(u=>u.email===em)){showToast('Account exists. Please sign in.');switchTab('login');return;}
-  const user={firstName:fn,lastName:ln,email:em,phone:ph,passwordHash:btoa(pw)};
-  users.push(user);saveUsers(users);setLoggedInUser(user);showToast('Account created!');showApplicationStep(user);
-}
-function handleLogin(){
-  const em=document.getElementById('loginEmail').value.trim(),pw=document.getElementById('loginPassword').value;
-  if(!em||!pw){showToast('Please enter email and password.');return;}
-  const user=getUsers().find(u=>u.email===em&&u.passwordHash===btoa(pw));
-  if(!user){showToast('Invalid email or password.');return;}
-  setLoggedInUser(user);showToast('Signed in!');showApplicationStep(user);
-}
-function showApplicationStep(user){
-  document.getElementById('authStep').style.display='none';
-  document.getElementById('applicationStep').style.display='block';
-  document.getElementById('appName').value=(user.firstName||'')+' '+(user.lastName||'');
-  document.getElementById('appEmail').value=user.email||'';
-  document.getElementById('appPhone').value=user.phone||'';
-}
-function handleFileSelect(input){
-  const f=input.files[0];if(!f)return;
-  if(f.size>5*1024*1024){showToast('File too large. Max 5MB.');input.value='';return;}
-  document.getElementById('fileNameDisplay').textContent='✓ '+f.name;
-  document.getElementById('fileUploadArea').style.borderColor='var(--accent)';
-}
-function submitApplication(){
-  const name=document.getElementById('appName').value.trim(),email=document.getElementById('appEmail').value.trim();
-  const phone=document.getElementById('appPhone').value.trim(),exp=document.getElementById('appExp').value;
-  const cover=document.getElementById('appCover').value.trim(),fi=document.getElementById('resumeFile');
-  if(!name||!email||!phone){showToast('Please fill in all required fields.');return;}
-  if(!fi.files[0]){showToast('Please upload your resume/CV.');return;}
-  if(!exp){showToast('Please select your years of experience.');return;}
-  const sub=encodeURIComponent(`Job Application: ${currentJob.title} – ${name}`);
-  const body=encodeURIComponent(`EQUILYNX JOB APPLICATION\n========================\n\nPosition: ${currentJob.title}\nDepartment: ${currentJob.dept}\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone}\nLinkedIn: ${document.getElementById('appLinkedin').value||'Not provided'}\nExperience: ${exp} years\n\nCOVER LETTER:\n${cover||'Not provided'}\n\nResume: ${fi.files[0].name}\n(Please attach the resume file before sending.)`);
-  window.location.href=`mailto:hr@equilynx.in?subject=${sub}&body=${body}`;
-  setTimeout(()=>{document.getElementById('applicationStep').style.display='none';document.getElementById('successStep').style.display='block';},800);
-}
-const ua=document.getElementById('fileUploadArea');
-if(ua){
-  ua.addEventListener('dragover',e=>{e.preventDefault();ua.style.borderColor='var(--accent)';});
-  ua.addEventListener('dragleave',()=>{ua.style.borderColor='rgba(79,195,247,0.25)';});
-  ua.addEventListener('drop',e=>{e.preventDefault();const f=e.dataTransfer.files[0];if(f){document.getElementById('resumeFile').files=e.dataTransfer.files;handleFileSelect(document.getElementById('resumeFile'));}});
-}
-
-// set home as active nav on load
-document.getElementById('nav-home').classList.add('active');
-</script>
+  <script src="script.js"></script>
 </body>
+
 </html>
