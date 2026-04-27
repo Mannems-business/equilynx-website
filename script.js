@@ -5,10 +5,19 @@ const cookieBanner = document.getElementById("cookieBanner");
 const hamburger = document.getElementById("hamburger");
 const navLinks = document.getElementById("navLinks");
 
-// Prevent viewport zoom on double-tap for faster interactions
-document.addEventListener("touchmove", (e) => {
-  if (e.scale !== 1) {
-    e.preventDefault();
+function isPinchZoom(event) {
+  if (typeof event.scale === "number") {
+    return event.scale !== 1;
+  }
+
+  return Boolean(event.touches && event.touches.length > 1);
+}
+
+// Only block pinch gestures. Preventing every touchmove can suppress
+// taps on mobile, which makes the menu button feel unresponsive.
+document.addEventListener("touchmove", (event) => {
+  if (isPinchZoom(event)) {
+    event.preventDefault();
   }
 }, { passive: false });
 
@@ -62,21 +71,33 @@ window.addEventListener("load", () => {
   updateCookieBannerState();
 });
 
+function setMenuState(isOpen) {
+  if (!navLinks || !hamburger) return;
+
+  navLinks.classList.toggle("open", isOpen);
+  document.body.classList.toggle("menu-open", isOpen);
+  hamburger.setAttribute("aria-expanded", String(isOpen));
+  hamburger.setAttribute("aria-label", isOpen ? "Close menu" : "Open menu");
+  hamburger.innerHTML = isOpen
+    ? '<i class="fas fa-times"></i>'
+    : '<i class="fas fa-bars"></i>';
+}
+
+if (hamburger) {
+  hamburger.type = "button";
+  hamburger.setAttribute("aria-controls", "navLinks");
+  hamburger.setAttribute("aria-expanded", "false");
+  hamburger.setAttribute("aria-label", "Open menu");
+}
+
 if (hamburger && navLinks) {
   hamburger.addEventListener("click", () => {
-    navLinks.classList.toggle("open");
-    document.body.classList.toggle("menu-open", navLinks.classList.contains("open"));
-    hamburger.innerHTML = navLinks.classList.contains("open")
-      ? '<i class="fas fa-times"></i>'
-      : '<i class="fas fa-bars"></i>';
+    setMenuState(!navLinks.classList.contains("open"));
   });
 }
 
 function closeMenu() {
-  if (!navLinks || !hamburger) return;
-  navLinks.classList.remove("open");
-  document.body.classList.remove("menu-open");
-  hamburger.innerHTML = '<i class="fas fa-bars"></i>';
+  setMenuState(false);
 }
 
 // Close menu on link click (mobile optimization)

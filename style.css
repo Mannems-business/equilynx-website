@@ -259,12 +259,31 @@ img {
 
 .hamburger {
   display: none;
-  margin-left: auto;
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  min-height: 48px;
+  margin: 0;
+  padding: 0;
   background: none;
   border: none;
   color: var(--white);
   font-size: 1.35rem;
+  line-height: 0;
   cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  appearance: none;
+  -webkit-appearance: none;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  z-index: 1001;
+  user-select: none;
+}
+
+.hamburger i {
+  pointer-events: none;
 }
 
 main {
@@ -1717,7 +1736,8 @@ main {
   }
 
   .hamburger {
-    display: block;
+    display: inline-flex;
+    margin-left: auto;
   }
 
   .nav-links {
