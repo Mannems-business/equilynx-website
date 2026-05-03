@@ -19,6 +19,8 @@
   <meta name="twitter:image" content="https://equilynx.in/favicon.svg" />
   <link rel="canonical" href="https://equilynx.in/" />
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+
+  <!-- ✅ FIX 1: Organization schema — logo now points to favicon.svg which actually exists -->
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -26,7 +28,7 @@
       "name": "Equilynx Private Limited",
       "alternateName": "Equilynx",
       "url": "https://equilynx.in",
-      "logo": "https://equilynx.in/EQUILYNX_plainbanner.png",
+      "logo": "https://equilynx.in/favicon.svg",
       "description": "Equilynx Private Limited is an Indian technology startup focused on research and experimental development in natural sciences and engineering. DPIIT Startup India recognised.",
       "foundingDate": "2025",
       "founders": [
@@ -52,6 +54,25 @@
       ]
     }
   </script>
+
+  <!-- ✅ FIX 2: WebSite schema — tells Google about your site structure for sitelinks -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Equilynx",
+      "url": "https://equilynx.in/",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://equilynx.in/?s={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    }
+  </script>
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -110,8 +131,6 @@
       </div>
       <div class="scroll-down"><i class="fas fa-chevron-down"></i></div>
     </section>
-
-
   </main>
 
   <footer class="footer">
