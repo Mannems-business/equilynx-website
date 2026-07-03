@@ -436,7 +436,7 @@ function initHeroAnimation() {
       });
       drawFloating();
 
-      if (frame === 90) {
+      if (frame === 45) {
         const points = shuffle(getLinePoints());
         const count = Math.min(stars.length, points.length);
         for (let i = 0; i < count; i += 1) {
@@ -450,7 +450,7 @@ function initHeroAnimation() {
         frame = 0;
       }
     } else if (phase === "gather") {
-      const duration = 100;
+      const duration = 40;
       const progress = Math.min(frame / duration, 1);
       const eased = easeInOut(progress);
 
@@ -517,7 +517,7 @@ function initHeroAnimation() {
         });
       }
 
-      if (frame > 110) {
+      if (frame > 55) {
         phase = "scatter";
         frame = 0;
         stars.forEach((star) => {
@@ -528,7 +528,7 @@ function initHeroAnimation() {
         });
       }
     } else if (phase === "scatter") {
-      const duration = 80;
+      const duration = 35;
       const progress = Math.min(frame / duration, 1);
       const eased = easeOut(progress);
 
