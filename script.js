@@ -1,6 +1,5 @@
 const progressBar = document.getElementById("progress-bar");
 const navbar = document.getElementById("navbar");
-const pageLoader = document.getElementById("pageLoader");
 const cookieBanner = document.getElementById("cookieBanner");
 const hamburger = document.getElementById("hamburger");
 const navLinks = document.getElementById("navLinks");
@@ -59,12 +58,6 @@ window.addEventListener("load", () => {
   const consent = localStorage.getItem("cookieConsent");
   if (consent && cookieBanner) {
     cookieBanner.style.display = "none";
-  }
-
-  if (pageLoader) {
-    setTimeout(() => {
-      pageLoader.classList.add("hidden");
-    }, 1600);
   }
 
   updateScrollState();
