@@ -359,16 +359,15 @@ function initHeroAnimation() {
     }
   }
 
-  function getLinePoints() {
+  function getLinePoints(count = stars.length) {
     const points = [];
     const lineY = height() / 2;
     const lineXStart = width() / 2 - 140;
     const lineXEnd = width() / 2 + 140;
     const lineLength = lineXEnd - lineXStart;
-    const count = 70;
 
     for (let i = 0; i < count; i += 1) {
-      const t = i / (count - 1);
+      const t = i / Math.max(count - 1, 1);
       points.push({
         x: lineXStart + t * lineLength + (Math.random() - 0.5) * 1.5,
         y: lineY + (Math.random() - 0.5) * 1.5
@@ -437,9 +436,8 @@ function initHeroAnimation() {
       drawFloating();
 
       if (frame === 45) {
-        const points = shuffle(getLinePoints());
-        const count = Math.min(stars.length, points.length);
-        for (let i = 0; i < count; i += 1) {
+        const points = shuffle(getLinePoints(stars.length));
+        for (let i = 0; i < stars.length; i += 1) {
           stars[i].tx = points[i].x;
           stars[i].ty = points[i].y;
           stars[i].ox = stars[i].x;
@@ -507,12 +505,11 @@ function initHeroAnimation() {
       }
 
       if (frame > 50) {
-        const fadeStars = Math.min((frame - 50) / 40, 1);
         stars.forEach((star) => {
           if (!star.targeted) return;
           ctx.beginPath();
           ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(79,195,247,${0.6 * (1 - fadeStars)})`;
+          ctx.fillStyle = "rgba(79,195,247,0.6)";
           ctx.fill();
         });
       }
