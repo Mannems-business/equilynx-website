@@ -49,18 +49,6 @@ img {
   display: block;
 }
 
-#progress-bar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 2px;
-  width: 0;
-  background: linear-gradient(90deg, #0d47a1, var(--accent), #00e5ff);
-  z-index: 99999;
-  transition: width 0.08s linear;
-  box-shadow: 0 0 10px var(--accent);
-}
-
 .cookie-banner {
   position: fixed;
   bottom: 0;
@@ -313,7 +301,7 @@ main {
   font-weight: 400;
   letter-spacing: 10px;
   line-height: 1;
-  margin-bottom: 24px;
+  margin-bottom: 12px;
   text-shadow: 0 0 80px rgba(79, 195, 247, 0.18);
   opacity: 0;
   transition: opacity 1s ease;
@@ -350,7 +338,13 @@ main {
   font-size: 0.8rem;
   color: var(--grey);
   letter-spacing: 4px;
+  opacity: 0;
+  transition: opacity 1s ease 0.6s;
   margin-bottom: 48px;
+}
+
+.hero-sub.visible {
+  opacity: 1;
 }
 
 .hero-btns {
@@ -407,9 +401,10 @@ main {
     repeating-linear-gradient(90deg, rgba(79, 195, 247, 0.03) 0, rgba(79, 195, 247, 0.03) 1px, transparent 1px, transparent 80px);
 }
 
-.page-title {
+.page-hero .page-title,
+.page-hero h1 {
   font-family: var(--font-display);
-  font-size: clamp(2.8rem, 7vw, 5.6rem);
+  font-size: clamp(2.0rem, 4.5vw, 3.2rem);
   font-weight: 300;
   letter-spacing: 6px;
   line-height: 1;
@@ -417,7 +412,8 @@ main {
   text-wrap: balance;
 }
 
-.page-description {
+.page-description,
+.page-hero-content > p {
   max-width: 700px;
   color: var(--grey-soft);
   font-size: 0.96rem;
@@ -548,6 +544,115 @@ main {
 .tech-diagram-container,
 .lab-photo-container {
   margin-top: 60px;
+}
+
+.tech-diagram-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 40px 20px;
+  gap: 10px;
+  border: none;
+  background: transparent;
+}
+
+.diagram-layer {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: rgba(13, 71, 161, 0.1);
+  height: 180px;
+  transition: all 0.3s ease;
+}
+
+.diagram-layer:hover {
+  border-color: var(--border-strong);
+  background: rgba(79, 195, 247, 0.08);
+}
+
+.diagram-layer.equilynx-layer {
+  border-color: var(--border-strong);
+  background: rgba(79, 195, 247, 0.06);
+}
+
+.layer-title {
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--grey);
+  margin-bottom: 16px;
+}
+
+.layer-icon {
+  font-size: 2.2rem;
+  color: var(--accent);
+}
+
+.diagram-arrow {
+  font-size: 1.5rem;
+  color: rgba(79, 195, 247, 0.3);
+}
+
+.layer-tooltip {
+  position: absolute;
+  bottom: 105%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--navy);
+  border: 1px solid var(--border-strong);
+  padding: 12px 16px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: var(--grey);
+  width: 220px;
+  text-align: left;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  z-index: 10;
+}
+
+.diagram-layer:hover .layer-tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+.packet-path {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.packet {
+  position: absolute;
+  top: 55%;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  transform: translateY(-50%);
+  opacity: 0;
+}
+
+.packet.insecure { background: #ff8a80; }
+.packet.secure { background: var(--accent); }
+
+.tech-diagram-container.animate .packet.insecure { animation: movePacketInsecure 4s linear infinite; }
+.tech-diagram-container.animate .packet.secure { animation: movePacketSecure 4s linear infinite; }
+
+@keyframes movePacketInsecure {
+  0% { left: -10%; opacity: 0; } 10% { opacity: 1; } 40% { left: 48%; opacity: 1; } 45% { opacity: 0; } 100% { left: 48%; opacity: 0; }
+}
+@keyframes movePacketSecure {
+  0%, 45% { left: 52%; opacity: 0; } 50% { opacity: 1; } 85% { left: 100%; opacity: 1; } 90% { opacity: 0; } 100% { left: 100%; opacity: 0; }
 }
 
 .section {
@@ -983,7 +1088,7 @@ main {
 
 .team-card h3 {
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: 1px;
   margin-bottom: 6px;
 }
@@ -1625,7 +1730,7 @@ main {
   font-size: 1.6rem;
   font-weight: 400;
   letter-spacing: 8px;
-  margin-bottom: 6px;
+  margin-bottom: 12px;
 }
 
 .footer-tagline {
@@ -1826,7 +1931,7 @@ main {
 /* Technical Specifications Section */
 .tech-specs-section {
   position: relative;
-  padding: 80px 20px;
+  padding: 80px 20px 0; /* Keep bottom padding 0 for this section */
   background: linear-gradient(180deg, rgba(2, 11, 24, 0.8), rgba(4, 20, 40, 0.6));
 }
 
@@ -1900,7 +2005,7 @@ main {
 /* Competitive Landscape Section */
 .competitive-section {
   position: relative;
-  padding: 80px 20px;
+  padding: 20px 20px 80px; /* Reduce top padding for this section */
   background: linear-gradient(180deg, rgba(4, 20, 40, 0.5), rgba(2, 11, 24, 0.7));
 }
 
@@ -1962,10 +2067,6 @@ main {
   border-right: none;
 }
 
-.comparison-table tbody tr:last-child td {
-  border-bottom: none;
-}
-
 .comparison-table td strong {
   color: var(--white);
   display: block;
@@ -1998,8 +2099,28 @@ main {
   letter-spacing: 0.3px;
 }
 
+.lab-workspace-wrapper {
+  max-width: 1000px;
+  margin: 50px auto 0;
+}
+
 .lab-photo-container {
-  margin-top: 50px;
+  margin-top: 0;
+  background-image: url('lab-workspace.png');
+  background-size: cover;
+  background-position: center;
+  /* The caption is now outside, so we don't need flexbox here */
+  display: block;
+}
+
+.lab-photo-caption {
+  /* This is now a simple paragraph below the image container */
+  background: none;
+  padding: 12px 0 0;
+  color: var(--grey);
+  font-size: 0.8rem; /* Reduced size */
+  text-align: center;
+  font-style: italic;
 }
 
 /* Compliance Section */
@@ -2054,9 +2175,10 @@ main {
 /* Features Gallery */
 .features-gallery-wrapper {
   position: relative;
-  display: flex;
-  align-items: center;
   margin-top: 48px;
+  padding-left: 50px;
+  padding-right: 50px;
+  padding-bottom: 40px; /* Add space for pagination dots */
 }
 
 .gallery-nav {
@@ -2087,19 +2209,17 @@ main {
 }
 
 .gallery-nav.prev {
-  left: -60px;
-  order: -1;
+  left: 0;
 }
 
 .gallery-nav.next {
-  right: -60px;
-  order: 1;
+  right: 0;
 }
 
 /* Gallery Pagination */
 .gallery-pagination {
   position: absolute;
-  bottom: -35px;
+  bottom: 10px; /* Position dots inside the container */
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -2161,7 +2281,7 @@ main {
   .compliance-badges {
     grid-template-columns: 1fr;
   }
-}
+
   .careers-grid {
     grid-template-columns: 1fr;
   }
@@ -2177,6 +2297,29 @@ main {
 
   .page-title {
     font-size: clamp(2.6rem, 8vw, 4.2rem);
+  }
+
+  .tech-diagram-container {
+    flex-direction: column;
+    gap: 16px;
+    padding: 20px;
+    height: auto;
+  }
+  .diagram-layer {
+    width: 100%;
+    height: auto;
+    padding: 24px;
+  }
+  .diagram-arrow {
+    transform: rotate(90deg);
+  }
+  .packet-path { display: none; }
+  .layer-tooltip { display: none; } /* Hide tooltips on touch devices */
+  @keyframes movePacketInsecure {
+    0% { top: -10%; opacity: 0; } 10% { opacity: 1; } 40% { top: 33%; opacity: 1; } 45% { opacity: 0; } 100% { top: 33%; opacity: 0; }
+  }
+  @keyframes movePacketSecure {
+    0%, 45% { top: 33%; opacity: 0; } 50% { opacity: 1; } 85% { top: 100%; opacity: 1; } 90% { opacity: 0; } 100% { top: 100%; opacity: 0; }
   }
 }
 
@@ -2306,17 +2449,51 @@ main {
     font-size: 0.95rem;
   }
 
-  .comparison-table {
-    font-size: 0.76rem;
-  }
-
-  .comparison-table th,
-  .comparison-table td {
-    padding: 10px 8px;
-  }
-
   .comparison-table-wrapper {
-    -webkit-overflow-scrolling: touch;
+    overflow-x: visible;
+  }
+
+  .comparison-table {
+    border: none;
+    background: transparent;
+  }
+
+  .comparison-table thead {
+    display: none;
+  }
+
+  .comparison-table tbody,
+  .comparison-table tr {
+    display: block;
+  }
+
+  .comparison-table tr {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 20px;
+    background: rgba(255, 255, 255, 0.02);
+    padding: 8px;
+  }
+
+  .comparison-table td {
+    display: block;
+    padding: 14px 10px;
+    border: none;
+    border-bottom: 1px solid var(--border);
+    text-align: right;
+  }
+
+  .comparison-table td:last-child {
+    border-bottom: none;
+  }
+
+  .comparison-table td::before {
+    content: attr(data-label);
+    float: left;
+    font-weight: 600;
+    color: var(--accent);
+    text-align: left;
+    padding-right: 10px;
   }
 
   .compliance-badges {

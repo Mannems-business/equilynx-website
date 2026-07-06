@@ -1,4 +1,3 @@
-const progressBar = document.getElementById("progress-bar");
 const navbar = document.getElementById("navbar");
 const cookieBanner = document.getElementById("cookieBanner");
 const hamburger = document.getElementById("hamburger");
@@ -27,12 +26,6 @@ let ticking = false;
 function updateScrollState() {
   if (navbar) {
     navbar.classList.toggle("scrolled", window.scrollY > 50);
-  }
-
-  if (progressBar) {
-    const maxScroll = Math.max(document.body.scrollHeight - window.innerHeight, 1);
-    const scrolled = (window.scrollY / maxScroll) * 100;
-    progressBar.style.width = `${scrolled}%`;
   }
 }
 
@@ -207,6 +200,19 @@ if (revealTargets.length) {
   revealTargets.forEach((element) => revealObserver.observe(element));
 }
 
+function initInteractiveDiagram() {
+  const diagram = document.getElementById("interactiveDiagram");
+  if (!diagram) return;
+
+  const diagramObserver = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting) {
+      diagram.classList.add("animate");
+    }
+  }, { threshold: 0.5 });
+
+  diagramObserver.observe(diagram);
+}
+
 let countersRan = false;
 const statsRow = document.querySelector(".stats-row");
 
@@ -300,6 +306,7 @@ function initHeroAnimation() {
   const heroTitle = document.getElementById("heroTitle");
   const heroLine = document.getElementById("heroLine");
   const heroButtons = document.getElementById("heroBtns");
+  const heroSub = document.getElementById("heroSub");
   const typingElement = document.getElementById("typingText");
 
   // Ensure the hero canvas remains visible on smaller screens and mobile
@@ -354,16 +361,13 @@ function initHeroAnimation() {
 
   function getLinePoints(count = stars.length) {
     const points = [];
-    const lineY = height() / 2;
-    const lineXStart = width() / 2 - 140;
-    const lineXEnd = width() / 2 + 140;
-    const lineLength = lineXEnd - lineXStart;
+    const centerX = width() / 2;
+    const centerY = height() / 2;
 
     for (let i = 0; i < count; i += 1) {
-      const t = i / Math.max(count - 1, 1);
       points.push({
-        x: lineXStart + t * lineLength + (Math.random() - 0.5) * 1.5,
-        y: lineY + (Math.random() - 0.5) * 1.5
+        x: centerX + (Math.random() - 0.5) * 5,
+        y: centerY + (Math.random() - 0.5) * 5
       });
     }
 
@@ -450,18 +454,11 @@ function initHeroAnimation() {
         if (star.targeted) {
           star.x = star.ox + (star.tx - star.ox) * eased;
           star.y = star.oy + (star.ty - star.oy) * eased;
-          const glow = Math.max(0, eased - 0.6) / 0.4;
           ctx.beginPath();
-          ctx.arc(star.x, star.y, star.r * (1 + glow * 0.6), 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(79,195,247,${0.4 + glow * 0.5})`;
+          ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
+          // Fade the stars out as they gather
+          ctx.fillStyle = `rgba(79,195,247,${star.op * (1 - eased)})`;
           ctx.fill();
-
-          if (glow > 0.2) {
-            ctx.beginPath();
-            ctx.arc(star.x, star.y, star.r * 3, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(79,195,247,${glow * 0.12})`;
-            ctx.fill();
-          }
         } else {
           star.x += star.vx;
           star.y += star.vy;
@@ -475,48 +472,13 @@ function initHeroAnimation() {
       });
 
       if (progress >= 1) {
-        phase = "hold";
-        frame = 0;
-      }
-    } else if (phase === "hold") {
-      stars.forEach((star) => {
-        if (!star.targeted) return;
-        const pulse = 0.55 + Math.sin(frame * 0.06 + star.tx * 0.02) * 0.2;
-        ctx.beginPath();
-        ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(79,195,247,${pulse})`;
-        ctx.fill();
-
-        ctx.beginPath();
-        ctx.arc(star.x, star.y, star.r * 2.5, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(79,195,247,${pulse * 0.08})`;
-        ctx.fill();
-      });
-
-      if (frame === 20 && heroTitle && heroLine) {
-        heroTitle.classList.add("visible");
-        heroLine.classList.add("visible");
-      }
-
-      if (frame > 50) {
-        stars.forEach((star) => {
-          if (!star.targeted) return;
-          ctx.beginPath();
-          ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
-          ctx.fillStyle = "rgba(79,195,247,0.6)";
-          ctx.fill();
-        });
-      }
-
-      if (frame > 55) {
+        // Skip the 'hold' phase and go directly to 'scatter'
         phase = "scatter";
         frame = 0;
-        stars.forEach((star) => {
-          star.ox = star.x;
-          star.oy = star.y;
-          star.tx = Math.random() * width();
-          star.ty = Math.random() * height();
-        });
+        if (heroTitle) {
+          heroTitle.classList.add("visible");
+          if (heroLine) heroLine.classList.add("visible");
+        }
       }
     } else if (phase === "scatter") {
       const duration = 35;
@@ -524,6 +486,12 @@ function initHeroAnimation() {
       const eased = easeOut(progress);
 
       stars.forEach((star) => {
+        if (frame === 1) {
+          star.ox = star.x;
+          star.oy = star.y;
+          star.tx = Math.random() * width();
+          star.ty = Math.random() * height();
+        }
         if (star.targeted) {
           star.x = star.ox + (star.tx - star.ox) * eased;
           star.y = star.oy + (star.ty - star.oy) * eased;
@@ -563,7 +531,11 @@ function initHeroAnimation() {
         });
         phase = "float2";
         frame = 0;
-        if (heroButtons) { heroButtons.classList.add("visible"); startTyping(); }
+        if (heroButtons) {
+          heroButtons.classList.add("visible");
+          if (heroSub) heroSub.classList.add("visible");
+          startTyping();
+        }
       }
     } else if (phase === "float2") {
       stars.forEach((star) => {
@@ -585,15 +557,14 @@ function initHeroAnimation() {
 function initFeaturesGallery() {
   const galleryWrapper = document.querySelector(".features-gallery-wrapper");
   if (!galleryWrapper) return;
-
-  const featuresGrid = galleryWrapper.querySelector(".features-grid");
+  
+  const viewport = galleryWrapper.querySelector(".features-gallery-viewport");
+  const featuresGrid = viewport.querySelector(".features-grid");
   const prevButton = galleryWrapper.querySelector(".gallery-nav.prev");
   const nextButton = galleryWrapper.querySelector(".gallery-nav.next");
-  const cards = featuresGrid.querySelectorAll(".feature-card");
   const paginationContainer = galleryWrapper.querySelector(".gallery-pagination");
-
+  const cards = featuresGrid.querySelectorAll(".feature-card");
   if (!featuresGrid || !prevButton || !nextButton || !paginationContainer || cards.length === 0) return;
-
   let currentIndex = 0;
   const totalCards = cards.length;
 
@@ -653,4 +624,5 @@ window.addEventListener("load", () => {
 
   initHeroAnimation();
   initFeaturesGallery();
+  initInteractiveDiagram();
 });

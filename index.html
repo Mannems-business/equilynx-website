@@ -80,8 +80,6 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body data-page="home">
-  <div id="progress-bar"></div>
-
   <div class="cookie-banner" id="cookieBanner">
     <div class="cookie-content">
       <p>We use cookies to improve your experience and understand how visitors use the website.</p>
@@ -117,7 +115,7 @@
         <h1 class="hero-title" id="heroTitle">EQUILYNX</h1>
         <div class="hero-line" id="heroLine"></div>
         <p class="hero-tagline" id="typingText"></p>
-        <p class="hero-sub">A Private Limited Company</p>
+        <p class="hero-sub" id="heroSub">A Private Limited Company</p>
         <div class="hero-btns" id="heroBtns">
           <a href="services/" class="btn-primary">Our Services</a>
           <a href="contact/" class="btn-ghost">Contact Us</a>
@@ -185,14 +183,32 @@
         </div>
 
         <!-- Media Asset: Technical Diagram -->
-        <div class="media-container tech-diagram-container reveal">
-          <div class="diagram-placeholder">
-            <div class="placeholder-content">
-              <i class="fas fa-diagram-project"></i>
-              <p>Technical Architectural Blueprint Diagram</p>
-              <span class="placeholder-description">Figure 1.0: Asset-Light Software-Defined PQC Deployment Schema<br/>
-              Layer 1: Incoming client web traffic → Layer 2: Equilynx Containerized Software Middleware (Kyber/Dilithium) → Layer 3: Enterprise Legacy Database/App Server</span>
-            </div>
+        <div class="media-container tech-diagram-container reveal" id="interactiveDiagram">
+          <div class="diagram-layer">
+            <div class="layer-title">Layer 1: Client Traffic</div>
+            <div class="layer-icon"><i class="fas fa-network-wired"></i></div>
+            <div class="layer-tooltip">Incoming web traffic from various client devices, initially protected by standard TLS encryption.</div>
+          </div>
+          <div class="diagram-arrow"><i class="fas fa-chevron-right"></i></div>
+          <div class="diagram-layer equilynx-layer">
+            <div class="layer-title">Layer 2: Equilynx Middleware</div>
+            <div class="layer-icon"><i class="fas fa-shield-halved"></i></div>
+            <div class="layer-tooltip">Our software-defined proxy intercepts the session and encapsulates it with FIPS-standard PQC algorithms (Kyber/Dilithium).</div>
+          </div>
+          <div class="diagram-arrow"><i class="fas fa-chevron-right"></i></div>
+          <div class="diagram-layer">
+            <div class="layer-title">Layer 3: Enterprise Backend</div>
+            <div class="layer-icon"><i class="fas fa-server"></i></div>
+            <div class="layer-tooltip">The now quantum-safe traffic is forwarded to your existing legacy servers and databases without any changes required.</div>
+          </div>
+
+          <div class="packet-path">
+            <div class="packet insecure"></div>
+            <div class="packet insecure" style="animation-delay: 0.5s;"></div>
+            <div class="packet insecure" style="animation-delay: 1s;"></div>
+            <div class="packet secure"></div>
+            <div class="packet secure" style="animation-delay: 0.5s;"></div>
+            <div class="packet secure" style="animation-delay: 1s;"></div>
           </div>
         </div>
       </div>
@@ -215,22 +231,22 @@
             </thead>
             <tbody>
               <tr>
-                <td><strong>Deployment Friction & Infrastructure Cost</strong></td>
-                <td>Zero-Capex, Instant Containerized Software Drop</td>
-                <td>Pure Software (Varying Enterprise Support)</td>
-                <td>High-Capex, Multi-Month Physical Fiber/Device Setup</td>
+                <td data-label="Dimension"><strong>Deployment Friction & Infrastructure Cost</strong></td>
+                <td data-label="Equilynx Gateway">Zero-Capex, Instant Containerized Software Drop</td>
+                <td data-label="Global Proxies">Pure Software (Varying Enterprise Support)</td>
+                <td data-label="Hardware Vendors">High-Capex, Multi-Month Physical Fiber/Device Setup</td>
               </tr>
               <tr>
-                <td><strong>Data Residency & Crypto-Termination</strong></td>
-                <td>100% Strict Local Custody (Within Enterprise Boundaries)</td>
-                <td>Routes Through Transnational Edge Layers</td>
-                <td>Localized to Physical Node Connections Only</td>
+                <td data-label="Dimension"><strong>Data Residency & Crypto-Termination</strong></td>
+                <td data-label="Equilynx Gateway">100% Strict Local Custody (Within Enterprise Boundaries)</td>
+                <td data-label="Global Proxies">Routes Through Transnational Edge Layers</td>
+                <td data-label="Hardware Vendors">Localized to Physical Node Connections Only</td>
               </tr>
               <tr>
-                <td><strong>Indian BFSI / Sovereign Policy Mapping</strong></td>
-                <td>Native Integration with Local Regulated Infrastructure & HSM Frameworks</td>
-                <td>Built for Broad Western/Global Compliance Models</td>
-                <td>Heavy Integration into Custom Physical Topologies</td>
+                <td data-label="Dimension"><strong>Indian BFSI / Sovereign Policy Mapping</strong></td>
+                <td data-label="Equilynx Gateway">Native Integration with Local Regulated Infrastructure & HSM Frameworks</td>
+                <td data-label="Global Proxies">Built for Broad Western/Global Compliance Models</td>
+                <td data-label="Hardware Vendors">Heavy Integration into Custom Physical Topologies</td>
               </tr>
             </tbody>
           </table>
@@ -246,15 +262,9 @@
         <p class="section-body">To build lightweight software that handles massive loads on standard enterprise clouds, we must continuously push our code to its mathematical limits. While the Equilynx commercial product is 100% pure software, our engineering group utilizes an internal high-performance simulation bench. We actively profile and stress-test our Rust algorithms against dedicated physical FPGA arrays, custom cryptographic co-processors, and simulated high-latency networks. This rigorous benchmarking ensures our software translation layer remains ultra-optimized for any hardware environment it is deployed on.</p>
 
         <!-- Media Asset: Lab Workspace Photo -->
-        <div class="media-container lab-photo-container">
-          <div class="photo-placeholder">
-            <div class="placeholder-content">
-              <i class="fas fa-microscope"></i>
-              <p>Lab Workspace Snapshot</p>
-              <span class="placeholder-description">High-resolution photo of internal engineering optimization bench environment (servers, local compute nodes, testing monitors running profiling logs).<br/>
-              <em>Caption: "Continuous hardware-accelerated stress profiling for software agility optimization."</em></span>
-            </div>
-          </div>
+        <div class="lab-workspace-wrapper reveal">
+          <div class="media-container lab-photo-container"></div>
+          <p class="lab-photo-caption">Continuous hardware-accelerated stress profiling for software agility optimization</p>
         </div>
       </div>
     </section>
