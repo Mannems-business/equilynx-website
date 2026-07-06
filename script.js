@@ -54,16 +54,6 @@ function onScroll() {
 window.addEventListener("scroll", onScroll, { passive: true });
 
 
-window.addEventListener("load", () => {
-  const consent = localStorage.getItem("cookieConsent");
-  if (consent && cookieBanner) {
-    cookieBanner.style.display = "none";
-  }
-
-  updateScrollState();
-  updateCookieBannerState();
-});
-
 function setMenuState(isOpen) {
   if (!navLinks || !hamburger) return;
 
@@ -299,15 +289,18 @@ document.querySelectorAll(".service-card").forEach((card) => {
 
 function initHeroAnimation() {
   const canvas = document.getElementById("hero-canvas");
+  
+  // Check if canvas exists, if not (e.g., on pages without hero canvas), return early
+  if (!canvas) return;
+
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return;
+
+  // Optional: Get these elements if they exist (for old hero structure)
   const heroTitle = document.getElementById("heroTitle");
   const heroLine = document.getElementById("heroLine");
   const heroButtons = document.getElementById("heroBtns");
   const typingElement = document.getElementById("typingText");
-
-  if (!canvas || !heroTitle || !heroLine || !heroButtons || !typingElement) return;
-
-  const ctx = canvas.getContext("2d");
-  if (!ctx) return;
 
   // Ensure the hero canvas remains visible on smaller screens and mobile
   canvas.style.display = "block";
@@ -409,6 +402,7 @@ function initHeroAnimation() {
   }
 
   function startTyping() {
+    if (!typingElement) return;
     const typingText = "WHERE QUANTUM MEETS INNOVATION";
     let index = 0;
 
@@ -499,7 +493,7 @@ function initHeroAnimation() {
         ctx.fill();
       });
 
-      if (frame === 20) {
+      if (frame === 20 && heroTitle && heroLine) {
         heroTitle.classList.add("visible");
         heroLine.classList.add("visible");
       }
@@ -569,8 +563,7 @@ function initHeroAnimation() {
         });
         phase = "float2";
         frame = 0;
-        heroButtons.classList.add("visible");
-        startTyping();
+        if (heroButtons) { heroButtons.classList.add("visible"); startTyping(); }
       }
     } else if (phase === "float2") {
       stars.forEach((star) => {
@@ -589,4 +582,75 @@ function initHeroAnimation() {
   heroLoop();
 }
 
-window.addEventListener("load", initHeroAnimation);
+function initFeaturesGallery() {
+  const galleryWrapper = document.querySelector(".features-gallery-wrapper");
+  if (!galleryWrapper) return;
+
+  const featuresGrid = galleryWrapper.querySelector(".features-grid");
+  const prevButton = galleryWrapper.querySelector(".gallery-nav.prev");
+  const nextButton = galleryWrapper.querySelector(".gallery-nav.next");
+  const cards = featuresGrid.querySelectorAll(".feature-card");
+  const paginationContainer = galleryWrapper.querySelector(".gallery-pagination");
+
+  if (!featuresGrid || !prevButton || !nextButton || !paginationContainer || cards.length === 0) return;
+
+  let currentIndex = 0;
+  const totalCards = cards.length;
+
+  // Create pagination dots
+  for (let i = 0; i < totalCards; i++) {
+    const dot = document.createElement("button");
+    dot.classList.add("gallery-dot");
+    dot.setAttribute("aria-label", `Go to feature ${i + 1}`);
+    dot.addEventListener("click", () => {
+      currentIndex = i;
+      updateGallery();
+    });
+    paginationContainer.appendChild(dot);
+  }
+
+  const dots = paginationContainer.querySelectorAll(".gallery-dot");
+
+  function updateGallery() {
+    const offset = -currentIndex * (100 / totalCards);
+    featuresGrid.style.transform = `translateX(${offset}%)`;
+
+    prevButton.disabled = currentIndex === 0;
+    nextButton.disabled = currentIndex === totalCards - 1;
+
+    // Update pagination dots
+    dots.forEach((dot, index) => {
+      dot.classList.toggle("active", index === currentIndex);
+    });
+  }
+
+  prevButton.addEventListener("click", () => {
+    if (currentIndex > 0) {
+      currentIndex--;
+      updateGallery();
+    }
+  });
+
+  nextButton.addEventListener("click", () => {
+    if (currentIndex < totalCards - 1) {
+      currentIndex++;
+      updateGallery();
+    }
+  });
+
+  window.addEventListener("resize", updateGallery);
+  updateGallery(); // Initial call
+}
+
+window.addEventListener("load", () => {
+  const consent = localStorage.getItem("cookieConsent");
+  if (consent && cookieBanner) {
+    cookieBanner.style.display = "none";
+  }
+
+  updateScrollState();
+  updateCookieBannerState();
+
+  initHeroAnimation();
+  initFeaturesGallery();
+});
