@@ -46,14 +46,14 @@
   <nav class="navbar" id="navbar">
     <a class="nav-logo" href="/" aria-label="Equilynx home">EQUILYNX</a>
     <ul class="nav-links" id="navLinks">
-      <li><a href="/" onclick="closeMenu()">Home</a></li>
-      <li><a href="/about" onclick="closeMenu()">About</a></li>
-      <li><a href="/services" onclick="closeMenu()">Services</a></li>
-      <li><a href="/why-us" onclick="closeMenu()">Why Us</a></li>
-      <li><a href="/leadership" onclick="closeMenu()">Leadership</a></li>
-      <li><a href="/testimonials" onclick="closeMenu()">Testimonials</a></li>
-      <li><a class="active" aria-current="page" href="/careers" onclick="closeMenu()">Careers</a></li>
-      <li><a href="/contact" onclick="closeMenu()">Contact</a></li>
+      <li><a href="/">Home</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="/services">Services</a></li>
+      <li><a href="/why-us">Why Us</a></li>
+      <li><a href="/leadership">Leadership</a></li>
+      <li><a href="/testimonials">Testimonials</a></li>
+      <li><a class="active" aria-current="page" href="/careers">Careers</a></li>
+      <li><a href="/contact">Contact</a></li>
     </ul>
     <button class="hamburger" id="hamburger" title="Menu" aria-label="Menu"><i class="fas fa-bars"></i></button>
   </nav>
@@ -179,7 +179,18 @@
               <textarea name="message" rows="5" placeholder="Why do you want to work for Equilynx?" required></textarea>
 
               <div class="career-upload-wrap">
-                <label class="career-upload-label" for="experienceDetails">Relavent Experience</label>
+                <label class="career-upload-label" for="resumeUpload">Upload Your Resume</label>
+                <input
+                  type="file"
+                  id="resumeUpload"
+                  name="resume"
+                  class="career-upload-input"
+                  accept=".pdf,.doc,.docx"
+                  required
+                />
+                <p class="career-form-note">Please upload in PDF, DOC, or DOCX format.</p>
+
+                <label class="career-upload-label" for="experienceDetails">Relevant Experience</label>
                 <textarea 
                   id="experienceDetails" 
                   name="experience_details" 
@@ -223,7 +234,7 @@
       <a href="https://www.linkedin.com/company/equilynx/?viewAsMember=true" target="_blank" rel="noopener noreferrer">LinkedIn</a>
     </div>
     <div class="footer-bottom">
-      <p>&copy; 2025 Equilynx Private Limited. All rights reserved.</p>
+      <p>&copy; 2026 Equilynx Private Limited. All rights reserved.</p>
       <p>Hyderabad, Telangana, India</p>
     </div>
   </footer>

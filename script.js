@@ -200,6 +200,36 @@ if (revealTargets.length) {
   revealTargets.forEach((element) => revealObserver.observe(element));
 }
 
+function decodeEffect(element) {
+  if (!element) return;
+  const chars = "!<>-_\\/[]{}—=+*^?#";
+  const originalText = element.dataset.originalText || element.textContent;
+  if (!element.dataset.originalText) {
+    element.dataset.originalText = originalText;
+  }
+  
+  let iteration = 0;
+  const interval = setInterval(() => {
+    element.textContent = originalText
+      .split('')
+      .map((letter, index) => {
+        if (index < iteration) {
+          return originalText[index];
+        }
+        if (letter === ' ') return ' ';
+        return chars[Math.floor(Math.random() * chars.length)];
+      })
+      .join('');
+
+    if (iteration >= originalText.length) {
+      clearInterval(interval);
+      element.textContent = originalText;
+    }
+
+    iteration += 1 / 3;
+  }, 30);
+}
+
 function initInteractiveDiagram() {
   const diagram = document.getElementById("interactiveDiagram");
   if (!diagram) return;
@@ -477,6 +507,7 @@ function initHeroAnimation() {
         frame = 0;
         if (heroTitle) {
           heroTitle.classList.add("visible");
+          decodeEffect(heroTitle);
           if (heroLine) heroLine.classList.add("visible");
         }
       }
