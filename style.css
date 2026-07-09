@@ -34,6 +34,26 @@ body {
   background-color: var(--navy);
   color: var(--white);
   overflow-x: hidden;
+  /* Global fix: allow long words to break to prevent overflow */
+  overflow-wrap: break-word;
+}
+
+/* Typography: Prevent headings from breaking mid-word */
+.hero-title,
+.page-title,
+.section-title,
+.pqc-intro-section h2,
+.nqm-section h2,
+.tech-specs-section h2,
+.competitive-section h2,
+.optimization-section h2,
+.cta-band-copy h2,
+.feature-card h3,
+.why-item h3,
+.team-card h3,
+.career-card h3 {
+  overflow-wrap: normal;
+  word-break: normal;
 }
 
 body.menu-open {
@@ -146,6 +166,60 @@ img {
   letter-spacing: 6px;
   color: var(--white);
   white-space: nowrap;
+  position: relative;
+}
+
+.nav-logo::before,
+.nav-logo::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(2, 11, 24, 0.98); /* Match navbar background */
+  overflow: hidden;
+  color: var(--white);
+}
+
+.nav-logo::before {
+  left: 2px;
+  text-shadow: -2px 0 var(--accent);
+  animation: glitch-1 2.5s infinite linear alternate-reverse;
+}
+
+.nav-logo::after {
+  left: -2px;
+  text-shadow: -2px 0 #ff4d4d, 2px 2px var(--accent);
+  animation: glitch-2 2s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-1 {
+  0% { clip-path: inset(45% 0 50% 0); }
+  10% { clip-path: inset(30% 0 62% 0); }
+  20% { clip-path: inset(15% 0 75% 0); }
+  30% { clip-path: inset(20% 0 40% 0); }
+  40% { clip-path: inset(40% 0 58% 0); }
+  50% { clip-path: inset(60% 0 30% 0); }
+  60% { clip-path: inset(75% 0 5% 0); }
+  70% { clip-path: inset(50% 0 45% 0); }
+  80% { clip-path: inset(85% 0 2% 0); }
+  90% { clip-path: inset(62% 0 32% 0); }
+  100% { clip-path: inset(92% 0 2% 0); }
+}
+
+@keyframes glitch-2 {
+  0% { clip-path: inset(82% 0 12% 0); }
+  10% { clip-path: inset(92% 0 2% 0); }
+  20% { clip-path: inset(72% 0 22% 0); }
+  30% { clip-path: inset(62% 0 32% 0); }
+  40% { clip-path: inset(52% 0 42% 0); }
+  50% { clip-path: inset(72% 0 22% 0); }
+  60% { clip-path: inset(92% 0 2% 0); }
+  70% { clip-path: inset(12% 0 82% 0); }
+  80% { clip-path: inset(2% 0 92% 0); }
+  90% { clip-path: inset(82% 0 12% 0); }
+  100% { clip-path: inset(2% 0 92% 0); }
 }
 
 .nav-links {
@@ -164,31 +238,13 @@ img {
   letter-spacing: 2px;
   text-transform: uppercase;
   position: relative;
-  padding-bottom: 4px;
   transition: color 0.3s ease;
-}
-
-.nav-links a::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 0;
-  height: 1px;
-  background: var(--accent);
-  transition: width 0.3s ease;
 }
 
 .nav-links a:hover,
 .nav-links a.active,
 .nav-links a[aria-current="page"] {
   color: var(--accent);
-}
-
-.nav-links a:hover::after,
-.nav-links a.active::after,
-.nav-links a[aria-current="page"]::after {
-  width: 100%;
 }
 
 .hamburger {
@@ -255,7 +311,7 @@ main {
 }
 
 #hero-canvas {
-  position: absolute;
+  position: fixed;
   inset: 0;
   z-index: 0;
 }
@@ -1539,6 +1595,10 @@ main {
   font-size: 0.72rem;
   letter-spacing: 1px;
   white-space: nowrap;
+  /* Allow the badge to shrink and truncate within its flex container */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
 }
 
 .career-card p,
@@ -2075,6 +2135,7 @@ main {
   border-right: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
   line-height: 1.6;
+  overflow-wrap: break-word; /* Ensure long text wraps */
 }
 
 .comparison-table td:last-child {
@@ -2301,12 +2362,18 @@ main {
   }
 
   .about-grid,
-  .contact-grid,
-  .cta-band-inner,
+  .contact-grid,  
   .profile-card,
   .career-form-layout {
     grid-template-columns: 1fr;
     gap: 32px;
+  }
+
+  .cta-band-inner {
+    flex-direction: column;
+    gap: 32px;
+    text-align: center;
+    align-items: center;
   }
 
   .page-title {
@@ -2423,8 +2490,7 @@ main {
 
   .btn-primary,
   .btn-secondary {
-    width: 100%;
-    max-width: 340px;
+    max-width: 340px; /* Prevent buttons from being excessively wide */
   }
 
   .media-container {
@@ -2457,6 +2523,11 @@ main {
   .optimization-section h2 {
     font-size: clamp(1.6rem, 5vw, 2.2rem);
     letter-spacing: 2px;
+  }
+
+  .cta-band-copy p {
+    max-width: 100%; /* Ensure paragraph respects container width on mobile */
+    word-break: break-word; /* Additional safeguard for long words */
   }
 
   .feature-card h3 {
@@ -2599,17 +2670,22 @@ main {
   .hero-btns,
   .page-hero .hero-btns {
     flex-direction: column;
-    align-items: stretch;
+    align-items: center; /* Center buttons instead of stretching them */
     gap: 12px;
   }
 
+  /* Prevent form buttons from stretching to full width on mobile, which causes text wrapping and excessive height. */
+  form .btn-primary,
+  form .btn-secondary,
+  form .btn-ghost {
+    align-self: center;
+  }
+
   .btn-primary,
+  .btn-secondary,
   .btn-ghost {
-    width: 100%;
-    max-width: none;
-    min-height: 48px;
-    padding: 13px 18px;
-    font-size: 0.86rem;
+    padding: 5px 18px; /* Reduced vertical padding */
+    font-size: 0.7rem; /* Reduced font size */
     letter-spacing: 1.5px;
   }
 
@@ -2624,7 +2700,7 @@ main {
 
   .cta-band-inner {
     padding: 28px 22px;
-    align-items: stretch;
+    align-items: center;
   }
 
   .cookie-banner {
@@ -2750,11 +2826,6 @@ main {
     max-width: 14ch;
   }
 
-  .btn-primary,
-  .btn-ghost {
-    font-size: 0.82rem;
-  }
-
   .service-card,
   .team-card,
   .testimonial-card,
@@ -2786,7 +2857,10 @@ main {
   }
 
   .cookie-btns {
-    grid-template-columns: 1fr;
+    /* Stack buttons vertically and center them */
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
   }
 
   .footer-logo {
@@ -2802,8 +2876,10 @@ main {
   }
 
   .btn-primary,
+  .btn-secondary,
   .btn-ghost {
-    font-size: 0.8rem;
+    padding: 4px 16px; /* Further reduced for smallest screens */
+    font-size: 0.68rem;
     letter-spacing: 1px;
   }
 
@@ -2818,8 +2894,6 @@ main {
 
 @media (hover: none) and (pointer: coarse) {
   .nav-links a,
-  .btn-primary,
-  .btn-ghost,
   .whatsapp-float,
   .cookie-accept,
   .cookie-decline {

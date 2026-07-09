@@ -19,14 +19,20 @@ document.addEventListener("touchmove", (event) => {
   }
 }, { passive: false });
 
-// Optimize scroll performance on mobile
-let lastScrollY = 0;
+// --- Scroll Handling ---
+let lastScrollY = window.scrollY;
+let scrollDelta = 0; // Used for hero parallax effect
 let ticking = false;
 
 function updateScrollState() {
+  const currentScrollY = window.scrollY;
+  scrollDelta = currentScrollY - lastScrollY;
+  lastScrollY = currentScrollY;
+
   if (navbar) {
-    navbar.classList.toggle("scrolled", window.scrollY > 50);
+    navbar.classList.toggle("scrolled", currentScrollY > 50);
   }
+  ticking = false;
 }
 
 function updateCookieBannerState() {
@@ -36,12 +42,10 @@ function updateCookieBannerState() {
 }
 
 function onScroll() {
-  lastScrollY = window.scrollY;
   if (!ticking) {
     window.requestAnimationFrame(updateScrollState);
     ticking = true;
   }
-  ticking = false;
 }
 
 window.addEventListener("scroll", onScroll, { passive: true });
@@ -200,7 +204,7 @@ if (revealTargets.length) {
   revealTargets.forEach((element) => revealObserver.observe(element));
 }
 
-function decodeEffect(element) {
+function decodeEffect(element, onComplete) {
   if (!element) return;
   const chars = "!<>-_\\/[]{}—=+*^?#";
   const originalText = element.dataset.originalText || element.textContent;
@@ -224,6 +228,9 @@ function decodeEffect(element) {
     if (iteration >= originalText.length) {
       clearInterval(interval);
       element.textContent = originalText;
+      if (onComplete) {
+        onComplete();
+      }
     }
 
     iteration += 1 / 3;
@@ -570,12 +577,18 @@ function initHeroAnimation() {
       }
     } else if (phase === "float2") {
       stars.forEach((star) => {
+        // Apply parallax effect from scrolling, making stars move up when scrolling down
+        star.y -= scrollDelta * 0.3;
+
         star.x += star.vx;
         star.y += star.vy;
         if (star.x < 0 || star.x > width()) star.vx *= -1;
         if (star.y < 0 || star.y > height()) star.vy *= -1;
       });
       drawFloating();
+
+      // Reset scroll delta after it has been applied in this frame
+      scrollDelta = 0;
     }
 
     requestAnimationFrame(heroLoop);
