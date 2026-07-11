@@ -69,73 +69,6 @@ img {
   display: block;
 }
 
-.cookie-banner {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(4, 14, 30, 0.98);
-  border-top: 1px solid var(--border);
-  padding: 18px 40px;
-  z-index: 9999;
-  backdrop-filter: blur(20px);
-}
-
-.cookie-content {
-  max-width: 1100px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  flex-wrap: wrap;
-}
-
-.cookie-content p {
-  color: var(--grey);
-  font-size: 0.82rem;
-  line-height: 1.7;
-  flex: 1 1 420px;
-}
-
-.cookie-btns {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.cookie-accept,
-.cookie-decline {
-  border-radius: 2px;
-  padding: 10px 20px;
-  font-size: 0.78rem;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-
-.cookie-accept {
-  border: none;
-  background: var(--accent);
-  color: var(--navy);
-  font-weight: 700;
-  letter-spacing: 1px;
-}
-
-.cookie-accept:hover {
-  background: var(--white);
-}
-
-.cookie-decline {
-  background: transparent;
-  color: var(--grey);
-  border: 1px solid var(--border);
-}
-
-.cookie-decline:hover {
-  border-color: var(--border-strong);
-  color: var(--white);
-}
-
 .navbar {
   position: fixed;
   top: 0;
@@ -241,10 +174,16 @@ img {
   transition: color 0.3s ease;
 }
 
-.nav-links a:hover,
+/* Apply the blue "glow" only when hovering over a link that is NOT the current page. */
+.nav-links a:not(.active):not([aria-current="page"]):hover {
+  color: var(--accent);
+}
+
+/* Style for the current page link. Changed to white to be distinct from the hover glow. */
 .nav-links a.active,
 .nav-links a[aria-current="page"] {
-  color: var(--accent);
+  color: var(--white); /* Changed from accent blue to white */
+  cursor: default; /* Show a default cursor since clicking it does nothing */
 }
 
 .hamburger {
@@ -2662,8 +2601,7 @@ main {
 
   .hero-btns,
   .page-hero .hero-btns,
-  .profile-links,
-  .cookie-btns {
+  .profile-links {
     width: 100%;
   }
 
@@ -2703,24 +2641,6 @@ main {
     align-items: center;
   }
 
-  .cookie-banner {
-    padding: 14px 16px;
-  }
-
-  .cookie-content {
-    gap: 14px;
-  }
-
-  .cookie-content p {
-    flex-basis: auto;
-    font-size: 0.78rem;
-  }
-
-  .cookie-btns {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
   .whatsapp-float {
     width: 48px;
     height: 48px;
@@ -2755,10 +2675,6 @@ main {
 
   .footer-links {
     gap: 14px 18px;
-  }
-
-  body.cookie-visible .whatsapp-float {
-    bottom: 124px;
   }
 }
 
@@ -2852,17 +2768,6 @@ main {
     gap: 24px;
   }
 
-  .profile-links {
-    gap: 10px;
-  }
-
-  .cookie-btns {
-    /* Stack buttons vertically and center them */
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-  }
-
   .footer-logo {
     font-size: 1.25rem;
     letter-spacing: 6px;
@@ -2894,9 +2799,7 @@ main {
 
 @media (hover: none) and (pointer: coarse) {
   .nav-links a,
-  .whatsapp-float,
-  .cookie-accept,
-  .cookie-decline {
+  .whatsapp-float {
     min-height: 44px;
     min-width: 44px;
   }

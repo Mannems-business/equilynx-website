@@ -1,5 +1,4 @@
 const navbar = document.getElementById("navbar");
-const cookieBanner = document.getElementById("cookieBanner");
 const hamburger = document.getElementById("hamburger");
 const navLinks = document.getElementById("navLinks");
 
@@ -33,12 +32,6 @@ function updateScrollState() {
     navbar.classList.toggle("scrolled", currentScrollY > 50);
   }
   ticking = false;
-}
-
-function updateCookieBannerState() {
-  if (!cookieBanner) return;
-  const isHidden = window.getComputedStyle(cookieBanner).display === "none";
-  document.body.classList.toggle("cookie-visible", !isHidden);
 }
 
 function onScroll() {
@@ -95,21 +88,6 @@ document.addEventListener("click", (event) => {
 });
 
 window.closeMenu = closeMenu;
-
-function acceptCookies() {
-  localStorage.setItem("cookieConsent", "accepted");
-  if (cookieBanner) cookieBanner.style.display = "none";
-  updateCookieBannerState();
-}
-
-function declineCookies() {
-  localStorage.setItem("cookieConsent", "declined");
-  if (cookieBanner) cookieBanner.style.display = "none";
-  updateCookieBannerState();
-}
-
-window.acceptCookies = acceptCookies;
-window.declineCookies = declineCookies;
 
 function getMaxDigits() {
   const select = document.getElementById("countryCode");
@@ -658,13 +636,7 @@ function initFeaturesGallery() {
 }
 
 window.addEventListener("load", () => {
-  const consent = localStorage.getItem("cookieConsent");
-  if (consent && cookieBanner) {
-    cookieBanner.style.display = "none";
-  }
-
   updateScrollState();
-  updateCookieBannerState();
 
   initHeroAnimation();
   initFeaturesGallery();
