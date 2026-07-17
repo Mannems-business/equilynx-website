@@ -6,48 +6,98 @@
     <changefreq>weekly</changefreq>
   </url>
   <url>
-    <loc>https://equilynx.in/about</loc>
+    <loc>https://equilynx.in/startup/</loc>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://equilynx.in/services</loc>
+    <loc>https://equilynx.in/startup/about/</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://equilynx.in/startup/research/</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://equilynx.in/startup/products/</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://equilynx.in/startup/innovation/</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://equilynx.in/startup/partnerships/</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://equilynx.in/startup/careers/</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://equilynx.in/startup/contact/</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://equilynx.in/consulting/</loc>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://equilynx.in/why-us</loc>
+    <loc>https://equilynx.in/consulting/about/</loc>
     <priority>0.7</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://equilynx.in/leadership</loc>
-    <priority>0.6</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-  <url>
-    <loc>https://equilynx.in/leadership/charan</loc>
-    <priority>0.6</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-  <url>
-    <loc>https://equilynx.in/leadership/srikanth</loc>
-    <priority>0.6</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-  <url>
-    <loc>https://equilynx.in/testimonials</loc>
-    <priority>0.5</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-  <url>
-    <loc>https://equilynx.in/careers</loc>
-    <priority>0.6</priority>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://equilynx.in/contact</loc>
+    <loc>https://equilynx.in/consulting/services/</loc>
     <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://equilynx.in/consulting/industries/</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://equilynx.in/consulting/solutions/</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://equilynx.in/consulting/case-studies/</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://equilynx.in/consulting/careers/</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://equilynx.in/consulting/contact/</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://equilynx.in/leadership/</loc>
+    <priority>0.6</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://equilynx.in/leadership/charan.html</loc>
+    <priority>0.6</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://equilynx.in/leadership/srikanth.html</loc>
+    <priority>0.6</priority>
     <changefreq>monthly</changefreq>
   </url>
 </urlset>

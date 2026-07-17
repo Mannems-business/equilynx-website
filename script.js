@@ -422,7 +422,7 @@ function initHeroAnimation() {
 
   function startTyping() {
     if (!typingElement) return;
-    const typingText = "WHERE QUANTUM MEETS INNOVATION";
+    const typingText = typingElement.dataset.typing || "WHERE INNOVATION TAKES SHAPE";
     let index = 0;
 
     function type() {
@@ -642,3 +642,52 @@ window.addEventListener("load", () => {
   initFeaturesGallery();
   initInteractiveDiagram();
 });
+
+// =====================================================
+// EXPERIENCE SELECTOR (Startup vs Enterprise IT Consulting)
+// =====================================================
+
+const EXPERIENCE_KEY = "equilynx_experience";
+
+function switchExperience(event) {
+  if (event) event.preventDefault();
+  try {
+    localStorage.removeItem(EXPERIENCE_KEY);
+  } catch (e) {
+    /* storage unavailable, still navigate */
+  }
+  window.location.href = "/";
+}
+window.switchExperience = switchExperience;
+
+function chooseExperience(track) {
+  try {
+    localStorage.setItem(EXPERIENCE_KEY, track);
+  } catch (e) {
+    /* ignore */
+  }
+  window.location.href = "/" + track + "/";
+}
+window.chooseExperience = chooseExperience;
+
+function initExperienceChooser() {
+  const cards = document.querySelectorAll(".experience-card[data-experience]");
+  if (!cards.length) return;
+
+  cards.forEach((card) => {
+    card.addEventListener("click", (event) => {
+      event.preventDefault();
+      chooseExperience(card.dataset.experience);
+    });
+    card.setAttribute("role", "button");
+    card.setAttribute("tabindex", "0");
+    card.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        chooseExperience(card.dataset.experience);
+      }
+    });
+  });
+}
+
+window.addEventListener("load", initExperienceChooser);
