@@ -2225,7 +2225,7 @@ main {
   border-right: none;
 }
 
-@media (max-width: 1180px) {
+@media (max-width: 1320px) {
   .navbar {
     padding: 0 24px;
     gap: 12px;
@@ -2312,11 +2312,9 @@ main {
   }
 }
 
-@media (max-width: 768px) {
-  body {
-    font-size: 14px;
-  }
-
+/* Collapse the full horizontal nav into a hamburger menu before the links
+   (up to 7 items) plus the experience toggle can overflow the bar. */
+@media (max-width: 1080px) {
   .navbar {
     padding: 0 20px;
     height: 64px;
@@ -2346,6 +2344,8 @@ main {
     border-bottom: 1px solid var(--border);
     padding: 8px 0;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.28);
+    max-height: calc(100vh - 64px);
+    overflow-y: auto;
   }
 
   .nav-links.open {
@@ -2355,6 +2355,30 @@ main {
   .nav-links a {
     display: block;
     padding: 14px 18px;
+  }
+
+  .nav-toggle-item {
+    justify-content: center;
+    padding: 14px 18px 6px;
+  }
+
+  .experience-toggle {
+    width: 100%;
+    max-width: 320px;
+    justify-content: center;
+  }
+
+  .toggle-option {
+    flex: 1;
+    text-align: center;
+    padding: 9px 12px;
+    font-size: 0.68rem;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
   }
 
   .hero-content,
@@ -2832,26 +2856,6 @@ main {
 .toggle-option:not(.active):not([aria-current="page"]):hover {
   color: var(--white);
   background-color: rgba(255, 255, 255, 0.05);
-}
-
-@media (max-width: 768px) {
-  .nav-toggle-item {
-    justify-content: center;
-    padding: 14px 18px 6px;
-  }
-
-  .experience-toggle {
-    width: 100%;
-    max-width: 320px;
-    justify-content: center;
-  }
-
-  .toggle-option {
-    flex: 1;
-    text-align: center;
-    padding: 9px 12px;
-    font-size: 0.68rem;
-  }
 }
 
 /* =====================================================
