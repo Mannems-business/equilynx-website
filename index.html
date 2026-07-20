@@ -1,16 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script>
-  (function () {
-    try {
-      var exp = localStorage.getItem('equilynx_experience');
-      if (exp === 'startup') { window.location.replace('/startup/'); }
-      else if (exp === 'consulting') { window.location.replace('/consulting/'); }
-    } catch (e) { /* storage unavailable, fall through to chooser */ }
-  })();
-</script>
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Equilynx | Quantum Computing, AI & Deep-Tech Research</title>
+  <meta name="description" content="Equilynx is a deep-tech startup researching Quantum Computing, Artificial Intelligence, and Post-Quantum Cryptography, turning frontier research into deployable innovation." />
+  <meta name="robots" content="index, follow" />
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -42,20 +37,14 @@
   "sameAs": ["https://www.linkedin.com/company/equilynx"]
 }
 </script>
-
-    <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Equilynx | Post-Quantum Cryptography & Enterprise Technology</title>
-  <meta name="description" content="Equilynx Private Limited spans two divisions: a deep-tech Quantum Computing & AI research startup, and an enterprise IT consulting practice for digital transformation. Choose your destination." />
-  <meta name="robots" content="index, follow" />
   <meta property="og:title" content="Equilynx | Where Innovation Takes Shape" />
-  <meta property="og:description" content="Two divisions, one premium technology brand. Explore our Quantum Computing & AI research startup, or our Enterprise IT Consulting practice." />
+  <meta property="og:description" content="Building breakthrough technologies in Quantum Computing, Artificial Intelligence, and next-generation research." />
   <meta property="og:url" content="https://equilynx.in/" />
   <meta property="og:type" content="website" />
   <meta property="og:image" content="https://equilynx.in/favicon.svg" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Equilynx | Where Innovation Takes Shape" />
-  <meta name="twitter:description" content="Two divisions, one premium technology brand. Explore our Quantum Computing & AI research startup, or our Enterprise IT Consulting practice." />
+  <meta name="twitter:description" content="Building breakthrough technologies in Quantum Computing, Artificial Intelligence, and next-generation research." />
   <meta name="twitter:image" content="https://equilynx.in/favicon.svg" />
   <link rel="canonical" href="https://equilynx.in/" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -65,33 +54,219 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;600;700&family=Raleway:wght@100;200;300;400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/style.css" />
 </head>
-<body data-page="chooser" class="chooser-mode">
+<body data-page="home" data-track="startup">
+
+  <div id="progress-bar"></div>
+
+  <div class="page-loader" id="pageLoader">
+    <div class="loader-inner">
+      <div class="loader-logo">EQUILYNX</div>
+      <div class="loader-bar"><div class="loader-fill"></div></div>
+    </div>
+  </div>
+
+  <div class="cookie-banner" id="cookieBanner">
+    <div class="cookie-content">
+      <p>We use cookies to improve your experience and understand how visitors use the website.</p>
+      <div class="cookie-btns">
+        <button class="cookie-accept" onclick="acceptCookies()">Accept All</button>
+        <button class="cookie-decline" onclick="declineCookies()">Decline</button>
+      </div>
+    </div>
+  </div>
+
+  <nav class="navbar" id="navbar">
+    <a class="nav-logo" href="/" aria-label="Equilynx home">EQUILYNX</a>
+    <ul class="nav-links" id="navLinks">
+      <li class="nav-toggle-item">
+        <div class="experience-toggle">
+          <a href="/" class="toggle-option active" data-track="startup" aria-current="page">Quantum R&D</a>
+          <a href="/consulting/" class="toggle-option" data-track="consulting">IT Consultancy</a>
+        </div>
+      </li>
+      <li><a href="/startup/about/" onclick="closeMenu()">About</a></li>
+      <li><a href="/startup/research/" onclick="closeMenu()">Research</a></li>
+      <li><a href="/startup/products/" onclick="closeMenu()">Products</a></li>
+      <li><a href="/startup/innovation/" onclick="closeMenu()">Innovation</a></li>
+      <li><a href="/startup/partnerships/" onclick="closeMenu()">Partnerships</a></li>
+      <li><a href="/startup/contact/" onclick="closeMenu()">Contact</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" title="Menu" aria-label="Menu"><i class="fas fa-bars"></i></button>
+  </nav>
+
   <main>
     <section class="hero" id="home">
       <div class="hero-bg"></div>
+      <canvas id="hero-canvas"></canvas>
       <div class="hero-glow"></div>
       <div class="hero-content">
         <h1 class="hero-title" id="heroTitle">EQUILYNX</h1>
         <div class="hero-line" id="heroLine"></div>
-        <p class="hero-tagline" id="typingText" data-typing="WHERE INNOVATION TAKES SHAPE"></p>
-        <p class="hero-sub" id="heroSub">Choose your destination.</p>
-        <div class="hero-btns selection-cards" id="heroBtns">
-          <a class="experience-card" href="/startup/" data-experience="startup" aria-label="Enter the Equilynx Quantum R&D experience">
-            <div class="experience-card-icon"><i class="fas fa-atom"></i></div>
-            <h2>Quantum R&D</h2>
-            <p>Building breakthrough technologies in Quantum Computing, Artificial Intelligence, and next-generation research.</p>
-            <span class="btn-primary">Enter Quantum R&D</span>
-          </a>
-          <a class="experience-card" href="/consulting/" data-experience="consulting" aria-label="Enter the Equilynx Enterprise IT Consulting experience">
-            <div class="experience-card-icon"><i class="fas fa-building"></i></div>
-            <h2>Enterprise IT Consulting</h2>
-            <p>Enterprise technology consulting, digital transformation, cloud, cybersecurity, AI solutions, software engineering, and managed IT services.</p>
-            <span class="btn-primary">Enter Consulting</span>
-          </a>
+        <p class="hero-tagline" id="typingText" data-typing="ENGINEERING THE QUANTUM FRONTIER"></p>
+        <p class="hero-sub" id="heroSub">Deep-Tech Research & Innovation</p>
+        <div class="hero-btns" id="heroBtns">
+          <a href="/startup/research/" class="btn-primary">Explore Research</a>
+          <a href="/startup/products/" class="btn-ghost">View Products</a>
+        </div>
+      </div>
+      <div class="scroll-down"><i class="fas fa-chevron-down"></i></div>
+    </section>
+
+    <section class="pqc-intro-section" id="vision">
+      <div class="container">
+        <div class="pqc-intro-content">
+          <h2>Pioneering Quantum-Safe Intelligence</h2>
+          <p class="pqc-intro-subtitle">We research and build breakthrough technologies at the intersection of Quantum Computing, Artificial Intelligence, and next-generation cryptography — engineered in India, for the world.</p>
+          <div class="pqc-intro-ctas">
+            <a href="#research-pillars" class="btn-primary">Explore Our Research Pillars</a>
+            <a href="/startup/partnerships/" class="btn-secondary">Partner With Our Lab</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="nqm-section" id="nqm-alignment">
+      <div class="container">
+        <h2>National Quantum Mission (NQM) Alignment</h2>
+        <div class="nqm-content">
+          <p>India's National Quantum Mission establishes explicit mandates for securing critical communication infrastructures through crypto-agility and localized data resilience. Equilynx is built to directly serve the objectives of the Quantum Communication vertical, positioning our research group to interface seamlessly with sandboxes such as the IITM CDOT Samgnya Technology Foundation (Quantum Communication Hub). Our mission is to accelerate sovereign self-reliance (Atmanirbhar Bharat) by turning frontier research into deployable, quantum-resistant capability.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="tech-specs-section" id="research-pillars">
+      <div class="container">
+        <h2>Research Pillars</h2>
+        <div class="features-gallery-wrapper">
+          <div class="features-gallery-viewport">
+            <div class="features-grid">
+              <div class="feature-card reveal">
+                <h3>Quantum Computing</h3>
+                <p>Algorithm design and simulation work exploring near-term quantum advantage, with a focus on cryptographically relevant problems and hybrid classical-quantum pipelines.</p>
+              </div>
+              <div class="feature-card reveal delay-1">
+                <h3>Artificial Intelligence</h3>
+                <p>Applied machine learning for anomaly detection, adversarial modeling, and decision systems that hold up under real-world enterprise load.</p>
+              </div>
+              <div class="feature-card reveal delay-2">
+                <h3>Post-Quantum Cryptography</h3>
+                <p>NIST/FIPS-aligned lattice-based primitives (ML-KEM, ML-DSA) engineered in Rust — our first research line to reach production maturity as a deployable middleware product.</p>
+              </div>
+              <div class="feature-card reveal delay-3">
+                <h3>Emerging Technologies & Distributed Systems</h3>
+                <p>Exploratory work on formal verification, high-throughput distributed protocols, and the infrastructure needed to run quantum-safe systems at enterprise scale.</p>
+              </div>
+            </div>
+          </div>
+          <button class="gallery-nav prev" aria-label="Previous feature" disabled><i class="fas fa-chevron-left"></i></button>
+          <button class="gallery-nav next" aria-label="Next feature"><i class="fas fa-chevron-right"></i></button>
+          <div class="gallery-pagination"></div>
+        </div>
+
+        <div class="media-container tech-diagram-container reveal" id="interactiveDiagram">
+          <div class="diagram-layer">
+            <div class="layer-title">Layer 1: Research</div>
+            <div class="layer-icon"><i class="fas fa-flask"></i></div>
+            <div class="layer-tooltip">Open-ended exploration of quantum, AI, and cryptographic problems, benchmarked against real adversarial scenarios.</div>
+          </div>
+          <div class="diagram-arrow"><i class="fas fa-chevron-right"></i></div>
+          <div class="diagram-layer equilynx-layer">
+            <div class="layer-title">Layer 2: Prototype</div>
+            <div class="layer-icon"><i class="fas fa-microchip"></i></div>
+            <div class="layer-tooltip">Promising research lines are hardened into working prototypes and stress-tested against production-grade constraints.</div>
+          </div>
+          <div class="diagram-arrow"><i class="fas fa-chevron-right"></i></div>
+          <div class="diagram-layer">
+            <div class="layer-title">Layer 3: Deployed Innovation</div>
+            <div class="layer-icon"><i class="fas fa-rocket"></i></div>
+            <div class="layer-tooltip">Mature prototypes graduate into products — like our PQC middleware — ready for enterprise pilots and licensing.</div>
+          </div>
+          <div class="packet-path">
+            <div class="packet insecure"></div>
+            <div class="packet insecure" style="animation-delay: 0.5s;"></div>
+            <div class="packet insecure" style="animation-delay: 1s;"></div>
+            <div class="packet secure"></div>
+            <div class="packet secure" style="animation-delay: 0.5s;"></div>
+            <div class="packet secure" style="animation-delay: 1s;"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="competitive-section" id="differentiation">
+      <div class="container">
+        <h2>How We're Different</h2>
+        <div class="comparison-table-wrapper reveal">
+          <table class="comparison-table">
+            <thead>
+              <tr>
+                <th>Capability Dimension</th>
+                <th>Equilynx Research</th>
+                <th>Academic Labs</th>
+                <th>Big Tech R&D</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td data-label="Dimension"><strong>Speed to Working Prototype</strong></td>
+                <td data-label="Equilynx">Weeks, with a direct line to production engineering</td>
+                <td data-label="Academic Labs">Often multi-year publication cycles</td>
+                <td data-label="Big Tech">Fast, but rarely focused on sovereign deployment</td>
+              </tr>
+              <tr>
+                <td data-label="Dimension"><strong>Data & IP Residency</strong></td>
+                <td data-label="Equilynx">100% local custody, India-based research and engineering</td>
+                <td data-label="Academic Labs">Often shared across international consortia</td>
+                <td data-label="Big Tech">Global infrastructure, limited local control</td>
+              </tr>
+              <tr>
+                <td data-label="Dimension"><strong>Focus</strong></td>
+                <td data-label="Equilynx">Quantum, AI, and PQC aimed at Indian enterprise and public infrastructure</td>
+                <td data-label="Academic Labs">Broad, curiosity-driven</td>
+                <td data-label="Big Tech">Aligned to global product roadmaps</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="compliance-section" id="recognitions">
+      <div class="container">
+        <div class="compliance-badges">
+          <div class="compliance-badge"><i class="fas fa-certificate"></i><p>DPIIT-Recognized Startup</p></div>
+          <div class="compliance-badge"><i class="fas fa-atom"></i><p>National Quantum Mission Aligned</p></div>
+          <div class="compliance-badge"><i class="fas fa-shield"></i><p>Rust-Native, Sovereign-Hosted Engineering</p></div>
         </div>
       </div>
     </section>
   </main>
+
+  <footer class="footer">
+    <div class="footer-logo">EQUILYNX</div>
+    <p class="footer-tagline">DEEP-TECH RESEARCH · QUANTUM COMPUTING · ARTIFICIAL INTELLIGENCE</p>
+    <div class="footer-compliance">
+      <span>DPIIT Recognized Startup</span>
+      <span>National Quantum Mission Aligned</span>
+      <span>Research-Driven Engineering</span>
+    </div>
+    <div class="footer-links">
+      <a href="/">Home</a>
+      <a href="/startup/about/">About</a>
+      <a href="/startup/research/">Research</a>
+      <a href="/startup/products/">Products</a>
+      <a href="/startup/innovation/">Innovation</a>
+      <a href="/startup/partnerships/">Partnerships</a>
+      <a href="/startup/careers/">Careers</a>
+      <a href="/startup/contact/">Contact</a>      <a href="https://www.linkedin.com/company/equilynx/?viewAsMember=true" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Equilynx Private Limited. All rights reserved.</p>
+      <p>Hyderabad, Telangana, India</p>
+    </div>
+  </footer>
+
+  <a href="https://wa.me/917337418969" class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Chat with Equilynx on WhatsApp"><i class="fab fa-whatsapp"></i></a>
 
   <script src="/script.js"></script>
   <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "0618329002944f609639c3025a1d9366"}'></script>

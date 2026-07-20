@@ -2774,108 +2774,6 @@ main {
   }
 }
 
-/* =====================================================
-   EXPERIENCE SELECTOR (Startup / Consulting chooser)
-   Added for the two-track restructure. Reuses existing
-   colors, fonts, blur, and reveal timing — no new palette.
-===================================================== */
-
-body.chooser-mode {
-  overflow-y: auto;
-  min-height: 100vh;
-}
-
-body.chooser-mode .scroll-down {
-  display: none;
-}
-
-.selection-cards {
-  display: flex !important;
-  flex-direction: row;
-  gap: 28px;
-  width: min(920px, 92vw);
-  margin: 0 auto;
-  align-items: stretch;
-  justify-content: center;
-}
-
-.experience-card {
-  flex: 1 1 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 14px;
-  padding: 42px 28px;
-  border-radius: 18px;
-  border: 1px solid var(--border-strong);
-  background: linear-gradient(180deg, rgba(10, 37, 64, 0.55), rgba(2, 11, 24, 0.75));
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  text-decoration: none;
-  color: var(--white);
-  cursor: pointer;
-  transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease, background 0.35s ease;
-  box-shadow: var(--shadow);
-}
-
-.experience-card:hover,
-.experience-card:focus-visible {
-  transform: translateY(-8px);
-  border-color: var(--accent);
-  background: linear-gradient(180deg, rgba(79, 195, 247, 0.14), rgba(2, 11, 24, 0.8));
-}
-
-.experience-card-icon {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.6rem;
-  background: var(--accent-soft);
-  color: var(--accent);
-  border: 1px solid var(--border-strong);
-}
-
-.experience-card h2 {
-  font-family: var(--font-display);
-  font-weight: 300;
-  letter-spacing: 2px;
-  font-size: 1.3rem;
-  text-transform: uppercase;
-}
-
-.experience-card p {
-  color: var(--grey);
-  font-size: 0.92rem;
-  line-height: 1.65;
-  font-weight: 300;
-}
-
-.experience-card .btn-primary,
-.experience-card .btn-ghost {
-  margin-top: 6px;
-  pointer-events: none;
-}
-
-.chooser-heading {
-  text-align: center;
-  margin-bottom: 8px;
-}
-
-@media (max-width: 768px) {
-  .selection-cards {
-    flex-direction: column;
-    width: min(420px, 90vw);
-  }
-
-  .experience-card {
-    padding: 32px 22px;
-  }
-}
-
 /* ---- Track badge used on inner pages to reinforce which experience you're in ---- */
 .track-pill {
   display: inline-flex;
@@ -2936,11 +2834,6 @@ body.chooser-mode .scroll-down {
   background-color: rgba(255, 255, 255, 0.05);
 }
 
-/* Hide toggle on the main chooser page */
-body.chooser-mode .nav-toggle-item {
-  display: none;
-}
-
 @media (max-width: 768px) {
   .nav-toggle-item {
     justify-content: center;
@@ -2985,3 +2878,148 @@ body.chooser-mode .nav-toggle-item {
 [data-track="consulting"] .nav-links a:not(.active):hover {
   color: #a0cff0; /* Standard accent hover for consulting nav */
 }
+
+/* =====================================================
+   CONSULTING TRACK — distinct layout, same site theme
+   Same blue palette and same star-field hero as the rest
+   of the site. The visual difference from Quantum comes
+   from structure/layout below the hero (timeline instead
+   of the red/blue packet diagram, different card/table
+   treatment) — not from color or the hero effect.
+===================================================== */
+
+/* Feature cards: sharper corners + left accent bar instead of the Quantum glow-border style */
+body[data-track="consulting"] .feature-card {
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  background: linear-gradient(180deg, rgba(79, 195, 247, 0.05), transparent);
+}
+
+body[data-track="consulting"] .feature-card:hover {
+  border-color: rgba(79, 195, 247, 0.4);
+  border-left-color: var(--accent);
+  background: rgba(79, 195, 247, 0.07);
+}
+
+/* Comparison table: solid header band instead of the Quantum outlined-cell style */
+body[data-track="consulting"] .comparison-table-wrapper {
+  border-radius: 4px;
+  border: 1px solid var(--border-strong);
+}
+
+body[data-track="consulting"] .comparison-table thead {
+  background: linear-gradient(180deg, rgba(79, 195, 247, 0.22), rgba(79, 195, 247, 0.06));
+}
+
+body[data-track="consulting"] .comparison-table tbody tr:nth-child(even) {
+  background: rgba(79, 195, 247, 0.03);
+}
+
+/* Compliance badges: pill shape instead of the Quantum square-icon badge */
+body[data-track="consulting"] .compliance-badge {
+  border-radius: 999px;
+}
+
+/* --- Engagement timeline (replaces the Quantum Assess/Architect/Deliver red↔blue packet diagram) --- */
+.engagement-timeline {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  margin-top: 56px;
+  padding-top: 40px;
+}
+
+.engagement-timeline .timeline-track {
+  position: absolute;
+  top: 18px;
+  left: 8%;
+  right: 8%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0.5;
+}
+
+.timeline-step {
+  position: relative;
+  text-align: center;
+  padding: 0 12px;
+}
+
+.timeline-marker {
+  width: 40px;
+  height: 40px;
+  margin: 0 auto 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--dark);
+  border: 2px solid var(--accent);
+  color: var(--accent);
+  font-size: 0.95rem;
+  position: relative;
+  z-index: 1;
+}
+
+.timeline-step.is-primary .timeline-marker {
+  background: var(--accent);
+  color: var(--navy);
+  box-shadow: 0 0 0 6px var(--accent-soft);
+}
+
+.timeline-index {
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  color: rgba(79, 195, 247, 0.55);
+  margin-bottom: 6px;
+}
+
+.timeline-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  color: var(--white);
+}
+
+.timeline-copy {
+  color: var(--grey);
+  font-size: 0.88rem;
+  line-height: 1.6;
+  font-weight: 300;
+}
+
+.engagement-timeline.animate .timeline-step {
+  animation: timelineRise 0.6s ease both;
+}
+
+.engagement-timeline.animate .timeline-step:nth-child(2) { animation-delay: 0.15s; }
+.engagement-timeline.animate .timeline-step:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes timelineRise {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+  .engagement-timeline {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .engagement-timeline .timeline-track {
+    top: 0;
+    left: 19px;
+    right: auto;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(180deg, transparent, var(--accent), transparent);
+  }
+}
+
+
