@@ -71,11 +71,6 @@
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://equilynx.in/consulting/case-studies/</loc>
-    <priority>0.7</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-  <url>
     <loc>https://equilynx.in/consulting/careers/</loc>
     <priority>0.7</priority>
     <changefreq>monthly</changefreq>

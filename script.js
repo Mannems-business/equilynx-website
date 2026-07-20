@@ -310,9 +310,36 @@ document.querySelectorAll(".service-card").forEach((card) => {
 
 function initHeroAnimation() {
   const canvas = document.getElementById("hero-canvas");
-  
-  // Check if canvas exists, if not (e.g., on pages without hero canvas), return early
-  if (!canvas) return;
+
+  // On pages without the star canvas (e.g. the chooser page), skip the
+  // star-field animation entirely and just reveal the hero content right away.
+  if (!canvas) {
+    const heroTitle = document.getElementById("heroTitle");
+    const heroLine = document.getElementById("heroLine");
+    const heroButtons = document.getElementById("heroBtns");
+    const heroSub = document.getElementById("heroSub");
+    const typingElement = document.getElementById("typingText");
+
+    if (heroTitle) {
+      heroTitle.classList.add("visible");
+      decodeEffect(heroTitle);
+    }
+    if (heroLine) heroLine.classList.add("visible");
+    if (heroButtons) heroButtons.classList.add("visible");
+    if (heroSub) heroSub.classList.add("visible");
+
+    if (typingElement) {
+      const typingText = typingElement.dataset.typing || "WHERE INNOVATION TAKES SHAPE";
+      let index = 0;
+      (function type() {
+        if (index >= typingText.length) return;
+        typingElement.textContent += typingText[index];
+        index += 1;
+        setTimeout(type, 75);
+      })();
+    }
+    return;
+  }
 
   const ctx = canvas.getContext("2d");
   if (!ctx) return;
@@ -635,12 +662,34 @@ function initFeaturesGallery() {
   updateGallery(); // Initial call
 }
 
+function initExperienceToggle() {
+  const toggle = document.querySelector(".experience-toggle");
+  if (!toggle) return;
+
+  const options = toggle.querySelectorAll(".toggle-option");
+  options.forEach(option => {
+    // Do not add a click listener to the active/current page link
+    if (option.classList.contains('active') || option.getAttribute('aria-current') === 'page') {
+      return;
+    }
+
+    option.addEventListener("click", (event) => {
+      event.preventDefault();
+      const track = option.dataset.track;
+      if (track) {
+        chooseExperience(track);
+      }
+    });
+  });
+}
+
 window.addEventListener("load", () => {
   updateScrollState();
 
   initHeroAnimation();
   initFeaturesGallery();
   initInteractiveDiagram();
+  initExperienceToggle();
 });
 
 // =====================================================

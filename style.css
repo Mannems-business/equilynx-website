@@ -102,59 +102,6 @@ img {
   position: relative;
 }
 
-.nav-logo::before,
-.nav-logo::after {
-  content: attr(data-text);
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(2, 11, 24, 0.98); /* Match navbar background */
-  overflow: hidden;
-  color: var(--white);
-}
-
-.nav-logo::before {
-  left: 2px;
-  text-shadow: -2px 0 var(--accent);
-  animation: glitch-1 2.5s infinite linear alternate-reverse;
-}
-
-.nav-logo::after {
-  left: -2px;
-  text-shadow: -2px 0 #ff4d4d, 2px 2px var(--accent);
-  animation: glitch-2 2s infinite linear alternate-reverse;
-}
-
-@keyframes glitch-1 {
-  0% { clip-path: inset(45% 0 50% 0); }
-  10% { clip-path: inset(30% 0 62% 0); }
-  20% { clip-path: inset(15% 0 75% 0); }
-  30% { clip-path: inset(20% 0 40% 0); }
-  40% { clip-path: inset(40% 0 58% 0); }
-  50% { clip-path: inset(60% 0 30% 0); }
-  60% { clip-path: inset(75% 0 5% 0); }
-  70% { clip-path: inset(50% 0 45% 0); }
-  80% { clip-path: inset(85% 0 2% 0); }
-  90% { clip-path: inset(62% 0 32% 0); }
-  100% { clip-path: inset(92% 0 2% 0); }
-}
-
-@keyframes glitch-2 {
-  0% { clip-path: inset(82% 0 12% 0); }
-  10% { clip-path: inset(92% 0 2% 0); }
-  20% { clip-path: inset(72% 0 22% 0); }
-  30% { clip-path: inset(62% 0 32% 0); }
-  40% { clip-path: inset(52% 0 42% 0); }
-  50% { clip-path: inset(72% 0 22% 0); }
-  60% { clip-path: inset(92% 0 2% 0); }
-  70% { clip-path: inset(12% 0 82% 0); }
-  80% { clip-path: inset(2% 0 92% 0); }
-  90% { clip-path: inset(82% 0 12% 0); }
-  100% { clip-path: inset(2% 0 92% 0); }
-}
-
 .nav-links {
   margin-left: auto;
   display: flex;
@@ -2278,6 +2225,28 @@ main {
   border-right: none;
 }
 
+@media (max-width: 1180px) {
+  .navbar {
+    padding: 0 24px;
+    gap: 12px;
+  }
+
+  .nav-links {
+    gap: 16px;
+  }
+
+  .nav-links a {
+    font-size: 0.68rem;
+    letter-spacing: 1.2px;
+  }
+
+  .toggle-option {
+    padding: 5px 10px;
+    font-size: 0.62rem;
+    letter-spacing: 1px;
+  }
+}
+
 @media (max-width: 980px) {
   .comparison-table {
     font-size: 0.82rem;
@@ -2812,8 +2781,8 @@ main {
 ===================================================== */
 
 body.chooser-mode {
-  overflow: hidden;
-  height: 100vh;
+  overflow-y: auto;
+  min-height: 100vh;
 }
 
 body.chooser-mode .scroll-down {
@@ -2907,33 +2876,6 @@ body.chooser-mode .scroll-down {
   }
 }
 
-/* ---- Switch Experience control in navbar ---- */
-.nav-switch-item {
-  margin-left: 6px;
-}
-
-.nav-links a.nav-switch {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 14px;
-  border: 1px solid var(--border-strong);
-  border-radius: 999px;
-  font-size: 0.7rem;
-}
-
-.nav-links a.nav-switch:hover {
-  background: var(--accent-soft);
-  color: var(--accent);
-}
-
-@media (max-width: 980px) {
-  .nav-switch-item {
-    margin-left: 0;
-    margin-top: 6px;
-  }
-}
-
 /* ---- Track badge used on inner pages to reinforce which experience you're in ---- */
 .track-pill {
   display: inline-flex;
@@ -2948,4 +2890,98 @@ body.chooser-mode .scroll-down {
   letter-spacing: 1.5px;
   text-transform: uppercase;
   margin-bottom: 18px;
+}
+
+/* =====================================================
+   Experience Toggle Component (now a normal nav item,
+   flows inline with the other nav links instead of
+   floating fixed on top of them)
+===================================================== */
+.nav-toggle-item {
+  display: flex;
+  align-items: center;
+}
+
+.experience-toggle {
+  display: flex;
+  background: rgba(2, 11, 24, 0.7);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  backdrop-filter: blur(10px);
+  flex-shrink: 0;
+}
+
+.toggle-option {
+  padding: 6px 14px;
+  font-size: 0.68rem;
+  letter-spacing: 1.3px;
+  text-decoration: none;
+  color: var(--grey);
+  text-transform: uppercase;
+  border-radius: 999px;
+  transition: color 0.3s ease, background-color 0.3s ease;
+  white-space: nowrap;
+}
+
+.toggle-option.active,
+.toggle-option[aria-current="page"] {
+  background-color: var(--accent-soft);
+  color: var(--accent);
+  cursor: default;
+  pointer-events: none;
+}
+
+.toggle-option:not(.active):not([aria-current="page"]):hover {
+  color: var(--white);
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Hide toggle on the main chooser page */
+body.chooser-mode .nav-toggle-item {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .nav-toggle-item {
+    justify-content: center;
+    padding: 14px 18px 6px;
+  }
+
+  .experience-toggle {
+    width: 100%;
+    max-width: 320px;
+    justify-content: center;
+  }
+
+  .toggle-option {
+    flex: 1;
+    text-align: center;
+    padding: 9px 12px;
+    font-size: 0.68rem;
+  }
+}
+
+/* =====================================================
+   TRACK-SPECIFIC STYLING (Startup vs. Consulting)
+===================================================== */
+
+/* --- Startup / Quantum R&D Track --- */
+[data-track="startup"] .hero-tagline {
+  color: #a7d8f5; /* A slightly different, softer blue */
+  letter-spacing: 9px;
+}
+
+[data-track="startup"] .nav-links a:not(.active):hover {
+  color: #69d2ff; /* Brighter hover for startup nav */
+}
+
+/* --- Consulting Track --- */
+/* Note: These styles will apply if a page has <body data-track="consulting"> */
+[data-track="consulting"] .hero-tagline {
+  color: #8cb6d5; /* A more muted, professional blue */
+  letter-spacing: 6px;
+}
+
+[data-track="consulting"] .nav-links a:not(.active):hover {
+  color: #a0cff0; /* Standard accent hover for consulting nav */
 }

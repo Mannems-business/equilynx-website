@@ -47,15 +47,18 @@
   <nav class="navbar" id="navbar">
     <a class="nav-logo" href="/consulting/" aria-label="Equilynx home">EQUILYNX</a>
     <ul class="nav-links" id="navLinks">
-      <li><a href="/consulting/" onclick="closeMenu()">Home</a></li>
+      <li class="nav-toggle-item">
+        <div class="experience-toggle">
+          <a href="/startup/" class="toggle-option" data-track="startup">Quantum R&D</a>
+          <a href="/consulting/" class="toggle-option active" data-track="consulting" aria-current="page">IT Consultancy</a>
+        </div>
+      </li>
       <li><a href="/consulting/about/" onclick="closeMenu()">About</a></li>
       <li><a href="/consulting/services/" onclick="closeMenu()">Services</a></li>
       <li><a href="/consulting/industries/" onclick="closeMenu()">Industries</a></li>
       <li><a href="/consulting/solutions/" onclick="closeMenu()">Solutions</a></li>
-      <li><a href="/consulting/case-studies/" onclick="closeMenu()">Case Studies</a></li>
       <li><a href="/consulting/careers/" onclick="closeMenu()">Careers</a></li>
       <li><a class="active" aria-current="page" href="/consulting/contact/" onclick="closeMenu()">Contact</a></li>
-      <li class="nav-switch-item"><a class="nav-switch" href="/" onclick="switchExperience(event)"><i class="fas fa-shuffle"></i> Switch Experience</a></li>
     </ul>
     <button class="hamburger" id="hamburger" title="Menu" aria-label="Menu"><i class="fas fa-bars"></i></button>
   </nav>
@@ -141,11 +144,8 @@
       <a href="/consulting/services/">Services</a>
       <a href="/consulting/industries/">Industries</a>
       <a href="/consulting/solutions/">Solutions</a>
-      <a href="/consulting/case-studies/">Case Studies</a>
       <a href="/consulting/careers/">Careers</a>
-      <a href="/consulting/contact/">Contact</a>
-      <a href="/" onclick="switchExperience(event)">Switch Experience</a>
-      <a href="https://www.linkedin.com/company/equilynx/?viewAsMember=true" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="/consulting/contact/">Contact</a>      <a href="https://www.linkedin.com/company/equilynx/?viewAsMember=true" target="_blank" rel="noopener noreferrer">LinkedIn</a>
     </div>
     <div class="footer-bottom">
       <p>&copy; 2026 Equilynx Private Limited. All rights reserved.</p>

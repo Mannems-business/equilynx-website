@@ -47,7 +47,12 @@
   <nav class="navbar" id="navbar">
     <a class="nav-logo" href="/startup/" aria-label="Equilynx home">EQUILYNX</a>
     <ul class="nav-links" id="navLinks">
-      <li><a href="/startup/" onclick="closeMenu()">Home</a></li>
+      <li class="nav-toggle-item">
+        <div class="experience-toggle">
+          <a href="/startup/" class="toggle-option active" data-track="startup" aria-current="page">Quantum R&D</a>
+          <a href="/consulting/" class="toggle-option" data-track="consulting">IT Consultancy</a>
+        </div>
+      </li>
       <li><a href="/startup/about/" onclick="closeMenu()">About</a></li>
       <li><a href="/startup/research/" onclick="closeMenu()">Research</a></li>
       <li><a class="active" aria-current="page" href="/startup/products/" onclick="closeMenu()">Products</a></li>
@@ -55,7 +60,6 @@
       <li><a href="/startup/partnerships/" onclick="closeMenu()">Partnerships</a></li>
       <li><a href="/startup/careers/" onclick="closeMenu()">Careers</a></li>
       <li><a href="/startup/contact/" onclick="closeMenu()">Contact</a></li>
-      <li class="nav-switch-item"><a class="nav-switch" href="/" onclick="switchExperience(event)"><i class="fas fa-shuffle"></i> Switch Experience</a></li>
     </ul>
     <button class="hamburger" id="hamburger" title="Menu" aria-label="Menu"><i class="fas fa-bars"></i></button>
   </nav>
@@ -143,9 +147,7 @@
       <a href="/startup/innovation/">Innovation</a>
       <a href="/startup/partnerships/">Partnerships</a>
       <a href="/startup/careers/">Careers</a>
-      <a href="/startup/contact/">Contact</a>
-      <a href="/" onclick="switchExperience(event)">Switch Experience</a>
-      <a href="https://www.linkedin.com/company/equilynx/?viewAsMember=true" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="/startup/contact/">Contact</a>      <a href="https://www.linkedin.com/company/equilynx/?viewAsMember=true" target="_blank" rel="noopener noreferrer">LinkedIn</a>
     </div>
     <div class="footer-bottom">
       <p>&copy; 2026 Equilynx Private Limited. All rights reserved.</p>
