@@ -202,14 +202,6 @@ main {
   z-index: 0;
 }
 
-/* Quantum atom field — sits behind the star-field (#hero-canvas) */
-#quantum-canvas {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-}
-
 .hero-glow {
   position: absolute;
   top: 50%;
