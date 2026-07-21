@@ -2985,20 +2985,6 @@ main {
    treatment) — not from color or the hero effect.
 ===================================================== */
 
-/* Feature cards: sharper corners + left accent bar instead of the Quantum glow-border style */
-body[data-track="consulting"] .feature-card {
-  border-radius: 4px;
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--accent);
-  background: linear-gradient(180deg, rgba(79, 195, 247, 0.05), transparent);
-}
-
-body[data-track="consulting"] .feature-card:hover {
-  border-color: rgba(79, 195, 247, 0.4);
-  border-left-color: var(--accent);
-  background: rgba(79, 195, 247, 0.07);
-}
-
 /* Comparison table: solid header band instead of the Quantum outlined-cell style */
 body[data-track="consulting"] .comparison-table-wrapper {
   border-radius: 4px;
