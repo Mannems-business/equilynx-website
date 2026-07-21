@@ -41,11 +41,11 @@
   <meta property="og:description" content="Building breakthrough technologies in Quantum Computing, Artificial Intelligence, and next-generation research." />
   <meta property="og:url" content="https://equilynx.in/" />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="https://equilynx.in/favicon.svg" />
+  <meta property="og:image" content="https://equilynx.in/og-image.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Equilynx | Where Innovation Takes Shape" />
   <meta name="twitter:description" content="Building breakthrough technologies in Quantum Computing, Artificial Intelligence, and next-generation research." />
-  <meta name="twitter:image" content="https://equilynx.in/favicon.svg" />
+  <meta name="twitter:image" content="https://equilynx.in/og-image.png" />
   <link rel="canonical" href="https://equilynx.in/" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
@@ -65,15 +65,6 @@
     </div>
   </div>
 
-  <div class="cookie-banner" id="cookieBanner">
-    <div class="cookie-content">
-      <p>We use cookies to improve your experience and understand how visitors use the website.</p>
-      <div class="cookie-btns">
-        <button class="cookie-accept" onclick="acceptCookies()">Accept All</button>
-        <button class="cookie-decline" onclick="declineCookies()">Decline</button>
-      </div>
-    </div>
-  </div>
 
   <nav class="navbar" id="navbar">
     <a class="nav-logo" href="/" aria-label="Equilynx home">EQUILYNX</a>
@@ -84,7 +75,7 @@
           <a href="/consulting/" class="toggle-option" data-track="consulting">IT Consultancy</a>
         </div>
       </li>
-      <li><a href="/startup/about/" onclick="closeMenu()">About</a></li>
+      <li><a href="/about/" onclick="closeMenu()">About</a></li>
       <li><a href="/startup/research/" onclick="closeMenu()">Research</a></li>
       <li><a href="/startup/products/" onclick="closeMenu()">Products</a></li>
       <li><a href="/startup/innovation/" onclick="closeMenu()">Innovation</a></li>
@@ -231,10 +222,40 @@
       </div>
     </section>
 
+    <section class="section" id="about">
+      <div class="container">
+        <div class="section-tag reveal">Company Snapshot</div>
+        <h2 class="section-title reveal delay-1">Founded on Curiosity. Built for Impact.</h2>
+        <p class="section-lead reveal delay-2">We combine cryptographic precision, machine learning, and quantum research culture to push technology that matters for national and enterprise resilience.</p>
+        <div class="section-divider reveal delay-3"></div>
+        <div class="about-grid">
+          <div class="about-text reveal-left delay-1">
+            <p>Equilynx is a deep-tech startup specializing in Quantum Computing, Artificial Intelligence, and Post-Quantum Cryptography. Incorporated in 2025, we directly align with India's National Quantum Mission objectives for critical infrastructure protection and sovereign technological capability.</p>
+            <p>We bridge the gap between open-ended research and production-grade engineering, architecting NIST/FIPS-aligned cryptographic primitives, applied AI systems, and the exploratory groundwork for quantum-era computing.</p>
+            <p>Our first research line to reach commercial maturity — post-quantum cryptographic middleware — now protects enterprise networks against Harvest-Now, Decrypt-Later threats, and represents the kind of translation from lab to deployed product that defines how we work.</p>
+            <div class="company-badges">
+              <div class="badge"><i class="fas fa-atom"></i> Quantum &amp; AI Research</div>
+              <div class="badge"><i class="fas fa-map-marker-alt"></i> Hyderabad, India</div>
+              <div class="badge"><i class="fas fa-shield"></i> Sovereign Hosted</div>
+            </div>
+            <div class="hero-btns visible" style="margin-top:28px;">
+              <a href="/about/" class="btn-ghost">More About Equilynx</a>
+            </div>
+          </div>
+          <div class="about-cards reveal-right delay-2">
+            <div class="stat-card"><i class="fas fa-code"></i><h3>Rust-Native Core</h3><p>High-performance, memory-safe implementations for cryptographic and systems research.</p></div>
+            <div class="stat-card"><i class="fas fa-brain"></i><h3>Research-to-Product Pipeline</h3><p>A deliberate path from open research questions to hardened, deployable prototypes.</p></div>
+            <div class="stat-card"><i class="fas fa-database"></i><h3>Data Sovereignty</h3><p>All research, data, and IP remain within Indian infrastructure and regulatory boundaries.</p></div>
+            <div class="stat-card"><i class="fas fa-globe"></i><h3>Global Ambition</h3><p>Locally engineered technology built to compete on the global deep-tech stage.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="compliance-section" id="recognitions">
       <div class="container">
         <div class="compliance-badges">
-          <div class="compliance-badge"><i class="fas fa-certificate"></i><p>DPIIT-Recognized Startup</p></div>
+          <div class="compliance-badge"><i class="fas fa-flask"></i><p>Deep-Tech Research Startup</p></div>
           <div class="compliance-badge"><i class="fas fa-atom"></i><p>National Quantum Mission Aligned</p></div>
           <div class="compliance-badge"><i class="fas fa-shield"></i><p>Rust-Native, Sovereign-Hosted Engineering</p></div>
         </div>
@@ -246,19 +267,20 @@
     <div class="footer-logo">EQUILYNX</div>
     <p class="footer-tagline">DEEP-TECH RESEARCH · QUANTUM COMPUTING · ARTIFICIAL INTELLIGENCE</p>
     <div class="footer-compliance">
-      <span>DPIIT Recognized Startup</span>
+      <span>Deep-Tech Research Startup</span>
       <span>National Quantum Mission Aligned</span>
       <span>Research-Driven Engineering</span>
     </div>
     <div class="footer-links">
       <a href="/">Home</a>
-      <a href="/startup/about/">About</a>
+      <a href="/about/">About</a>
       <a href="/startup/research/">Research</a>
       <a href="/startup/products/">Products</a>
       <a href="/startup/innovation/">Innovation</a>
       <a href="/startup/partnerships/">Partnerships</a>
       <a href="/startup/careers/">Careers</a>
-      <a href="/contact/">Contact</a>      <a href="https://www.linkedin.com/company/equilynx/?viewAsMember=true" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="/contact/">Contact</a>      <a href="/privacy/">Privacy</a>
+      <a href="https://www.linkedin.com/company/equilynx/?viewAsMember=true" target="_blank" rel="noopener noreferrer">LinkedIn</a>
     </div>
     <div class="footer-bottom">
       <p>&copy; 2026 Equilynx Private Limited. All rights reserved.</p>

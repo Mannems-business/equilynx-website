@@ -140,20 +140,79 @@ if (careerRoleSelect) {
   });
 }
 
+function getSubmitLabel(button) {
+  if (!button) return "";
+  return button.tagName === "BUTTON" ? button.textContent : button.value;
+}
+
+function setSubmitLabel(button, label) {
+  if (!button) return;
+  if (button.tagName === "BUTTON") button.textContent = label;
+  else button.value = label;
+}
+
 document.querySelectorAll('form[action*="formspree.io"]').forEach((form) => {
-  form.addEventListener("submit", () => {
-    const submitButton = form.querySelector('button[type="submit"], input[type="submit"]');
-    if (!submitButton || submitButton.disabled) return;
+  const submitButton = form.querySelector('button[type="submit"], input[type="submit"]');
 
+  let status = form.querySelector(".form-status");
+  if (!status) {
+    status = document.createElement("div");
+    status.className = "form-status";
+    status.setAttribute("role", "status");
+    status.setAttribute("aria-live", "polite");
+    form.appendChild(status);
+  }
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (typeof form.reportValidity === "function" && !form.reportValidity()) return;
+    if (submitButton && submitButton.disabled) return;
+
+    const originalLabel = getSubmitLabel(submitButton) || "Send Message";
     form.classList.add("is-submitting");
-    submitButton.disabled = true;
+    status.className = "form-status";
+    status.textContent = "";
+    if (submitButton) {
+      submitButton.disabled = true;
+      setSubmitLabel(submitButton, "Sending...");
+    }
 
-    if (submitButton.tagName === "BUTTON") {
-      submitButton.dataset.originalLabel = submitButton.textContent;
-      submitButton.textContent = "Submitting...";
-    } else {
-      submitButton.dataset.originalLabel = submitButton.value;
-      submitButton.value = "Submitting...";
+    try {
+      const response = await fetch(form.action, {
+        method: "POST",
+        body: new FormData(form),
+        headers: { Accept: "application/json" },
+      });
+
+      if (response.ok) {
+        form.reset();
+        status.className = "form-status form-status-success is-visible";
+        status.innerHTML =
+          '<i class="fas fa-circle-check"></i><span>Thank you for reaching out — your message has been sent. We\'ll respond within 24 hours.</span>';
+      } else {
+        let message =
+          "Something went wrong. Please try again, or email us directly at contact@equilynx.in.";
+        try {
+          const data = await response.json();
+          if (data && Array.isArray(data.errors) && data.errors.length) {
+            message = data.errors.map((err) => err.message).join(" ");
+          }
+        } catch (parseError) {
+          /* keep default message */
+        }
+        status.className = "form-status form-status-error is-visible";
+        status.innerHTML = '<i class="fas fa-triangle-exclamation"></i><span>' + message + "</span>";
+      }
+    } catch (networkError) {
+      status.className = "form-status form-status-error is-visible";
+      status.innerHTML =
+        '<i class="fas fa-triangle-exclamation"></i><span>Network error. Please check your connection, or email us at contact@equilynx.in.</span>';
+    } finally {
+      form.classList.remove("is-submitting");
+      if (submitButton) {
+        submitButton.disabled = false;
+        setSubmitLabel(submitButton, originalLabel);
+      }
     }
   });
 });

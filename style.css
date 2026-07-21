@@ -1419,6 +1419,99 @@ main {
   background: #041428;
 }
 
+.form-status {
+  display: none;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 4px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+
+.form-status.is-visible {
+  display: flex;
+}
+
+.form-status i {
+  margin-top: 2px;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.form-status-success {
+  background: rgba(46, 204, 113, 0.08);
+  border-color: rgba(46, 204, 113, 0.4);
+  color: #7fe6b0;
+}
+
+.form-status-error {
+  background: rgba(231, 76, 60, 0.08);
+  border-color: rgba(231, 76, 60, 0.4);
+  color: #f0a49c;
+}
+
+.contact-form.is-submitting {
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+.legal-content {
+  max-width: 820px;
+  text-align: left;
+}
+
+.legal-content p,
+.legal-content li {
+  color: var(--grey);
+  font-size: 0.92rem;
+  line-height: 1.8;
+}
+
+.legal-content h2 {
+  color: var(--white);
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  margin: 38px 0 12px;
+}
+
+.legal-content ul {
+  margin: 0 0 4px;
+  padding-left: 22px;
+}
+
+.legal-content li {
+  margin-bottom: 8px;
+}
+
+.legal-content a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(79, 195, 247, 0.3);
+  transition: border-color 0.25s ease;
+}
+
+.legal-content a:hover {
+  border-bottom-color: var(--accent);
+}
+
+.legal-updated {
+  font-size: 0.8rem !important;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--accent) !important;
+  margin-bottom: 26px;
+}
+
+.legal-entity {
+  margin-top: 18px;
+  color: var(--grey-soft) !important;
+  font-size: 0.86rem !important;
+}
+
 .phone-group {
   display: flex;
   gap: 10px;
@@ -2067,7 +2160,7 @@ main {
 
 .lab-photo-container {
   margin-top: 0;
-  background-image: url('lab-workspace.png');
+  background-image: url('lab-workspace.webp');
   background-size: cover;
   background-position: center;
   /* The caption is now outside, so we don't need flexbox here */

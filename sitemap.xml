@@ -6,8 +6,8 @@
     <changefreq>weekly</changefreq>
   </url>
   <url>
-    <loc>https://equilynx.in/startup/about/</loc>
-    <priority>0.7</priority>
+    <loc>https://equilynx.in/about/</loc>
+    <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
@@ -41,11 +41,6 @@
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://equilynx.in/consulting/about/</loc>
-    <priority>0.7</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-  <url>
     <loc>https://equilynx.in/consulting/services/</loc>
     <priority>0.7</priority>
     <changefreq>monthly</changefreq>
@@ -71,9 +66,9 @@
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://equilynx.in/leadership/</loc>
-    <priority>0.6</priority>
-    <changefreq>monthly</changefreq>
+    <loc>https://equilynx.in/privacy/</loc>
+    <priority>0.3</priority>
+    <changefreq>yearly</changefreq>
   </url>
   <url>
     <loc>https://equilynx.in/leadership/charan.html</loc>
