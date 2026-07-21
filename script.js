@@ -767,3 +767,285 @@ function chooseExperience(track) {
 window.chooseExperience = chooseExperience;
 
 
+
+
+// =====================================================
+// ASK EQUILYNX — client-side assistant (no backend/API key)
+// Answers questions using a knowledge base built from the site content.
+// =====================================================
+(function () {
+  "use strict";
+
+  const KB = [
+    {
+      id: "contact",
+      keys: ["contact", "email", "e-mail", "mail", "phone", "call", "number", "reach", "get in touch", "whatsapp", "address", "location", "where", "map", "office", "talk", "enquire", "inquiry", "enquiry"],
+      answer:
+        "You can reach Equilynx here:<br>" +
+        "&bull; Email: <a href=\"mailto:contact@equilynx.in\">contact@equilynx.in</a><br>" +
+        "&bull; Phone: <a href=\"tel:+917337418969\">+91 7337418969</a><br>" +
+        "&bull; WhatsApp: <a href=\"https://wa.me/917337418969\" target=\"_blank\" rel=\"noopener\">Chat with us</a><br>" +
+        "&bull; Office: Hyderabad, Telangana, India<br>" +
+        "Or use the form on our <a href=\"/contact/\">Contact page</a>.",
+    },
+    {
+      id: "about",
+      keys: ["about", "who are you", "who is equilynx", "company", "overview", "what is equilynx", "incorporat", "founded", "history", "mission", "story", "background"],
+      answer:
+        "Equilynx Private Limited is a Hyderabad-based deep-tech company, incorporated in 2025. It operates two divisions — a Quantum, AI &amp; Post-Quantum Cryptography research startup, and an Enterprise IT Consulting practice — united by the same engineering rigor and aligned with India's National Quantum Mission. Read more on the <a href=\"/about/\">About page</a>.",
+    },
+    {
+      id: "divisions",
+      keys: ["division", "two divisions", "quantum r&d", "quantum rd", "it consultancy", "consulting or", "branch", "verticals", "both sides"],
+      answer:
+        "Equilynx has two divisions:<br>" +
+        "&bull; <a href=\"/\">Quantum R&amp;D</a> — deep-tech research in Quantum Computing, AI &amp; Post-Quantum Cryptography.<br>" +
+        "&bull; <a href=\"/consulting/\">IT Consultancy</a> — enterprise digital transformation, cloud, cybersecurity and AI delivery.",
+    },
+    {
+      id: "research",
+      keys: ["research", "quantum", "pqc", "post-quantum", "post quantum", "cryptography", "crypto", "ai research", "artificial intelligence", "pillars", "science", "lab", "nqm", "national quantum mission"],
+      answer:
+        "Our Quantum R&amp;D division works across four research pillars: Quantum Computing, Artificial Intelligence, Post-Quantum Cryptography (NIST/FIPS-aligned lattice primitives like ML-KEM &amp; ML-DSA, built in Rust), and Emerging Technologies &amp; Distributed Systems. It's aligned with India's National Quantum Mission. See <a href=\"/startup/research/\">Research</a>.",
+    },
+    {
+      id: "products",
+      keys: ["product", "products", "middleware", "shipped", "pqc middleware", "offering", "build", "software"],
+      answer:
+        "Our first research line to reach production maturity is a Post-Quantum Cryptography (PQC) middleware — quantum-safe, Rust-native, and sovereign-hosted. Explore <a href=\"/startup/products/\">Products</a>.",
+    },
+    {
+      id: "innovation",
+      keys: ["innovation", "roadmap", "research to product", "prototype", "deploy"],
+      answer:
+        "Equilynx follows a research-to-product path: open-ended research &rarr; hardened prototypes &rarr; deployed innovation (like our PQC middleware). See <a href=\"/startup/innovation/\">Innovation</a>.",
+    },
+    {
+      id: "partnerships",
+      keys: ["partnership", "partner", "collaborat", "academic", "research collaboration"],
+      answer:
+        "We welcome research collaborations and academic partnerships through our Startup division. Learn more on <a href=\"/startup/partnerships/\">Partnerships</a> or reach us via <a href=\"/contact/\">Contact</a>.",
+    },
+    {
+      id: "services",
+      keys: ["service", "services", "consulting", "consultancy", "digital transformation", "cloud", "cybersecurity", "security", "data", "automation", "managed", "modernization", "enterprise"],
+      answer:
+        "Our IT Consultancy division delivers across four service pillars: Digital Transformation, Cloud &amp; Infrastructure (AWS/Azure/GCP), Cybersecurity (including post-quantum), and AI, Data &amp; Automation. See <a href=\"/consulting/services/\">Services</a> or the <a href=\"/consulting/\">Consulting home</a>.",
+    },
+    {
+      id: "industries",
+      keys: ["industry", "industries", "sectors", "clients we serve", "who do you work with"],
+      answer:
+        "Our consulting practice serves enterprises across multiple industries with full-lifecycle delivery. See <a href=\"/consulting/industries/\">Industries</a>.",
+    },
+    {
+      id: "solutions",
+      keys: ["solution", "solutions", "how you help", "capabilities"],
+      answer:
+        "Explore our enterprise <a href=\"/consulting/solutions/\">Solutions</a>, or tell me the problem you're solving and I'll point you to the right page.",
+    },
+    {
+      id: "careers",
+      keys: ["career", "careers", "job", "jobs", "intern", "internship", "internships", "hiring", "apply", "vacancy", "vacancies", "work with us", "join", "opening", "openings", "role", "roles"],
+      answer:
+        "We currently offer two basic internships per division:<br>" +
+        "&bull; Startup: Research Intern &amp; Software Engineering Intern &rarr; <a href=\"/startup/careers/\">Startup Careers</a><br>" +
+        "&bull; Consulting: IT Consulting Intern &amp; Cloud &amp; Security Intern &rarr; <a href=\"/consulting/careers/\">Consulting Careers</a>",
+    },
+    {
+      id: "leadership",
+      keys: ["leader", "leadership", "director", "directors", "founder", "ceo", "team", "charan", "srikanth", "management", "who runs", "owner"],
+      answer:
+        "Equilynx is led by two directors:<br>" +
+        "&bull; <a href=\"/leadership/charan.html\">Mannem Venkata Sai Charan</a> — Founder &amp; CEO<br>" +
+        "&bull; <a href=\"/leadership/srikanth.html\">Mannem Venkata Srikanth</a> — Managing Director &amp; Operations Head<br>" +
+        "More on the <a href=\"/about/\">About page</a>.",
+    },
+    {
+      id: "location",
+      keys: ["hyderabad", "india", "based", "headquarter", "hq", "country", "city"],
+      answer:
+        "Equilynx is based in Hyderabad, Telangana, India — with all research, data, and IP kept within Indian infrastructure (data sovereignty).",
+    },
+    {
+      id: "privacy",
+      keys: ["privacy", "cookie", "cookies", "data protection", "gdpr", "policy", "terms"],
+      answer:
+        "You can read how we handle data on our <a href=\"/privacy/\">Privacy Policy</a> page.",
+    },
+  ];
+
+  const GREETINGS = ["hi", "hello", "hey", "hii", "heya", "yo", "good morning", "good afternoon", "good evening", "namaste"];
+  const THANKS = ["thanks", "thank you", "thx", "ty", "great", "awesome", "cool"];
+  const BYES = ["bye", "goodbye", "see you", "cya"];
+
+  const SUGGESTIONS = [
+    { label: "About Equilynx", q: "about equilynx" },
+    { label: "Services", q: "services" },
+    { label: "Research", q: "research" },
+    { label: "Careers", q: "careers" },
+    { label: "Contact", q: "contact" },
+  ];
+
+  function normalize(s) {
+    return " " + s.toLowerCase().replace(/[^a-z0-9&\s-]/g, " ").replace(/\s+/g, " ").trim() + " ";
+  }
+
+  function scoreEntry(entry, q) {
+    let score = 0;
+    for (const k of entry.keys) {
+      const key = k.toLowerCase();
+      if (q.indexOf(key) !== -1) {
+        score += key.indexOf(" ") !== -1 ? 3 : 2; // phrases weigh more
+      }
+    }
+    return score;
+  }
+
+  function answerFor(rawText) {
+    const q = normalize(rawText);
+    const words = q.trim().split(" ").filter(Boolean);
+
+    if (words.length && words.every((w) => GREETINGS.includes(w))) {
+      return "Hi! I'm the Equilynx assistant. Ask me about our divisions, research, services, careers, leadership, or how to get in touch.";
+    }
+    if (THANKS.some((t) => q.indexOf(" " + t + " ") !== -1)) {
+      return "You're welcome! Anything else you'd like to know about Equilynx?";
+    }
+    if (BYES.some((b) => q.indexOf(" " + b + " ") !== -1)) {
+      return "Thanks for visiting Equilynx. Reach us anytime at <a href=\"mailto:contact@equilynx.in\">contact@equilynx.in</a>.";
+    }
+
+    let best = null;
+    let bestScore = 0;
+    for (const entry of KB) {
+      const s = scoreEntry(entry, q);
+      if (s > bestScore) {
+        bestScore = s;
+        best = entry;
+      }
+    }
+    if (best && bestScore > 0) return best.answer;
+
+    return (
+      "I'm not sure about that one, but I can help with Equilynx's divisions, research, services, careers, leadership, or contact details. " +
+      "You can also email <a href=\"mailto:contact@equilynx.in\">contact@equilynx.in</a> or use the <a href=\"/contact/\">Contact page</a>."
+    );
+  }
+
+  function buildWidget() {
+    if (document.querySelector(".eqx-bot-launch")) return;
+
+    const launch = document.createElement("button");
+    launch.className = "eqx-bot-launch";
+    launch.type = "button";
+    launch.setAttribute("aria-label", "Ask Equilynx assistant");
+    launch.setAttribute("title", "Ask Equilynx");
+    launch.innerHTML = '<i class="fas fa-robot"></i>';
+
+    const panel = document.createElement("div");
+    panel.className = "eqx-bot-panel";
+    panel.setAttribute("role", "dialog");
+    panel.setAttribute("aria-label", "Ask Equilynx assistant");
+    panel.innerHTML =
+      '<div class="eqx-bot-header">' +
+      '<div class="eqx-bot-title"><span class="eqx-bot-avatar"><i class="fas fa-robot"></i></span>' +
+      '<div><strong>Ask Equilynx</strong><span>Answers from our website</span></div></div>' +
+      '<button class="eqx-bot-close" type="button" aria-label="Close chat"><i class="fas fa-times"></i></button>' +
+      "</div>" +
+      '<div class="eqx-bot-messages" id="eqxBotMessages"></div>' +
+      '<div class="eqx-bot-suggestions" id="eqxBotSuggestions"></div>' +
+      '<form class="eqx-bot-input" id="eqxBotForm">' +
+      '<input type="text" id="eqxBotText" autocomplete="off" placeholder="Ask about Equilynx..." aria-label="Type your question" />' +
+      '<button type="submit" aria-label="Send"><i class="fas fa-paper-plane"></i></button>' +
+      "</form>";
+
+    document.body.appendChild(launch);
+    document.body.appendChild(panel);
+
+    const messages = panel.querySelector("#eqxBotMessages");
+    const suggWrap = panel.querySelector("#eqxBotSuggestions");
+    const form = panel.querySelector("#eqxBotForm");
+    const input = panel.querySelector("#eqxBotText");
+
+    function addMessage(html, who) {
+      const el = document.createElement("div");
+      el.className = "eqx-msg eqx-msg-" + who;
+      el.innerHTML = html;
+      messages.appendChild(el);
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    function botReply(text) {
+      const typing = document.createElement("div");
+      typing.className = "eqx-msg eqx-msg-bot eqx-typing";
+      typing.innerHTML = "<span></span><span></span><span></span>";
+      messages.appendChild(typing);
+      messages.scrollTop = messages.scrollHeight;
+      setTimeout(function () {
+        typing.remove();
+        addMessage(answerFor(text), "bot");
+      }, 450);
+    }
+
+    function handleQuery(text) {
+      const clean = (text || "").trim();
+      if (!clean) return;
+      addMessage(clean.replace(/</g, "&lt;").replace(/>/g, "&gt;"), "user");
+      botReply(clean);
+    }
+
+    SUGGESTIONS.forEach(function (s) {
+      const chip = document.createElement("button");
+      chip.type = "button";
+      chip.className = "eqx-chip";
+      chip.textContent = s.label;
+      chip.addEventListener("click", function () {
+        handleQuery(s.q);
+      });
+      suggWrap.appendChild(chip);
+    });
+
+    let greeted = false;
+    function openPanel() {
+      panel.classList.add("open");
+      launch.classList.add("active");
+      launch.innerHTML = '<i class="fas fa-times"></i>';
+      if (!greeted) {
+        greeted = true;
+        addMessage(
+          "Hi! I'm the Equilynx assistant. Ask me anything about our company, research, consulting services, careers, or how to reach us.",
+          "bot"
+        );
+      }
+      setTimeout(function () {
+        input.focus();
+      }, 200);
+    }
+    function closePanel() {
+      panel.classList.remove("open");
+      launch.classList.remove("active");
+      launch.innerHTML = '<i class="fas fa-robot"></i>';
+    }
+
+    launch.addEventListener("click", function () {
+      if (panel.classList.contains("open")) closePanel();
+      else openPanel();
+    });
+    panel.querySelector(".eqx-bot-close").addEventListener("click", closePanel);
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      handleQuery(input.value);
+      input.value = "";
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && panel.classList.contains("open")) closePanel();
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", buildWidget);
+  } else {
+    buildWidget();
+  }
+})();

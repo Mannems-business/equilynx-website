@@ -3106,3 +3106,241 @@ body[data-track="consulting"] .compliance-badge {
 }
 
 
+
+/* =====================================================
+   ASK EQUILYNX — assistant widget
+   ===================================================== */
+.eqx-bot-launch {
+  position: fixed;
+  right: 28px;
+  bottom: 94px;
+  z-index: 1000;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  background: linear-gradient(145deg, var(--accent), #1f8fce);
+  font-size: 1.4rem;
+  box-shadow: 0 6px 22px rgba(79, 195, 247, 0.32);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.eqx-bot-launch:hover {
+  transform: scale(1.08);
+  box-shadow: 0 10px 30px rgba(79, 195, 247, 0.5);
+}
+.eqx-bot-launch.active {
+  background: #123049;
+}
+
+.eqx-bot-panel {
+  position: fixed;
+  right: 28px;
+  bottom: 156px;
+  z-index: 1001;
+  width: 360px;
+  max-width: calc(100vw - 40px);
+  height: 480px;
+  max-height: calc(100vh - 180px);
+  display: flex;
+  flex-direction: column;
+  background: rgba(7, 18, 33, 0.98);
+  border: 1px solid var(--border-strong);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transform: translateY(16px) scale(0.98);
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.eqx-bot-panel.open {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.eqx-bot-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  background: linear-gradient(135deg, rgba(79, 195, 247, 0.16), rgba(79, 195, 247, 0.04));
+  border-bottom: 1px solid var(--border);
+}
+.eqx-bot-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.eqx-bot-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent);
+  color: var(--white);
+  font-size: 1rem;
+}
+.eqx-bot-title strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  color: var(--white);
+  letter-spacing: 0.3px;
+}
+.eqx-bot-title span {
+  font-size: 0.72rem;
+  color: var(--grey-soft);
+}
+.eqx-bot-close {
+  background: transparent;
+  border: none;
+  color: var(--grey-soft);
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 6px;
+  line-height: 1;
+  border-radius: 6px;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+.eqx-bot-close:hover {
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.eqx-bot-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.eqx-msg {
+  max-width: 85%;
+  padding: 10px 13px;
+  border-radius: 14px;
+  font-size: 0.86rem;
+  line-height: 1.55;
+  word-wrap: break-word;
+}
+.eqx-msg a {
+  color: var(--accent);
+  text-decoration: underline;
+}
+.eqx-msg-bot {
+  align-self: flex-start;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+  color: var(--grey-light, #cfd8e3);
+  border-bottom-left-radius: 4px;
+}
+.eqx-msg-user {
+  align-self: flex-end;
+  background: linear-gradient(135deg, var(--accent), #1f8fce);
+  color: var(--white);
+  border-bottom-right-radius: 4px;
+}
+.eqx-typing {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+.eqx-typing span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--grey-soft);
+  animation: eqxBlink 1.2s infinite ease-in-out;
+}
+.eqx-typing span:nth-child(2) { animation-delay: 0.2s; }
+.eqx-typing span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes eqxBlink {
+  0%, 80%, 100% { opacity: 0.25; }
+  40% { opacity: 1; }
+}
+
+.eqx-bot-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 8px 12px;
+  border-top: 1px solid var(--border);
+}
+.eqx-chip {
+  background: rgba(79, 195, 247, 0.08);
+  border: 1px solid var(--border);
+  color: var(--grey-light, #cfd8e3);
+  font-size: 0.72rem;
+  padding: 5px 10px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+.eqx-chip:hover {
+  background: rgba(79, 195, 247, 0.16);
+  border-color: var(--accent);
+  color: var(--white);
+}
+
+.eqx-bot-input {
+  display: flex;
+  gap: 8px;
+  padding: 12px;
+  border-top: 1px solid var(--border);
+}
+.eqx-bot-input input {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  padding: 10px 14px;
+  color: var(--white);
+  font-size: 0.85rem;
+  outline: none;
+  font-family: inherit;
+}
+.eqx-bot-input input:focus {
+  border-color: var(--accent);
+}
+.eqx-bot-input button {
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  background: var(--accent);
+  color: var(--white);
+  font-size: 0.9rem;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+.eqx-bot-input button:hover {
+  transform: scale(1.06);
+  background: #1f8fce;
+}
+
+@media (max-width: 600px) {
+  .eqx-bot-launch {
+    right: 18px;
+    bottom: 78px;
+    width: 48px;
+    height: 48px;
+    font-size: 1.28rem;
+  }
+  .eqx-bot-panel {
+    right: 12px;
+    left: 12px;
+    bottom: 134px;
+    width: auto;
+    max-width: none;
+    height: 68vh;
+  }
+}
