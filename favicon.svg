@@ -1,11 +1,10 @@
 <svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
     <title>Equilynx Favicon</title>
-    <!-- Circular background, using the site's navy color -->
-    <circle cx="128" cy="128" r="128" fill="#020b18"/>
-    
-    <!-- Stylized 'E' using the site's accent color.
-         Designed to be clear, modern, and reminiscent of digital pathways. -->
-    <path fill-rule="evenodd" clip-rule="evenodd" 
-          d="M80 70 H 176 V 90 H 100 V 118 H 160 V 138 H 100 V 166 H 176 V 186 H 80 V 70 Z" 
+    <!-- Full-bleed rounded background, using the site's navy color (no transparent/white corners) -->
+    <rect x="0" y="0" width="256" height="256" rx="56" ry="56" fill="#020b18"/>
+
+    <!-- Stylized 'E' using the site's accent color. -->
+    <path fill-rule="evenodd" clip-rule="evenodd"
+          d="M80 70 H 176 V 90 H 100 V 118 H 160 V 138 H 100 V 166 H 176 V 186 H 80 V 70 Z"
           fill="#4fc3f7"/>
 </svg>
