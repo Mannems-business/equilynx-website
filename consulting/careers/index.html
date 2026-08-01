@@ -113,7 +113,7 @@
       <div class="container">
         <div class="section-tag reveal">Apply Online</div>
         <h2 class="section-title reveal delay-1">Send your application</h2>
-        <p class="section-lead reveal delay-2">Choose a role, share a bit about yourself, and upload your resume.</p>
+        <p class="section-lead reveal delay-2">Choose a role and share a bit about yourself and your experience.</p>
         <div class="section-divider reveal delay-3"></div>
         <div class="career-form-layout">
           <aside class="career-side-panel reveal-left delay-2">
@@ -128,7 +128,7 @@
           <div class="career-form-panel reveal-right delay-3">
             <p class="section-tag">Application Form</p>
             <h3>Application</h3>
-            <form action="https://formspree.io/f/mwvajeke" method="POST" enctype="multipart/form-data" class="contact-form">
+            <form action="https://formspree.io/f/mwvajeke" method="POST" class="contact-form">
               <input type="hidden" name="_subject" value="Equilynx Consulting Career Application" data-career-subject />
               <input type="hidden" name="form_type" value="Consulting Career Application" />
               <input type="text" name="name" placeholder="Your Full Name" required />
@@ -155,16 +155,25 @@
                 <option value="Cloud &amp; Security Intern">Cloud &amp; Security Intern</option>
               </select>
               <input type="text" name="current_role_or_education" placeholder="Current Role / Degree / College" required />
+              <select name="years_of_experience" required>
+                <option value="">Years of Experience</option>
+                <option value="0 (Fresher / Student)">0 (Fresher / Student)</option>
+                <option value="Less than 1 year">Less than 1 year</option>
+                <option value="1-2 years">1-2 years</option>
+                <option value="3-5 years">3-5 years</option>
+                <option value="5+ years">5+ years</option>
+              </select>
               <input type="url" name="portfolio_or_linkedin" placeholder="Portfolio / GitHub / LinkedIn URL (optional)" />
               <input type="text" name="availability" placeholder="Availability / Expected Start Date" required />
               <textarea name="message" rows="5" placeholder="Why do you want to work for Equilynx Consulting?" required></textarea>
               <div class="career-upload-wrap">
-                <label class="career-upload-label" for="resumeUpload">Upload Your Resume</label>
-                <input type="file" id="resumeUpload" name="resume" class="career-upload-input" accept=".pdf,.doc,.docx" required />
-                <p class="career-form-note">Please upload in PDF, DOC, or DOCX format.</p>
                 <label class="career-upload-label" for="experienceDetails">Relevant Experience</label>
                 <textarea id="experienceDetails" name="experience_details" rows="5" placeholder="Briefly describe your experience, projects, or client engagements related to this role..." required></textarea>
                 <p class="career-form-note">Share relevant projects, skills, or client-facing experience. Keep it concise but meaningful.</p>
+                <label class="career-consent-label">
+                  <input type="checkbox" name="consent" value="I consent to Equilynx processing my personal data submitted in this form for recruitment purposes." required />
+                  I consent to Equilynx processing the information submitted in this form for recruitment purposes, in accordance with the <a href="/privacy/" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
+                </label>
                 <div class="form-submit-wrap">
                   <button type="submit" class="btn-primary"><i class="fas fa-paper-plane"></i> Submit Application</button>
                 </div>
