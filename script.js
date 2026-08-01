@@ -188,7 +188,7 @@ document.querySelectorAll('form[action*="formspree.io"]').forEach((form) => {
         form.reset();
         status.className = "form-status form-status-success is-visible";
         status.innerHTML =
-          '<i class="fas fa-circle-check"></i><span>Thank you for reaching out — your message has been sent. We\'ll respond within 24 hours.</span>';
+          '<i class="fas fa-circle-check"></i><span>Your application has been submitted.</span>';
       } else {
         let message =
           "Something went wrong. Please try again, or email us directly at contact@equilynx.in.";
