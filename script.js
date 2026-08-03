@@ -691,6 +691,8 @@ function initExplainer() {
   let H = 0;
   let dpr = 1;
   let voices = [];
+  let scaleFactor = 1;
+  let centerY = 0;
 
   function populateVoices() {
     if (typeof speechSynthesis === "undefined") return;
@@ -702,6 +704,17 @@ function initExplainer() {
     speechSynthesis.onvoiceschanged = populateVoices;
   }
 
+  function updateLayoutVars() {
+    scaleFactor = Math.min(1, Math.max(0.55, W / 640));
+    if (W < 500) {
+      centerY = H * 0.35;
+    } else if (W < 768) {
+      centerY = H * 0.40;
+    } else {
+      centerY = H * 0.46;
+    }
+  }
+
   function resize() {
     const rect = stage.getBoundingClientRect();
     dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -710,6 +723,7 @@ function initExplainer() {
     canvas.width = Math.round(W * dpr);
     canvas.height = Math.round(H * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    updateLayoutVars();
   }
 
   // ---- drawing helpers -------------------------------------------------
@@ -730,17 +744,17 @@ function initExplainer() {
   // ---- scene painters (p = 0..1 within the scene, t = ms) --------------
   function sceneThreat(p, t) {
     const cx = W / 2;
-    const cy = H * 0.46;
+    const cy = centerY;
     // faint qubit grid pulsing behind
     ctx.save();
     for (let gx = 0; gx < 6; gx += 1) {
       for (let gy = 0; gy < 3; gy += 1) {
         const x = W * 0.2 + gx * (W * 0.6 / 5);
-        const y = H * 0.2 + gy * (H * 0.28);
+        const y = H * 0.15 + gy * (H * 0.28);
         const a = 0.05 + 0.05 * Math.sin(t * 0.004 + gx + gy);
         ctx.fillStyle = `rgba(${ACC},${a})`;
         ctx.beginPath();
-        ctx.arc(x, y, 2, 0, Math.PI * 2);
+        ctx.arc(x, y, 2 * scaleFactor, 0, Math.PI * 2);
         ctx.fill();
       }
     }
@@ -749,43 +763,44 @@ function initExplainer() {
     // lock body -> shifts from cyan to warning amber as the "threat" grows
     const warn = Math.min(1, p * 1.4);
     const col = `rgba(${lerp(79, 255, warn).toFixed(0)},${lerp(195, 170, warn).toFixed(0)},${lerp(247, 70, warn).toFixed(0)},0.95)`;
-    const bw = 96;
-    const bh = 74;
+    const bw = 96 * scaleFactor;
+    const bh = 74 * scaleFactor;
+    const shackleR = 26 * scaleFactor;
     const bx = cx - bw / 2;
-    const by = cy - 6;
-    glowDot(cx, cy + bh / 2 - 6, 90, `rgba(${ACC},0.12)`, `rgba(${ACC},0)`);
-    ctx.lineWidth = 3;
+    const by = cy - 6 * scaleFactor;
+    glowDot(cx, cy + bh / 2 - 6 * scaleFactor, 90 * scaleFactor, `rgba(${ACC},0.12)`, `rgba(${ACC},0)`);
+    ctx.lineWidth = Math.max(1.5, 3 * scaleFactor);
     ctx.strokeStyle = col;
     // shackle
     ctx.beginPath();
-    ctx.arc(cx, by, 26, Math.PI, 0);
+    ctx.arc(cx, by, shackleR, Math.PI, 0);
     ctx.stroke();
     ctx.beginPath();
-    ctx.moveTo(cx - 26, by);
-    ctx.lineTo(cx - 26, by + 8);
-    ctx.moveTo(cx + 26, by);
-    ctx.lineTo(cx + 26, by + 8);
+    ctx.moveTo(cx - shackleR, by);
+    ctx.lineTo(cx - shackleR, by + 8 * scaleFactor);
+    ctx.moveTo(cx + shackleR, by);
+    ctx.lineTo(cx + shackleR, by + 8 * scaleFactor);
     ctx.stroke();
     // body
     ctx.beginPath();
-    ctx.roundRect(bx, by + 6, bw, bh, 10);
+    ctx.roundRect(bx, by + 6 * scaleFactor, bw, bh, 10 * scaleFactor);
     ctx.stroke();
     // keyhole
     ctx.fillStyle = col;
     ctx.beginPath();
-    ctx.arc(cx, by + 6 + bh * 0.42, 6, 0, Math.PI * 2);
+    ctx.arc(cx, by + (6 + bh * 0.42) * scaleFactor, 6 * scaleFactor, 0, Math.PI * 2);
     ctx.fill();
-    ctx.fillRect(cx - 2.5, by + 6 + bh * 0.42, 5, 20);
+    ctx.fillRect(cx - 2.5 * scaleFactor, by + (6 + bh * 0.42) * scaleFactor, 5 * scaleFactor, 20 * scaleFactor);
     // crack grows
     if (p > 0.3) {
       const cp = (p - 0.3) / 0.7;
       ctx.strokeStyle = `rgba(255,90,70,${0.85 * cp})`;
-      ctx.lineWidth = 2;
+      ctx.lineWidth = Math.max(1.5, 2 * scaleFactor);
       ctx.beginPath();
-      ctx.moveTo(cx, by + 12);
-      ctx.lineTo(cx - 10 * cp, by + 30);
-      ctx.lineTo(cx + 8 * cp, by + 48);
-      ctx.lineTo(cx - 6 * cp, by + 66);
+      ctx.moveTo(cx, by + 12 * scaleFactor);
+      ctx.lineTo(cx - 10 * cp * scaleFactor, by + 30 * scaleFactor);
+      ctx.lineTo(cx + 8 * cp * scaleFactor, by + 48 * scaleFactor);
+      ctx.lineTo(cx - 6 * cp * scaleFactor, by + 66 * scaleFactor);
       ctx.stroke();
     }
   }
@@ -793,7 +808,7 @@ function initExplainer() {
   function drawAtomMotif(cx, cy, scale, t) {
     ctx.save();
     ctx.translate(cx, cy);
-    ctx.scale(scale, scale);
+    ctx.scale(scale * scaleFactor, scale * scaleFactor);
     glowDot(0, 0, 22, `rgba(${ACC},0.35)`, `rgba(${ACC},0)`);
     ctx.fillStyle = "rgba(200,240,255,0.95)";
     ctx.beginPath();
@@ -817,15 +832,18 @@ function initExplainer() {
     ctx.restore();
   }
 
-  function drawNeuralMotif(cx, cy, t) {
+  function drawNeuralMotif(cx, cy, scale, t) {
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.scale(scale * scaleFactor, scale * scaleFactor);
     const layers = [3, 4, 3];
     const spanX = 120;
     const nodes = [];
     layers.forEach((n, li) => {
       const col = [];
-      const x = cx - spanX / 2 + (spanX * li) / (layers.length - 1);
+      const x = -spanX / 2 + (spanX * li) / (layers.length - 1);
       for (let i = 0; i < n; i += 1) {
-        const y = cy - ((n - 1) * 26) / 2 + i * 26;
+        const y = -((n - 1) * 26) / 2 + i * 26;
         col.push({ x, y });
       }
       nodes.push(col);
@@ -849,30 +867,34 @@ function initExplainer() {
         glowDot(nd.x, nd.y, 7, `rgba(180,235,255,${0.5 + 0.4 * fire})`, `rgba(${ACC},0)`);
       });
     });
+    ctx.restore();
   }
 
   function sceneResearch(p, t) {
-    drawAtomMotif(W * 0.31, H * 0.46, 1, t);
-    drawNeuralMotif(W * 0.68, H * 0.46, t);
+    const cy = centerY;
+    const leftX = W < 500 ? W * 0.26 : W * 0.31;
+    const rightX = W < 500 ? W * 0.74 : W * 0.68;
+    drawAtomMotif(leftX, cy, 1, t);
+    drawNeuralMotif(rightX, cy, 1, t);
     // link the two disciplines
     ctx.strokeStyle = `rgba(${ACC},${0.18 * Math.min(1, p * 2)})`;
     ctx.lineWidth = 1.2;
     ctx.setLineDash([4, 6]);
     ctx.beginPath();
-    ctx.moveTo(W * 0.31 + 60, H * 0.46);
-    ctx.lineTo(W * 0.68 - 80, H * 0.46);
+    ctx.moveTo(leftX + 40 * scaleFactor, cy);
+    ctx.lineTo(rightX - 50 * scaleFactor, cy);
     ctx.stroke();
     ctx.setLineDash([]);
   }
 
   function scenePQC(p, t) {
     const cx = W / 2;
-    const cy = H * 0.46;
+    const cy = centerY;
     // lattice grid assembling
     const cols = 7;
     const rows = 5;
-    const gw = 220;
-    const gh = 150;
+    const gw = 220 * scaleFactor;
+    const gh = 150 * scaleFactor;
     ctx.save();
     ctx.translate(cx, cy);
     const build = Math.min(1, p * 1.3);
@@ -900,7 +922,7 @@ function initExplainer() {
         const a = 0.25 * build + 0.15 * Math.sin(t * 0.004 + i + j);
         ctx.fillStyle = `rgba(${ACC},${a})`;
         ctx.beginPath();
-        ctx.arc(x, y, 1.6, 0, Math.PI * 2);
+        ctx.arc(x, y, 1.6 * scaleFactor, 0, Math.PI * 2);
         ctx.fill();
       }
     }
@@ -912,26 +934,26 @@ function initExplainer() {
       ctx.save();
       ctx.translate(cx, cy);
       ctx.strokeStyle = `rgba(160,225,255,${0.9 * s})`;
-      ctx.lineWidth = 3;
-      const sw = 96;
-      const sh = 120;
+      ctx.lineWidth = Math.max(1.8, 3 * scaleFactor);
+      const sw = 96 * scaleFactor;
+      const sh = 120 * scaleFactor;
       ctx.beginPath();
       ctx.moveTo(0, -sh / 2);
-      ctx.lineTo(sw / 2, -sh / 2 + 26);
-      ctx.lineTo(sw / 2, 12);
-      ctx.quadraticCurveTo(sw / 2, sh / 2, 0, sh / 2 + 6);
-      ctx.quadraticCurveTo(-sw / 2, sh / 2, -sw / 2, 12);
-      ctx.lineTo(-sw / 2, -sh / 2 + 26);
+      ctx.lineTo(sw / 2, -sh / 2 + 26 * scaleFactor);
+      ctx.lineTo(sw / 2, 12 * scaleFactor);
+      ctx.quadraticCurveTo(sw / 2, sh / 2, 0, sh / 2 + 6 * scaleFactor);
+      ctx.quadraticCurveTo(-sw / 2, sh / 2, -sw / 2, 12 * scaleFactor);
+      ctx.lineTo(-sw / 2, -sh / 2 + 26 * scaleFactor);
       ctx.closePath();
       ctx.stroke();
       if (s > 0.6) {
         const cc = (s - 0.6) / 0.4;
         ctx.strokeStyle = `rgba(160,235,255,${cc})`;
-        ctx.lineWidth = 4;
+        ctx.lineWidth = Math.max(2, 4 * scaleFactor);
         ctx.beginPath();
-        ctx.moveTo(-20, 2);
-        ctx.lineTo(-6, 20);
-        ctx.lineTo(26, -20);
+        ctx.moveTo(-20 * scaleFactor, 2 * scaleFactor);
+        ctx.lineTo(-6 * scaleFactor, 20 * scaleFactor);
+        ctx.lineTo(26 * scaleFactor, -20 * scaleFactor);
         ctx.stroke();
       }
       ctx.restore();
@@ -940,36 +962,36 @@ function initExplainer() {
 
   function sceneProduct(p, t) {
     const cx = W / 2;
-    const cy = H * 0.46;
+    const cy = centerY;
     // left: rotating gears (research/engineering)
-    const gearX = W * 0.3;
-    drawGear(gearX, cy, 30, 9, t * 0.0012, 0.35 + 0.2 * (1 - p));
-    drawGear(gearX + 44, cy + 30, 20, 7, -t * 0.0018, 0.3 * (1 - p) + 0.1);
+    const gearX = W < 500 ? W * 0.25 : W * 0.3;
+    drawGear(gearX, cy, 30 * scaleFactor, 9, t * 0.0012, 0.35 + 0.2 * (1 - p));
+    drawGear(gearX + 38 * scaleFactor, cy + 24 * scaleFactor, 20 * scaleFactor, 7, -t * 0.0018, 0.3 * (1 - p) + 0.1);
 
     // arrow research -> product
     ctx.strokeStyle = `rgba(${ACC},${0.4})`;
-    ctx.lineWidth = 2;
-    const ax = W * 0.46;
-    const bx = W * 0.56;
+    ctx.lineWidth = Math.max(1.2, 2 * scaleFactor);
+    const ax = W < 500 ? W * 0.43 : W * 0.46;
+    const bx = W < 500 ? W * 0.57 : W * 0.56;
     ctx.beginPath();
     ctx.moveTo(ax, cy);
     ctx.lineTo(bx, cy);
-    ctx.lineTo(bx - 8, cy - 6);
+    ctx.lineTo(bx - 6 * scaleFactor, cy - 5 * scaleFactor);
     ctx.moveTo(bx, cy);
-    ctx.lineTo(bx - 8, cy + 6);
+    ctx.lineTo(bx - 6 * scaleFactor, cy + 5 * scaleFactor);
     ctx.stroke();
 
     // right: a deployable product cube locking in
-    const px = W * 0.7;
+    const px = W < 500 ? W * 0.75 : W * 0.7;
     const appear = Math.min(1, p * 1.4);
     ctx.save();
     ctx.translate(px, cy);
     ctx.globalAlpha = appear;
-    const r = 40;
+    const r = 36 * scaleFactor;
     // isometric-ish cube
     ctx.strokeStyle = `rgba(160,225,255,0.9)`;
     ctx.fillStyle = `rgba(${ACC},0.12)`;
-    ctx.lineWidth = 2;
+    ctx.lineWidth = Math.max(1.5, 2 * scaleFactor);
     ctx.beginPath();
     ctx.moveTo(0, -r);
     ctx.lineTo(r, -r / 2);
@@ -988,7 +1010,7 @@ function initExplainer() {
     ctx.lineTo(r, -r / 2);
     ctx.stroke();
     // "Rust" tag pulse
-    glowDot(0, 0, 6 + 2 * Math.sin(t * 0.006), "rgba(180,235,255,0.9)", `rgba(${ACC},0)`);
+    glowDot(0, 0, (6 + 2 * Math.sin(t * 0.006)) * scaleFactor, "rgba(180,235,255,0.9)", `rgba(${ACC},0)`);
     ctx.restore();
   }
 
@@ -997,14 +1019,14 @@ function initExplainer() {
     ctx.translate(cx, cy);
     ctx.rotate(rot);
     ctx.strokeStyle = `rgba(${ACC},${alpha})`;
-    ctx.lineWidth = 2;
+    ctx.lineWidth = Math.max(1.2, 2 * scaleFactor);
     ctx.beginPath();
     for (let i = 0; i < teeth; i += 1) {
       const a0 = (i / teeth) * Math.PI * 2;
       const a1 = ((i + 0.5) / teeth) * Math.PI * 2;
       ctx.lineTo(Math.cos(a0) * radius, Math.sin(a0) * radius);
-      ctx.lineTo(Math.cos(a0) * (radius + 6), Math.sin(a0) * (radius + 6));
-      ctx.lineTo(Math.cos(a1) * (radius + 6), Math.sin(a1) * (radius + 6));
+      ctx.lineTo(Math.cos(a0) * (radius + 5 * scaleFactor), Math.sin(a0) * (radius + 5 * scaleFactor));
+      ctx.lineTo(Math.cos(a1) * (radius + 5 * scaleFactor), Math.sin(a1) * (radius + 5 * scaleFactor));
       ctx.lineTo(Math.cos(a1) * radius, Math.sin(a1) * radius);
     }
     ctx.closePath();
@@ -1017,14 +1039,14 @@ function initExplainer() {
 
   function sceneSovereign(p, t) {
     const cx = W / 2;
-    const cy = H * 0.46;
+    const cy = centerY;
     // boundary ring = sovereign data staying inside India
-    const R = 92;
+    const R = 85 * scaleFactor;
     ctx.save();
     ctx.translate(cx, cy);
     ctx.strokeStyle = `rgba(${ACC},0.5)`;
-    ctx.lineWidth = 2;
-    ctx.setLineDash([6, 8]);
+    ctx.lineWidth = Math.max(1.5, 2 * scaleFactor);
+    ctx.setLineDash([6 * scaleFactor, 8 * scaleFactor]);
     ctx.lineDashOffset = -t * 0.02;
     ctx.beginPath();
     ctx.arc(0, 0, R, 0, Math.PI * 2);
@@ -1032,9 +1054,9 @@ function initExplainer() {
     ctx.setLineDash([]);
 
     // tricolour pulse bars (saffron / white / green) — larger representation
-    const barW = 85;
-    const barH = 10;
-    const barYStep = 15;
+    const barW = 80 * scaleFactor;
+    const barH = 9 * scaleFactor;
+    const barYStep = 14 * scaleFactor;
     const cols = ["255,153,51", "255,255,255", "19,136,8"];
     cols.forEach((c, i) => {
       const y = -barYStep + i * barYStep;
@@ -1045,28 +1067,29 @@ function initExplainer() {
     // data packets orbiting but contained inside the ring
     for (let k = 0; k < 6; k += 1) {
       const a = t * 0.0016 + k * (Math.PI / 3);
-      const rr = R - 16 - (k % 2) * 20;
-      glowDot(Math.cos(a) * rr, Math.sin(a) * rr, 4, "rgba(180,235,255,0.9)", `rgba(${ACC},0)`);
+      const rr = R - 14 * scaleFactor - (k % 2) * 16 * scaleFactor;
+      glowDot(Math.cos(a) * rr, Math.sin(a) * rr, 4 * scaleFactor, "rgba(180,235,255,0.9)", `rgba(${ACC},0)`);
     }
     ctx.restore();
   }
 
   function sceneFinale(p, t) {
     const cx = W / 2;
-    const cy = H * 0.44;
+    const cy = centerY;
     // particles converge into a glowing core
     const n = 40;
     for (let i = 0; i < n; i += 1) {
       const a = (i / n) * Math.PI * 2 + t * 0.0006;
-      const spread = lerp(180, 26, Math.min(1, p * 1.2));
+      const spread = lerp(160 * scaleFactor, 24 * scaleFactor, Math.min(1, p * 1.2));
       const x = cx + Math.cos(a) * spread * (0.6 + 0.4 * Math.sin(i));
       const y = cy + Math.sin(a) * spread * 0.5 * (0.6 + 0.4 * Math.cos(i));
-      glowDot(x, y, 3, `rgba(${ACC},0.8)`, `rgba(${ACC},0)`);
+      glowDot(x, y, 3 * scaleFactor, `rgba(${ACC},0.8)`, `rgba(${ACC},0)`);
     }
-    glowDot(cx, cy, 30 + 6 * Math.sin(t * 0.005), `rgba(180,235,255,${0.4 + 0.2 * p})`, `rgba(${ACC},0)`);
+    glowDot(cx, cy, (30 + 6 * Math.sin(t * 0.005)) * scaleFactor, `rgba(180,235,255,${0.4 + 0.2 * p})`, `rgba(${ACC},0)`);
     // wordmark E
+    const fontSz = Math.round(Math.max(24, 46 * scaleFactor));
     ctx.fillStyle = `rgba(230,248,255,${Math.min(1, p * 1.5)})`;
-    ctx.font = "300 46px 'Raleway', sans-serif";
+    ctx.font = `300 ${fontSz}px 'Raleway', sans-serif`;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.fillText("EQUILYNX", cx, cy);
