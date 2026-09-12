@@ -1452,9 +1452,7 @@ window.chooseExperience = chooseExperience;
       weight: 2,
       keys: ["career", "careers", "job", "jobs", "intern", "interns", "internship", "internships", "hiring", "hire", "apply", "application", "vacancy", "vacancies", "work with", "work at", "join", "opening", "openings", "role", "roles", "position", "positions", "recruit", "employment"],
       answer:
-        "We currently offer two basic internships per division:<br>" +
-        "&bull; Startup: Research Intern &amp; Software Engineering Intern &rarr; <a href=\"/startup/careers/\">Startup Careers</a><br>" +
-        "&bull; Consulting: IT Consulting Intern &amp; Cloud &amp; Security Intern &rarr; <a href=\"/consulting/careers/\">Consulting Careers</a>",
+        "There are currently no openings available at Equilynx. Please check back soon or contact us through the website for future opportunities.",
     },
     {
       id: "research",

@@ -4,16 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Careers | Equilynx Deep-Tech Startup</title>
-  <meta name="description" content="Apply for a Research Intern or Software Engineering Intern position at Equilynx's deep-tech research division." />
+  <meta name="description" content="Explore current career opportunities in Equilynx's deep-tech research division." />
   <meta name="robots" content="index, follow" />
   <meta property="og:title" content="Careers | Equilynx Deep-Tech Startup" />
-  <meta property="og:description" content="Apply for a Research Intern or Software Engineering Intern position at Equilynx's deep-tech research division." />
+  <meta property="og:description" content="Explore current career opportunities in Equilynx's deep-tech research division." />
   <meta property="og:url" content="https://equilynx.in/startup/careers/" />
   <meta property="og:type" content="website" />
   <meta property="og:image" content="https://equilynx.in/og-image.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Careers | Equilynx Deep-Tech Startup" />
-  <meta name="twitter:description" content="Apply for a Research Intern or Software Engineering Intern position at Equilynx's deep-tech research division." />
+  <meta name="twitter:description" content="Explore current career opportunities in Equilynx's deep-tech research division." />
   <meta name="twitter:image" content="https://equilynx.in/og-image.png" />
   <link rel="canonical" href="https://equilynx.in/startup/careers/" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -59,57 +59,21 @@
       <div class="page-hero-content">
         <p class="section-tag">Join Equilynx Research</p>
         <h1 class="page-title">Start Your Career in Deep-Tech</h1>
-        <p class="page-description">Learn by doing through hands-on internships in quantum, AI, and cryptography research, working directly with our founding team.</p>
-        <div class="hero-btns visible">
-          <a href="#openings" class="btn-primary">View Openings</a>
-          <a href="#apply" class="btn-ghost">Apply Now</a>
-        </div>
+        <p class="page-description">Learn by doing through deep-tech research, quantum, AI, and cryptography work alongside the founding team.</p>
+        <p class="page-description">There are currently no openings.</p>
       </div>
     </section>
 
     <section class="section section-center" id="openings">
       <div class="container">
         <div class="section-tag reveal">Current Openings</div>
-        <h2 class="section-title reveal delay-1">Internship openings are available now</h2>
-        <p class="section-lead reveal delay-2">Designed for students and early-career engineers who want hands-on experience working directly with the founding team.</p>
+        <h2 class="section-title reveal delay-1">There are currently no openings</h2>
+        <p class="section-lead reveal delay-2">Please check back soon for future career opportunities in research, software engineering, and deep-tech development.</p>
         <div class="section-divider reveal delay-3"></div>
-        <div class="careers-grid">
-          <article class="career-card reveal-left delay-2">
-            <div class="career-card-head"><div><h3>Research Intern</h3></div><span class="career-badge">Internship</span></div>
-            <p>Support our research team across quantum, AI, and cryptography — literature review, prototyping, and benchmarking.</p>
-            <div class="career-meta">
-              <div class="career-meta-item"><strong>Duration</strong><span>3-6 months</span></div>
-              <div class="career-meta-item"><strong>Mode</strong><span>Hyderabad (On-site)</span></div>
-              <div class="career-meta-item"><strong>Schedule</strong><span>Internship</span></div>
-              <div class="career-meta-item"><strong>Focus</strong><span>Quantum, AI, cryptography</span></div>
-            </div>
-            <ul class="career-list">
-              <li>Assist with literature review, prototyping, and benchmarking.</li>
-              <li>Document experiments clearly for internal use.</li>
-              <li>Work directly with the founding research team.</li>
-            </ul>
-            <div class="career-card-actions"><a href="#apply" class="btn-primary" onclick="setCareerRole('Research Intern')">Apply for this internship</a></div>
-          </article>
-          <article class="career-card reveal-right delay-3">
-            <div class="career-card-head"><div><h3>Software Engineering Intern</h3></div><span class="career-badge">Internship</span></div>
-            <p>Help turn research prototypes into clean, working software using Rust and modern tooling.</p>
-            <div class="career-meta">
-              <div class="career-meta-item"><strong>Duration</strong><span>3-6 months</span></div>
-              <div class="career-meta-item"><strong>Mode</strong><span>Hyderabad (On-site)</span></div>
-              <div class="career-meta-item"><strong>Schedule</strong><span>Internship</span></div>
-              <div class="career-meta-item"><strong>Focus</strong><span>Rust, systems, tooling</span></div>
-            </div>
-            <ul class="career-list">
-              <li>Write and test code for research prototypes.</li>
-              <li>Assist with performance profiling and debugging.</li>
-              <li>Package prototypes for internal use.</li>
-            </ul>
-            <div class="career-card-actions"><a href="#apply" class="btn-primary" onclick="setCareerRole('Software Engineering Intern')">Apply for this internship</a></div>
-          </article>
-        </div>
       </div>
     </section>
 
+    <!-- Application form temporarily hidden until openings are reopened.
     <section class="section" id="apply">
       <div class="container">
         <div class="section-tag reveal">Apply Online</div>
@@ -150,13 +114,9 @@
                 </select>
                 <input type="tel" name="phone" id="phoneInput" placeholder="10-digit Phone Number" maxlength="10" oninput="enforcePhoneLimit(this)" required />
               </div>
-              <select name="role_applied_for" data-career-role required>
-                <option value="">Please select the internship you wish to apply</option>
-                <option value="Research Intern">Research Intern</option>
-                <option value="Software Engineering Intern">Software Engineering Intern</option>
-              </select>
+              <input type="hidden" name="role_applied_for" value="No active opening available" />
               <input type="text" name="current_role_or_education" placeholder="Current Role / Degree / College" required />
-              <select name="years_of_experience" required>
+              <select name="years_of_experience" title="Years of Experience" required>
                 <option value="">Years of Experience</option>
                 <option value="0 (Fresher / Student)">0 (Fresher / Student)</option>
                 <option value="Less than 1 year">Less than 1 year</option>
@@ -184,6 +144,7 @@
         </div>
       </div>
     </section>
+    -->
   </main>
 
   <footer class="footer">
